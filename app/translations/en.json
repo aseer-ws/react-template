@@ -13,5 +13,12 @@
   "repo_full_name_unavailable": "Repository full name unavaiable",
   "repository_stars": "Repository stars: {stars}",
   "repo_stars_unavailable": "Repository stars are unavaiable",
-  "wednesday_solutions": "Wednesday Solutions"
+  "wednesday_solutions": "Wednesday Solutions",
+  "itunes_header": "Welcome to iTunes API",
+  "itunes_artist_name": "Tunes artist: {artistName}",
+  "itunes_track_count": "Artist track count: {trackCount}",
+  "track_name": "Track name: {trackName}",
+  "collection_name": "Collection name: {collectionName}",
+  "itunes_artist_unavailable": "No artist selected",
+  "itunes_empty_track": "Empty tracks for this artist"
 }
