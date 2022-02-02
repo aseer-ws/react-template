@@ -16,8 +16,7 @@ exports[`<TunesContainer /> container tests should render and match the snapshot
           Welcome to iTunes API
         </p>
         <span
-          class="ant-input-group-wrapper ant-input-search TunesContainer__StyledArtistSearch-sc-1n734yz-2 kkGStT"
-          style="width: 304px;"
+          class="ant-input-group-wrapper ant-input-search TunesContainer__StyledArtistSearch-sc-1n734yz-2 caGUNx"
         >
           <span
             class="ant-input-wrapper ant-input-group"
@@ -99,23 +98,9 @@ exports[`<TunesContainer /> container tests should render and match the snapshot
             class="T__StyledText-gjlic1-0 kYcyRq"
             data-testid="t"
           >
-            No artist selected
-          </p>
-          <p
-            class="T__StyledText-gjlic1-0 kYcyRq"
-            data-testid="t"
-          >
-            Empty tracks for this artist
+            Tracks are empty! Provide artist name
           </p>
         </div>
-      </div>
-      <div
-        class="ant-card ant-card-bordered TunesContainer__CustomCard-sc-1n734yz-0 gIrwaO"
-        margintop="1"
-      >
-        <div
-          class="ant-card-body"
-        />
       </div>
     </div>
   </div>

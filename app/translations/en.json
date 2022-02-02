@@ -20,5 +20,7 @@
   "track_name": "Track name: {trackName}",
   "collection_name": "Collection name: {collectionName}",
   "itunes_artist_unavailable": "No artist selected",
-  "itunes_empty_track": "Empty tracks for this artist"
+  "itunes_empty_track": "Empty tracks for this artist",
+  "songs_data_empty": "Tracks are empty! Provide artist name",
+  "track_name_unavailable": "Track name is unavailable"
 }

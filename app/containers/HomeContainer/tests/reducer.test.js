@@ -11,7 +11,7 @@ describe('HomContainer reducer tests', () => {
     expect(homeContainerReducer(undefined, {})).toEqual(state);
   });
 
-  it('should return the initial state when an action of type REQUEST_GET?_GITHUB_REPOS is dispatched', () => {
+  it('should return the initial state when an action of type REQUEST_GET_GITHUB_REPOS is dispatched', () => {
     const repoName = 'Mohammed Ali Chherawalla';
     const expectedResult = { ...state, repoName };
     expect(

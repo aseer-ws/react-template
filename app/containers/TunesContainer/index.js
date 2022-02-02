@@ -15,7 +15,7 @@ import { injectSaga } from 'redux-injectors';
 import selectTunesContainer, { selectTunesArtist, selectTunesError, selectTunesSongs } from './selectors';
 import tunesContainerSaga from './saga';
 import { tunesContainerCreators } from './reducer';
-import { Card, Input, Row, Skeleton } from 'antd';
+import { Card, Input, Skeleton } from 'antd';
 import { debounce, get, isEmpty } from 'lodash';
 import For from '@app/components/For';
 import styled from 'styled-components';
@@ -43,7 +43,9 @@ const Container = styled.div`
 
 const StyledArtistSearch = styled(Search)`
   && {
-    max-width: 300px;
+    max-width: 18.75rem;
+    border-radius: 0.3rem;
+    padding: 0.5rem;
   }
 `;
 
@@ -53,9 +55,23 @@ const StyledHeader = styled.header`
   align-items: center;
 `;
 
+const StyledTracksContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+`;
+
 const { requestGetSongs, clearSongs } = tunesContainerCreators;
 
-export function TunesContainer({ artist, songsData, tunesError, dispatchGetArtistSongs, maxWidth, padding }) {
+export function TunesContainer({
+  artist,
+  songsData,
+  tunesError,
+  dispatchGetArtistSongs,
+  maxWidth,
+  padding,
+  dispatchClearSongs
+}) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -66,7 +82,7 @@ export function TunesContainer({ artist, songsData, tunesError, dispatchGetArtis
 
   const onArtistSearch = (artistName) => {
     if (!artistName) {
-      return;
+      return dispatchClearSongs();
     }
     setLoading(true);
     dispatchGetArtistSongs(artistName);
@@ -75,32 +91,35 @@ export function TunesContainer({ artist, songsData, tunesError, dispatchGetArtis
   const onDebouncedSearch = debounce(onArtistSearch, 500);
 
   const renderSongsTrack = () => {
-    let tracks = get(songsData, 'results', []);
+    const tracks = get(songsData, 'results', []);
+    const trackCount = get(songsData, 'resultCount', 0);
 
     return (
-      <If condition={tracks.length || !loading}>
-        <Skeleton loading={loading} active>
-          <CustomCard margintop={2}>
+      <Skeleton loading={loading} active>
+        <CustomCard margintop={2}>
+          <If condition={!isEmpty(artist)} otherwise={<T id="songs_data_empty" />}>
             <If condition={!isEmpty(artist)} otherwise={<T id="itunes_artist_unavailable" />}>
               <div>
-                <T id="itunes_artist_name" values={{ artistName: artist }} />
+                <T data-testid="tunes-artist" id="itunes_artist_name" values={{ artistName: artist }} />
               </div>
+              <If condition={trackCount} otherwise={<T data-testid="empty-track-text" id="itunes_empty_track" />}>
+                <div>
+                  <T id="itunes_track_count" values={{ trackCount: tracks.length }} />
+                </div>
+              </If>
             </If>
-            <If condition={tracks.length} otherwise={<T id="itunes_empty_track" />}>
-              <div>
-                <T id="itunes_track_count" values={{ trackCount: tracks.length }} />
-              </div>
-            </If>
-          </CustomCard>
+          </If>
+        </CustomCard>
+        <If condition={loading || !isEmpty(songsData)}>
           <CustomCard margintop={1}>
             <For
-              ParentComponent={(props) => <Row gutter={[16, 16]} {...props} />}
+              ParentComponent={StyledTracksContainer}
               of={tracks}
-              renderItem={(item) => <TrackCard key={item.trackId} {...item} />}
+              renderItem={(item) => <TrackCard key={item.trackId} skeletonLoading={loading} {...item} />}
             />
           </CustomCard>
-        </Skeleton>
-      </If>
+        </If>
+      </Skeleton>
     );
   };
 
@@ -127,7 +146,6 @@ export function TunesContainer({ artist, songsData, tunesError, dispatchGetArtis
           defaultValue={artist}
           onChange={(evt) => onDebouncedSearch(evt.target.value)}
           onSearch={(term) => onDebouncedSearch(term)}
-          style={{ width: 304 }}
         />
       </StyledHeader>
       {renderSongsTrack()}
@@ -145,6 +163,7 @@ TunesContainer.propTypes = {
   }),
   tunesError: PropTypes.string,
   dispatchGetArtistSongs: PropTypes.func,
+  dispatchClearSongs: PropTypes.func,
   maxWidth: PropTypes.number,
   padding: PropTypes.string
 };
