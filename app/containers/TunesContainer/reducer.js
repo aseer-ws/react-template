@@ -4,39 +4,37 @@
  *
  */
 import produce from 'immer';
-// import { fromJS } from 'immutable';
 import { createActions } from 'reduxsauce';
 
 export const initialState = {
-  artist: '',
-  songsData: {},
+  artistName: '',
+  songs: {},
   tunesError: null
 };
 
 export const { Types: tunesContainerTypes, Creators: tunesContainerCreators } = createActions({
-  setArtist: ['artistName'],
-  setSongsData: ['songsData'],
-  setTunesError: ['error'],
+  requestGetSongs: ['artistName'],
+  successGetSongs: ['data'],
+  failureGetSongs: ['error'],
   clearSongs: {}
 });
 
-/* eslint-disable default-case, no-param-reassign */
 export const tunesContainerReducer = produce((state = initialState, action) => {
   switch (action.type) {
-    case tunesContainerTypes.SET_ARTIST:
-      state.artist = action.artistName;
+    case tunesContainerTypes.REQUEST_GET_SONGS:
+      state.artistName = action.artistName;
       break;
-    case tunesContainerTypes.SET_SONGS_DATA:
+    case tunesContainerTypes.SUCCESS_GET_SONGS:
       state.tunesError = null;
-      state.songsData = action.songsData;
+      state.songs = action.data;
       break;
-    case tunesContainerTypes.SET_TUNES_ERROR:
-      state.songsData = {};
+    case tunesContainerTypes.FAILURE_GET_SONGS:
+      state.songs = {};
       state.tunesError = action.error;
       break;
     case tunesContainerTypes.CLEAR_SONGS:
-      state.songsData = {};
-      state.artist = '';
+      state.songs = {};
+      state.artistName = '';
       break;
     default:
       return state;

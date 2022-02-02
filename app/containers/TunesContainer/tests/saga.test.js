@@ -15,19 +15,18 @@ describe('TunesContainer saga tests', () => {
   let getArtistSongsGenerator = getArtistSongs({ artistName });
 
   it('should start task to watch for SET_ARTIST action', () => {
-    expect(generator.next().value).toEqual(takeLatest(tunesContainerTypes.SET_ARTIST, getArtistSongs));
+    expect(generator.next().value).toEqual(takeLatest(tunesContainerTypes.REQUEST_GET_SONGS, getArtistSongs));
   });
 
   it('should ensure that the action SET_TUNES_ERROR is dispatched when api call fails', () => {
     const res = getArtistSongsGenerator.next().value;
     expect(res).toEqual(call(getTunes, artistName));
     const errorResponse = {
-      resultCount: 0,
-      results: []
+      errorMessage: 'There is an while fetching songs for the artist'
     };
     expect(getArtistSongsGenerator.next(apiResponseGenerator(false, errorResponse)).value).toEqual(
       put({
-        type: tunesContainerTypes.SET_TUNES_ERROR,
+        type: tunesContainerTypes.FAILURE_GET_SONGS,
         error: errorResponse
       })
     );
@@ -43,8 +42,8 @@ describe('TunesContainer saga tests', () => {
     };
     expect(getArtistSongsGenerator.next(apiResponseGenerator(true, songsResponse)).value).toEqual(
       put({
-        type: tunesContainerTypes.SET_SONGS_DATA,
-        songsData: songsResponse
+        type: tunesContainerTypes.SUCCESS_GET_SONGS,
+        data: songsResponse
       })
     );
   });

@@ -12,7 +12,7 @@ import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { injectSaga } from 'redux-injectors';
-import makeSelectTunesContainer, { selectTunesArtist, selectTunesError, selectTunesSongs } from './selectors';
+import selectTunesContainer, { selectTunesArtist, selectTunesError, selectTunesSongs } from './selectors';
 import tunesContainerSaga from './saga';
 import { tunesContainerCreators } from './reducer';
 import { Card, Input, Row, Skeleton } from 'antd';
@@ -28,7 +28,7 @@ const { Search } = Input;
 const CustomCard = styled(Card)`
   && {
     user-select: none;
-    ${(props) => props.marginTop && `margin-top: ${props.marginTop}rem`}
+    ${(props) => props.margintop && `margin-top: ${props.margintop}rem`}
   }
 `;
 
@@ -41,15 +41,21 @@ const Container = styled.div`
   padding: ${(props) => props.padding};
 `;
 
+const StyledArtistSearch = styled(Search)`
+  && {
+    max-width: 300px;
+  }
+`;
+
 const StyledHeader = styled.header`
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
-const { setArtist, clearSongs } = tunesContainerCreators;
+const { requestGetSongs, clearSongs } = tunesContainerCreators;
 
-export function TunesContainer({ artist, songsData, tunesError, dispatchSetArtist, maxWidth, padding }) {
+export function TunesContainer({ artist, songsData, tunesError, dispatchGetArtistSongs, maxWidth, padding }) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -63,7 +69,7 @@ export function TunesContainer({ artist, songsData, tunesError, dispatchSetArtis
       return;
     }
     setLoading(true);
-    dispatchSetArtist(artistName);
+    dispatchGetArtistSongs(artistName);
   };
 
   const onDebouncedSearch = debounce(onArtistSearch, 500);
@@ -74,7 +80,7 @@ export function TunesContainer({ artist, songsData, tunesError, dispatchSetArtis
     return (
       <If condition={tracks.length || !loading}>
         <Skeleton loading={loading} active>
-          <CustomCard marginTop={2}>
+          <CustomCard margintop={2}>
             <If condition={!isEmpty(artist)} otherwise={<T id="itunes_artist_unavailable" />}>
               <div>
                 <T id="itunes_artist_name" values={{ artistName: artist }} />
@@ -86,7 +92,7 @@ export function TunesContainer({ artist, songsData, tunesError, dispatchSetArtis
               </div>
             </If>
           </CustomCard>
-          <CustomCard marginTop={1}>
+          <CustomCard margintop={1}>
             <For
               ParentComponent={(props) => <Row gutter={[16, 16]} {...props} />}
               of={tracks}
@@ -99,7 +105,11 @@ export function TunesContainer({ artist, songsData, tunesError, dispatchSetArtis
   };
 
   const renderTunesError = () => {
-    return <div>{JSON.stringify(tunesError, null, 2)}</div>;
+    return (
+      <If condition={!isEmpty(tunesError)}>
+        <div>{JSON.stringify(tunesError, null, 2)}</div>;
+      </If>
+    );
   };
 
   return (
@@ -110,8 +120,9 @@ export function TunesContainer({ artist, songsData, tunesError, dispatchSetArtis
       </Helmet>
       <StyledHeader>
         <T type="heading" marginBottom={10} id="itunes_header" />
-        <Search
-          placeholder="input search text"
+        <StyledArtistSearch
+          data-testid="artist-search-bar"
+          placeholder="input artist name"
           allowClear
           defaultValue={artist}
           onChange={(evt) => onDebouncedSearch(evt.target.value)}
@@ -133,7 +144,7 @@ TunesContainer.propTypes = {
     results: PropTypes.array
   }),
   tunesError: PropTypes.string,
-  dispatchSetArtist: PropTypes.func,
+  dispatchGetArtistSongs: PropTypes.func,
   maxWidth: PropTypes.number,
   padding: PropTypes.string
 };
@@ -144,7 +155,7 @@ TunesContainer.defaultProps = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  tunesContainer: makeSelectTunesContainer(),
+  tunesContainer: selectTunesContainer(),
   artist: selectTunesArtist(),
   songsData: selectTunesSongs(),
   tunesError: selectTunesError()
@@ -152,7 +163,7 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatchSetArtist: (artistName) => dispatch(setArtist(artistName)),
+    dispatchGetArtistSongs: (artistName) => dispatch(requestGetSongs(artistName)),
     dispatchClearSongs: () => dispatch(clearSongs())
   };
 }

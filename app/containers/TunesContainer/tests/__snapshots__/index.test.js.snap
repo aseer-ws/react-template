@@ -7,7 +7,7 @@ exports[`<TunesContainer /> container tests should render and match the snapshot
       class="TunesContainer__Container-sc-1n734yz-1 hwQNvX"
     >
       <header
-        class="TunesContainer__StyledHeader-sc-1n734yz-2 kfJZGk"
+        class="TunesContainer__StyledHeader-sc-1n734yz-3 cJzNzx"
       >
         <p
           class="T__StyledText-gjlic1-0 euxGsn"
@@ -16,7 +16,7 @@ exports[`<TunesContainer /> container tests should render and match the snapshot
           Welcome to iTunes API
         </p>
         <span
-          class="ant-input-group-wrapper ant-input-search"
+          class="ant-input-group-wrapper ant-input-search TunesContainer__StyledArtistSearch-sc-1n734yz-2 kkGStT"
           style="width: 304px;"
         >
           <span
@@ -27,7 +27,8 @@ exports[`<TunesContainer /> container tests should render and match the snapshot
             >
               <input
                 class="ant-input"
-                placeholder="input search text"
+                data-testid="artist-search-bar"
+                placeholder="input artist name"
                 type="text"
                 value=""
               />
@@ -116,7 +117,6 @@ exports[`<TunesContainer /> container tests should render and match the snapshot
           class="ant-card-body"
         />
       </div>
-      <div />
     </div>
   </div>
 </body>
