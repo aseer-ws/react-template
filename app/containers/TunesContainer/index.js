@@ -88,7 +88,7 @@ export function TunesContainer({
     dispatchGetArtistSongs(artistName);
   };
 
-  const onDebouncedSearch = debounce(onArtistSearch, 500);
+  const handleDebouncedSearch = debounce(onArtistSearch, 500);
 
   const renderSongsTrack = () => {
     const tracks = get(songsData, 'results', []);
@@ -146,8 +146,8 @@ export function TunesContainer({
           placeholder="input artist name"
           allowClear
           defaultValue={artist}
-          onChange={(evt) => onDebouncedSearch(evt.target.value)}
-          onSearch={(term) => onDebouncedSearch(term)}
+          onChange={(evt) => handleDebouncedSearch(evt.target.value)}
+          onSearch={(term) => handleDebouncedSearch(term)}
         />
       </StyledHeader>
       {renderSongsTrack()}
