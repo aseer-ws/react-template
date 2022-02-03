@@ -8,13 +8,10 @@ import get from 'lodash/get';
 
 const selectTunesContainerDomain = (state) => state.tunesContainer || initialState;
 
-const selectTunesContainer = () => createSelector(selectTunesContainerDomain, (substate) => substate);
-
 export const selectTunesSongs = () => createSelector(selectTunesContainerDomain, (substate) => get(substate, 'songs'));
 export const selectTunesError = () =>
   createSelector(selectTunesContainerDomain, (substate) => get(substate, 'tunesError'));
 export const selectTunesArtist = () =>
   createSelector(selectTunesContainerDomain, (substate) => get(substate, 'artistName'));
 
-export default selectTunesContainer;
 export { selectTunesContainerDomain };

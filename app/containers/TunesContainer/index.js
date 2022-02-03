@@ -12,7 +12,7 @@ import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { injectSaga } from 'redux-injectors';
-import selectTunesContainer, { selectTunesArtist, selectTunesError, selectTunesSongs } from './selectors';
+import { selectTunesArtist, selectTunesError, selectTunesSongs } from './selectors';
 import tunesContainerSaga from './saga';
 import { tunesContainerCreators } from './reducer';
 import { Card, Input, Skeleton } from 'antd';
@@ -176,7 +176,6 @@ TunesContainer.defaultProps = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  tunesContainer: selectTunesContainer(),
   artist: selectTunesArtist(),
   songsData: selectTunesSongs(),
   tunesError: selectTunesError()
