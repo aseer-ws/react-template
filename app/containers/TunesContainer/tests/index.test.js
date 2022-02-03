@@ -10,6 +10,8 @@ import { renderProvider, timeout } from '@utils/testUtils';
 import { TunesContainerTest as TunesContainer } from '../index';
 import { fireEvent } from '@testing-library/react';
 import { translate } from '@app/components/IntlGlobalProvider';
+import { tunesContainerTypes } from '../reducer';
+import { mapDispatchToProps } from '@app/containers/TunesContainer';
 
 describe('<TunesContainer /> container tests', () => {
   let submitSpy;
@@ -77,5 +79,35 @@ describe('<TunesContainer /> container tests', () => {
     };
     const { getByTestId } = renderProvider(<TunesContainer artist={artistName} songsData={songsData} />);
     expect(getByTestId('track-card')).toBeInTheDocument();
+  });
+
+  it('should mapDispatchToProps dispatches actions ', async () => {
+    const dispatchSpy = jest.fn();
+    const artistName = 'Author Z';
+    const actions = {
+      dispatchGetArtistSongs: {
+        type: tunesContainerTypes.REQUEST_GET_SONGS,
+        artistName
+      },
+      dispatchClearSongs: {
+        type: tunesContainerTypes.CLEAR_SONGS
+      }
+    };
+
+    const props = mapDispatchToProps(dispatchSpy);
+    props.dispatchGetArtistSongs(artistName);
+
+    await timeout(600);
+
+    expect(dispatchSpy).toHaveBeenCalledWith(actions.dispatchGetArtistSongs);
+    props.dispatchClearSongs();
+    expect(dispatchSpy).toHaveBeenCalledWith(actions.dispatchClearSongs);
+  });
+
+  it('should show error messages when tunesError is passed', () => {
+    const tunesError = 'Something went wrong';
+    const { getByTestId } = renderProvider(<TunesContainer tunesError={tunesError} />);
+
+    expect(getByTestId('tunes-error')).toHaveTextContent(tunesError);
   });
 });

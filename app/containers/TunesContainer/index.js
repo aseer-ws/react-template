@@ -126,7 +126,9 @@ export function TunesContainer({
   const renderTunesError = () => {
     return (
       <If condition={!isEmpty(tunesError)}>
-        <div>{JSON.stringify(tunesError, null, 2)}</div>;
+        <If condition={typeof tunesError === 'string'} otherwise={<div>{JSON.stringify(tunesError, null, 2)}</div>}>
+          <T data-testid="tunes-error" text={tunesError} />
+        </If>
       </If>
     );
   };
@@ -180,7 +182,7 @@ const mapStateToProps = createStructuredSelector({
   tunesError: selectTunesError()
 });
 
-function mapDispatchToProps(dispatch) {
+export function mapDispatchToProps(dispatch) {
   return {
     dispatchGetArtistSongs: (artistName) => dispatch(requestGetSongs(artistName)),
     dispatchClearSongs: () => dispatch(clearSongs())
