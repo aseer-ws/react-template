@@ -8,7 +8,7 @@ import debounce from 'lodash/debounce';
 import isEmpty from 'lodash/isEmpty';
 import styled from 'styled-components';
 import { injectIntl } from 'react-intl';
-import { injectSaga } from 'redux-injectors';
+import { injectSaga, injectReducer } from 'redux-injectors';
 import { Card, Skeleton, Input } from 'antd';
 import T from '@components/T';
 import If from '@components/If';
@@ -16,7 +16,7 @@ import For from '@app/components/For';
 import colors from '@app/themes/colors';
 import RepoCard from '@app/components/RepoCard';
 import { selectHomeContainer, selectReposData, selectReposError, selectRepoName } from './selectors';
-import { homeContainerCreators } from './reducer';
+import homeContainerReducer, { homeContainerCreators } from './reducer';
 import homeContainerSaga from './saga';
 import { Link } from 'react-router-dom';
 
@@ -199,6 +199,7 @@ export default compose(
   injectIntl,
   withConnect,
   memo,
+  injectReducer({ key: 'homeContainer', reducer: homeContainerReducer }),
   injectSaga({ key: 'homeContainer', saga: homeContainerSaga })
 )(HomeContainer);
 

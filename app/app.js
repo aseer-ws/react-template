@@ -34,6 +34,9 @@ import configureStore from './configureStore';
 import { translationMessages } from './i18n';
 
 // Create redux store with history
+// import { initialState as tunesContainerInitialState } from '@containers/TunesContainer/reducer';
+// import { initialState as homeContainerInitialState } from '@containers/HomeContainer/reducer';
+
 const initialState = {};
 const { store, persistor } = configureStore(initialState, history);
 const MOUNT_NODE = document.getElementById('app');

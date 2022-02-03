@@ -11,10 +11,10 @@ import { injectIntl } from 'react-intl';
 import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import { injectSaga } from 'redux-injectors';
+import { injectReducer, injectSaga } from 'redux-injectors';
 import selectTunesContainer, { selectTunesArtist, selectTunesError, selectTunesSongs } from './selectors';
 import tunesContainerSaga from './saga';
-import { tunesContainerCreators } from './reducer';
+import tunesContainerReducer, { tunesContainerCreators } from './reducer';
 import { Card, Input, Skeleton } from 'antd';
 import { debounce, get, isEmpty } from 'lodash';
 import For from '@app/components/For';
@@ -22,6 +22,7 @@ import styled from 'styled-components';
 import TrackCard from '@app/components/TrackCard';
 import If from '@app/components/If';
 import { T } from '@app/components/T';
+import { Link } from 'react-router-dom';
 
 const { Search } = Input;
 
@@ -41,6 +42,12 @@ const Container = styled.div`
   padding: ${(props) => props.padding};
 `;
 
+const StyledLink = styled(Link)`
+  && {
+    text-align: center;
+  }
+`;
+
 const StyledArtistSearch = styled(Search)`
   && {
     max-width: 18.75rem;
@@ -57,8 +64,12 @@ const StyledHeader = styled.header`
 
 const StyledTracksContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: 1fr;
   gap: 1rem;
+
+  @media screen and (min-width: 400px) {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  }
 `;
 
 const { requestGetSongs, clearSongs } = tunesContainerCreators;
@@ -88,7 +99,7 @@ export function TunesContainer({
     dispatchGetArtistSongs(artistName);
   };
 
-  const onDebouncedSearch = debounce(onArtistSearch, 500);
+  const handleDebouncedSearch = debounce(onArtistSearch, 500);
 
   const renderSongsTrack = () => {
     const tracks = get(songsData, 'results', []);
@@ -126,7 +137,9 @@ export function TunesContainer({
   const renderTunesError = () => {
     return (
       <If condition={!isEmpty(tunesError)}>
-        <div>{JSON.stringify(tunesError, null, 2)}</div>;
+        <If condition={typeof tunesError === 'string'} otherwise={<div>{JSON.stringify(tunesError, null, 2)}</div>}>
+          <T data-testid="tunes-error" text={tunesError} />
+        </If>
       </If>
     );
   };
@@ -137,6 +150,9 @@ export function TunesContainer({
         <title>TunesContainer</title>
         <meta name="description" content="Description of TunesContainer" />
       </Helmet>
+      <StyledLink data-testid="repos-redirect" to="/repos">
+        Goto GitHub Repos
+      </StyledLink>
       <StyledHeader>
         <T type="heading" marginBottom={10} id="itunes_header" />
         <StyledArtistSearch
@@ -144,8 +160,8 @@ export function TunesContainer({
           placeholder="input artist name"
           allowClear
           defaultValue={artist}
-          onChange={(evt) => onDebouncedSearch(evt.target.value)}
-          onSearch={(term) => onDebouncedSearch(term)}
+          onChange={(evt) => handleDebouncedSearch(evt.target.value)}
+          onSearch={(term) => handleDebouncedSearch(term)}
         />
       </StyledHeader>
       {renderSongsTrack()}
@@ -180,7 +196,7 @@ const mapStateToProps = createStructuredSelector({
   tunesError: selectTunesError()
 });
 
-function mapDispatchToProps(dispatch) {
+export function mapDispatchToProps(dispatch) {
   return {
     dispatchGetArtistSongs: (artistName) => dispatch(requestGetSongs(artistName)),
     dispatchClearSongs: () => dispatch(clearSongs())
@@ -193,7 +209,11 @@ export default compose(
   withConnect,
   memo,
   injectIntl,
-  injectSaga({ key: 'tunesContainer', saga: tunesContainerSaga })
+  injectReducer({ key: 'tunesContainer', reducer: tunesContainerReducer }),
+  injectSaga({
+    key: 'tunesContainer',
+    saga: tunesContainerSaga
+  })
 )(TunesContainer);
 
 export const TunesContainerTest = compose(injectIntl)(TunesContainer);

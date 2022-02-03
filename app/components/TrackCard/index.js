@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Col, Image, Row, Skeleton } from 'antd';
+import { Card, Col, Image, Row } from 'antd';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -45,33 +45,44 @@ const TrackPrice = styled(T)`
     color: ${colors.error};
   }
 `;
-const TrackGenre = styled(T)``;
+const TrackGenre = styled(T)`
+  && {
+    font-size: small;
+    font-weight: 600;
+    color: ${colors.text};
+    opacity: 0.8;
+  }
+`;
 
-function TrackCard({ skeletonLoading, trackName, collectionName, artworkUrl100, trackPrice, primaryGenre }) {
+function TrackCard({ skeletonLoading, trackName, collectionName, artworkUrl100, trackPrice, primaryGenreName }) {
   return (
-    <Skeleton loading={skeletonLoading} active>
-      <StyledTrackItem data-testid="track-card">
-        <StyledTrackCard hoverable>
-          <Row gutter={48}>
-            <Col span={8}>
-              <StyledImage
-                preview={false}
-                src={artworkUrl100}
-                fallback="https://media.istockphoto.com/vectors/thumbnail-image-vector-graphic-vector-id1147544807?k=20&m=1147544807&s=612x612&w=0&h=pBhz1dkwsCMq37Udtp9sfxbjaMl27JUapoyYpQm0anc="
-              />
-            </Col>
-            <Col span={16}>
-              <If condition={!isEmpty(trackName)} otherwise={<T id="track_name_unavailable" />}>
-                <TrackName data-testid="track-name" marginBottom={10} type="subheading" text={trackName} />
-              </If>
+    <StyledTrackItem data-testid="track-card">
+      <StyledTrackCard hoverable>
+        <Row gutter={48}>
+          <Col span={8}>
+            <StyledImage
+              preview={false}
+              src={artworkUrl100}
+              fallback="https://media.istockphoto.com/vectors/thumbnail-image-vector-graphic-vector-id1147544807?k=20&m=1147544807&s=612x612&w=0&h=pBhz1dkwsCMq37Udtp9sfxbjaMl27JUapoyYpQm0anc="
+            />
+          </Col>
+          <Col span={16}>
+            <If condition={!isEmpty(trackName)} otherwise={<T id="track_name_unavailable" />}>
+              <TrackName data-testid="track-name" marginBottom={10} type="subheading" text={trackName} />
+            </If>
+            <If condition={!isEmpty(collectionName)} otherwise={<T id="collection_name_unavailable" />}>
               <TrackCollectionName data-testid="collection-name" type="subText" text={collectionName} />
+            </If>
+            <If condition={trackPrice} otherwise={<T id="track_price_unavailable" />}>
               <TrackPrice data-testid="track-price" text={String(trackPrice)} />
-              <TrackGenre data-testid="track-genre" text={primaryGenre} />
-            </Col>
-          </Row>
-        </StyledTrackCard>
-      </StyledTrackItem>
-    </Skeleton>
+            </If>
+            <If condition={!isEmpty(primaryGenreName)} otherwise={<T id="track_genre_unavailable" />}>
+              <TrackGenre data-testid="track-genre" text={primaryGenreName} />
+            </If>
+          </Col>
+        </Row>
+      </StyledTrackCard>
+    </StyledTrackItem>
   );
 }
 
@@ -83,7 +94,7 @@ TrackCard.propTypes = {
   artworkUrl100: PropTypes.string,
   trackPrice: PropTypes.number,
   releaseDate: PropTypes.string,
-  primaryGenre: PropTypes.string
+  primaryGenreName: PropTypes.string
 };
 
 export default TrackCard;

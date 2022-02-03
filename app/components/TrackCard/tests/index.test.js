@@ -15,13 +15,13 @@ describe('TrackCard tests', () => {
     const artworkUrl100 = 'https://testimages.org/img/testimages_screenshot.jpg';
     const collectionName = 'Backstreet Boys';
     const trackPrice = 3.1;
-    const primaryGenre = 'Pop';
+    const primaryGenreName = 'Pop';
     const trackCardProps = {
       trackName,
       artworkUrl100,
       collectionName,
       trackPrice,
-      primaryGenre
+      primaryGenreName
     };
 
     const { getByTestId } = renderWithIntl(<TrackCard {...trackCardProps} />);
@@ -29,6 +29,6 @@ describe('TrackCard tests', () => {
     expect(getByTestId('track-name')).toHaveTextContent(trackName);
     expect(getByTestId('collection-name')).toHaveTextContent(collectionName);
     expect(getByTestId('track-price')).toHaveTextContent(trackPrice);
-    expect(getByTestId('track-genre')).toHaveTextContent(primaryGenre);
+    expect(getByTestId('track-genre')).toHaveTextContent(primaryGenreName);
   });
 });
