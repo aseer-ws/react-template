@@ -25,10 +25,23 @@ const StyledImage = styled(Image)`
     width: 6.25rem;
     height: 6.25rem;
     border-radius: 50%;
+    animation: spin infinite 3s linear;
 
     @media screen and (max-width: 25rem) {
       width: 5rem;
       height: 5rem;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotateZ(0deg);
+      }
+      50% {
+        transform: rotateZ(180deg);
+      }
+      100% {
+        transform: rotateZ(360deg);
+      }
     }
   }
 `;
@@ -39,13 +52,23 @@ const TrackName = styled(T)`
     color: ${colors.success};
   }
 `;
-const TrackCollectionName = styled(T)``;
+const TrackCollectionName = styled(T)`
+  && {
+    opacity: 0.5;
+  }
+`;
 const TrackPrice = styled(T)`
   && {
     color: ${colors.error};
   }
 `;
-const TrackGenre = styled(T)``;
+const TrackGenre = styled(T)`
+  && {
+    font-weight: bold;
+    font-size: smaller;
+    opacity: 0.5;
+  }
+`;
 
 function TrackCard({ skeletonLoading, trackName, collectionName, artworkUrl100, trackPrice, primaryGenreName }) {
   return (

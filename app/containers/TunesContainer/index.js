@@ -67,8 +67,8 @@ export const StyledTracksContainer = styled.div`
   grid-template-columns: 1fr;
   gap: 1rem;
 
-  @media screen and (min-width: 650px) {
-    grid-template-columns: 2fr;
+  @media screen and (min-width: 790px) {
+    grid-template-columns: 1fr 1fr;
   }
 
   @media screen and (min-width: 1000px) {
