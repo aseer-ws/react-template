@@ -62,10 +62,18 @@ const StyledHeader = styled.header`
   align-items: center;
 `;
 
-const StyledTracksContainer = styled.div`
+export const StyledTracksContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: 1fr;
   gap: 1rem;
+
+  @media screen and (min-width: 650px) {
+    grid-template-columns: 2fr;
+  }
+
+  @media screen and (min-width: 1000px) {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
 `;
 
 const { requestGetSongs, clearSongs } = tunesContainerCreators;
