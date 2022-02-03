@@ -12,6 +12,8 @@ import { fireEvent } from '@testing-library/react';
 import { translate } from '@app/components/IntlGlobalProvider';
 import { tunesContainerTypes } from '../reducer';
 import { mapDispatchToProps } from '@app/containers/TunesContainer';
+import { Router } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
 
 describe('<TunesContainer /> container tests', () => {
   let submitSpy;
@@ -63,6 +65,17 @@ describe('<TunesContainer /> container tests', () => {
     await timeout(500);
 
     expect(submitSpy).toBeCalled();
+  });
+
+  it('should redirect to /repos route when clicked repo link', () => {
+    const history = createBrowserHistory();
+    const { getByTestId } = renderProvider(
+      <Router history={history}>
+        <TunesContainer />
+      </Router>
+    );
+    expect(getByTestId('repos-redirect')).toBeInTheDocument();
+    expect(history.location.pathname).toEqual('/');
   });
 
   it('should show placeholder message when songsData or artisName is empty', () => {

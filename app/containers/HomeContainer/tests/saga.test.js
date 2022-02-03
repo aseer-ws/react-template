@@ -14,7 +14,7 @@ describe('HomeContainer saga tests', () => {
   const repoName = 'mac';
   let getGithubReposGenerator = getGithubRepos({ repoName });
 
-  it('should start task to watch for REQUEST_GET_GITHUB_REPOS action', () => {
+  it('should start task to watch for FETCH_USER action', () => {
     expect(generator.next().value).toEqual(takeLatest(homeContainerTypes.REQUEST_GET_GITHUB_REPOS, getGithubRepos));
   });
 

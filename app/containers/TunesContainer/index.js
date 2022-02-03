@@ -22,6 +22,7 @@ import styled from 'styled-components';
 import TrackCard from '@app/components/TrackCard';
 import If from '@app/components/If';
 import { T } from '@app/components/T';
+import { Link } from 'react-router-dom';
 
 const { Search } = Input;
 
@@ -39,6 +40,12 @@ const Container = styled.div`
   margin: 2rem auto;
   max-width: ${(props) => props.maxWidth};
   padding: ${(props) => props.padding};
+`;
+
+const StyledLink = styled(Link)`
+  && {
+    text-align: center;
+  }
 `;
 
 const StyledArtistSearch = styled(Search)`
@@ -139,6 +146,9 @@ export function TunesContainer({
         <title>TunesContainer</title>
         <meta name="description" content="Description of TunesContainer" />
       </Helmet>
+      <StyledLink data-testid="repos-redirect" to="/repos">
+        Goto GitHub Repos
+      </StyledLink>
       <StyledHeader>
         <T type="heading" marginBottom={10} id="itunes_header" />
         <StyledArtistSearch

@@ -6,8 +6,15 @@ exports[`<TunesContainer /> container tests should render and match the snapshot
     <div
       class="TunesContainer__Container-sc-1n734yz-1 hwQNvX"
     >
+      <a
+        class="TunesContainer__StyledLink-sc-1n734yz-2 exwnLi"
+        data-testid="repos-redirect"
+        href="/repos"
+      >
+        Goto GitHub Repos
+      </a>
       <header
-        class="TunesContainer__StyledHeader-sc-1n734yz-3 cJzNzx"
+        class="TunesContainer__StyledHeader-sc-1n734yz-4 clTFNG"
       >
         <p
           class="T__StyledText-gjlic1-0 euxGsn"
@@ -16,7 +23,7 @@ exports[`<TunesContainer /> container tests should render and match the snapshot
           Welcome to iTunes API
         </p>
         <span
-          class="ant-input-group-wrapper ant-input-search TunesContainer__StyledArtistSearch-sc-1n734yz-2 caGUNx"
+          class="ant-input-group-wrapper ant-input-search TunesContainer__StyledArtistSearch-sc-1n734yz-3 hyGhhg"
         >
           <span
             class="ant-input-wrapper ant-input-group"
@@ -98,7 +105,7 @@ exports[`<TunesContainer /> container tests should render and match the snapshot
             class="T__StyledText-gjlic1-0 kYcyRq"
             data-testid="t"
           >
-            Tracks are empty! Provide artist name
+            Provide artist name to see their tracks
           </p>
         </div>
       </div>

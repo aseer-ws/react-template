@@ -47,7 +47,7 @@ const TrackPrice = styled(T)`
 `;
 const TrackGenre = styled(T)``;
 
-function TrackCard({ skeletonLoading, trackName, collectionName, artworkUrl100, trackPrice, primaryGenre }) {
+function TrackCard({ skeletonLoading, trackName, collectionName, artworkUrl100, trackPrice, primaryGenreName }) {
   return (
     <Skeleton loading={skeletonLoading} active>
       <StyledTrackItem data-testid="track-card">
@@ -64,9 +64,15 @@ function TrackCard({ skeletonLoading, trackName, collectionName, artworkUrl100, 
               <If condition={!isEmpty(trackName)} otherwise={<T id="track_name_unavailable" />}>
                 <TrackName data-testid="track-name" marginBottom={10} type="subheading" text={trackName} />
               </If>
-              <TrackCollectionName data-testid="collection-name" type="subText" text={collectionName} />
-              <TrackPrice data-testid="track-price" text={String(trackPrice)} />
-              <TrackGenre data-testid="track-genre" text={primaryGenre} />
+              <If condition={!isEmpty(collectionName)} otherwise={<T id="collection_name_unavailable" />}>
+                <TrackCollectionName data-testid="collection-name" type="subText" text={collectionName} />
+              </If>
+              <If condition={typeof trackPrice === 'number'} otherwise={<T id="track_price_unavailable" />}>
+                <TrackPrice data-testid="track-price" text={String(trackPrice)} />
+              </If>
+              <If condition={!isEmpty(primaryGenreName)} otherwise={<T id="track_genre_unavailable" />}>
+                <TrackGenre data-testid="track-genre" text={primaryGenreName} />
+              </If>
             </Col>
           </Row>
         </StyledTrackCard>
@@ -83,7 +89,7 @@ TrackCard.propTypes = {
   artworkUrl100: PropTypes.string,
   trackPrice: PropTypes.number,
   releaseDate: PropTypes.string,
-  primaryGenre: PropTypes.string
+  primaryGenreName: PropTypes.string
 };
 
 export default TrackCard;
