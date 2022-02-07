@@ -1,4 +1,4 @@
-import { StyledTracksContainer } from '@app/containers/TunesContainer';
+import { StyledTracksContainer } from '@app/containers/TrackGridContainer';
 import React from 'react';
 import TrackCard from '..';
 

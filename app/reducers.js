@@ -8,7 +8,7 @@ import { connectRouter } from 'connected-react-router';
 import history from 'utils/history';
 import languageProviderReducer from 'containers/LanguageProvider/reducer';
 import homeContainerReducer from 'containers/HomeContainer/reducer';
-import tunesContainerReducer from 'containers/TunesContainer/reducer';
+import trackProviderReducer from './containers/TrackProvider/reducer';
 
 /**
  * Merges the main reducer with the router state and dynamically injected reducers
@@ -19,7 +19,7 @@ export default function createReducer(injectedReducer = {}) {
     language: languageProviderReducer,
     router: connectRouter(history),
     homeContainer: homeContainerReducer,
-    tunesContainer: tunesContainerReducer
+    trackProvider: trackProviderReducer
   });
 
   return rootReducer;

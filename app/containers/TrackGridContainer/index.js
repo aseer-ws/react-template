@@ -1,28 +1,28 @@
 /**
  *
- * TunesContainer
+ * TrackGridContainer
  *
  */
 
-import React, { memo, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { injectIntl } from 'react-intl';
-import { Helmet } from 'react-helmet';
-import { createStructuredSelector } from 'reselect';
-import { compose } from 'redux';
-import { injectSaga } from 'redux-injectors';
-import { selectTunesArtist, selectTunesError, selectTunesSongs } from './selectors';
-import tunesContainerSaga from './saga';
-import { tunesContainerCreators } from './reducer';
-import { Card, Input, Skeleton } from 'antd';
-import { debounce, get, isEmpty } from 'lodash';
 import For from '@app/components/For';
-import styled from 'styled-components';
-import TrackCard from '@app/components/TrackCard';
 import If from '@app/components/If';
 import { T } from '@app/components/T';
+import TrackCard from '@app/components/TrackCard';
+import { Card, Input, Skeleton } from 'antd';
+import { debounce, isEmpty } from 'lodash';
+import PropTypes from 'prop-types';
+import React, { memo, useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet';
+import { injectIntl } from 'react-intl';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { compose } from 'redux';
+import { injectSaga } from 'redux-injectors';
+import { createStructuredSelector } from 'reselect';
+import styled from 'styled-components';
+import { trackProviderCreators } from '../TrackProvider/reducer';
+import { trackGridContainerSaga } from '../TrackProvider/saga';
+import { selectArtist, selectTrackCount, selectTracks, selectTracksError } from '../TrackProvider/selectors';
 
 const { Search } = Input;
 
@@ -33,13 +33,13 @@ const CustomCard = styled(Card)`
   }
 `;
 
-const Container = styled.div`
+export const Container = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
   margin: 2rem auto;
-  max-width: ${(props) => props.maxWidth};
-  padding: ${(props) => props.padding};
+  max-width: ${(props) => props.maxWidth}px;
+  padding: ${(props) => props.padding}rem;
 `;
 
 const StyledLink = styled(Link)`
@@ -76,39 +76,43 @@ export const StyledTracksContainer = styled.div`
   }
 `;
 
-const { requestGetSongs, clearSongs } = tunesContainerCreators;
+const { requestGetTracks, clearTracks } = trackProviderCreators;
 
-export function TunesContainer({
+export function TrackGridContainer({
   artist,
-  songsData,
-  tunesError,
-  dispatchGetArtistSongs,
+  tracks,
+  trackCount,
+  tracksError,
+  dispatchGetTracks,
   maxWidth,
   padding,
-  dispatchClearSongs
+  dispatchClearTracks
 }) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (loading && !isEmpty(songsData)) {
+    if (!isEmpty(artist) && isEmpty(tracks)) {
+      dispatchGetTracks(artist);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (loading && !isEmpty(tracks)) {
       setLoading(false);
     }
-  }, [songsData]);
+  }, [tracks]);
 
   const onArtistSearch = (artistName) => {
     if (!artistName) {
-      return dispatchClearSongs();
+      return dispatchClearTracks();
     }
     setLoading(true);
-    dispatchGetArtistSongs(artistName);
+    dispatchGetTracks(artistName);
   };
 
   const handleDebouncedSearch = debounce(onArtistSearch, 500);
 
   const renderSongsTrack = () => {
-    const tracks = get(songsData, 'results', []);
-    const trackCount = get(songsData, 'resultCount', 0);
-
     return (
       <Skeleton loading={loading} active>
         <CustomCard margintop={2}>
@@ -119,13 +123,13 @@ export function TunesContainer({
               </div>
               <If condition={trackCount} otherwise={<T data-testid="empty-track-text" id="itunes_empty_track" />}>
                 <div>
-                  <T id="itunes_track_count" values={{ trackCount: tracks.length }} />
+                  <T id="itunes_track_count" values={{ trackCount }} />
                 </div>
               </If>
             </If>
           </If>
         </CustomCard>
-        <If condition={loading || !isEmpty(songsData)}>
+        <If condition={loading || !isEmpty(tracks)}>
           <CustomCard margintop={1}>
             <For
               ParentComponent={StyledTracksContainer}
@@ -140,10 +144,12 @@ export function TunesContainer({
 
   const renderTunesError = () => {
     return (
-      <If condition={!isEmpty(tunesError)}>
-        <If condition={typeof tunesError === 'string'} otherwise={<div>{JSON.stringify(tunesError, null, 2)}</div>}>
-          <T data-testid="tunes-error" text={tunesError} />
-        </If>
+      <If condition={!isEmpty(tracksError)}>
+        <Card>
+          <If condition={typeof tracksError === 'string'} otherwise={<div>{JSON.stringify(tracksError, null, 2)}</div>}>
+            <T data-testid="tunes-error" text={tracksError} />
+          </If>
+        </Card>
       </If>
     );
   };
@@ -151,8 +157,8 @@ export function TunesContainer({
   return (
     <Container maxWidth={maxWidth} padding={padding}>
       <Helmet>
-        <title>TunesContainer</title>
-        <meta name="description" content="Description of TunesContainer" />
+        <title>TrackGridContainer</title>
+        <meta name="description" content="Description of TrackGridContainer" />
       </Helmet>
       <StyledLink data-testid="repos-redirect" to="/repos">
         Goto GitHub Repos
@@ -174,35 +180,33 @@ export function TunesContainer({
   );
 }
 
-TunesContainer.propTypes = {
-  tunesContainerSaga: PropTypes.func,
+TrackGridContainer.propTypes = {
   artist: PropTypes.string,
-  songsData: PropTypes.shape({
-    resultCount: PropTypes.number,
-    results: PropTypes.array
-  }),
-  tunesError: PropTypes.string,
-  dispatchGetArtistSongs: PropTypes.func,
-  dispatchClearSongs: PropTypes.func,
+  tracks: PropTypes.array,
+  trackCount: PropTypes.number,
+  tracksError: PropTypes.string,
+  dispatchGetTracks: PropTypes.func,
+  dispatchClearTracks: PropTypes.func,
   maxWidth: PropTypes.number,
-  padding: PropTypes.string
+  padding: PropTypes.number
 };
 
-TunesContainer.defaultProps = {
+TrackGridContainer.defaultProps = {
   maxWidth: 1000,
-  padding: '2rem'
+  padding: 2
 };
 
 const mapStateToProps = createStructuredSelector({
-  artist: selectTunesArtist(),
-  songsData: selectTunesSongs(),
-  tunesError: selectTunesError()
+  artist: selectArtist(),
+  tracks: selectTracks(),
+  trackCount: selectTrackCount(),
+  tracksError: selectTracksError()
 });
 
 export function mapDispatchToProps(dispatch) {
   return {
-    dispatchGetArtistSongs: (artistName) => dispatch(requestGetSongs(artistName)),
-    dispatchClearSongs: () => dispatch(clearSongs())
+    dispatchGetTracks: (artistName) => dispatch(requestGetTracks(artistName)),
+    dispatchClearTracks: () => dispatch(clearTracks())
   };
 }
 
@@ -212,7 +216,7 @@ export default compose(
   withConnect,
   memo,
   injectIntl,
-  injectSaga({ key: 'tunesContainer', saga: tunesContainerSaga })
-)(TunesContainer);
+  injectSaga({ key: 'trackGridContainer', saga: trackGridContainerSaga })
+)(TrackGridContainer);
 
-export const TunesContainerTest = compose(injectIntl)(TunesContainer);
+export const TrackGridContainerTest = compose(injectIntl)(TrackGridContainer);

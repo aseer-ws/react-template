@@ -7,11 +7,19 @@ export default {
     },
     exact: true
   },
-  tunes: {
+  trackGrid: {
     route: '/',
     props: {
-      maxwidth: 1000,
-      padding: 5
+      maxwidth: 1500,
+      padding: 1
+    },
+    exact: true
+  },
+  track: {
+    route: '/tracks/:trackId',
+    props: {
+      maxwidth: 800,
+      padding: 1
     },
     exact: true
   }

@@ -1,20 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<TunesContainer /> container tests should render and match the snapshot 1`] = `
+exports[`<TrackGridContainer /> container tests should render and match the snapshot 1`] = `
 <body>
   <div>
     <div
-      class="TunesContainer__Container-sc-1n734yz-1 hwQNvX"
+      class="TrackGridContainer__Container-i3keot-1 lbhoun"
     >
       <a
-        class="TunesContainer__StyledLink-sc-1n734yz-2 exwnLi"
+        class="TrackGridContainer__StyledLink-i3keot-2 jhTgke"
         data-testid="repos-redirect"
         href="/repos"
       >
         Goto GitHub Repos
       </a>
       <header
-        class="TunesContainer__StyledHeader-sc-1n734yz-4 clTFNG"
+        class="TrackGridContainer__StyledHeader-i3keot-4 dFylmS"
       >
         <p
           class="T__StyledText-gjlic1-0 euxGsn"
@@ -23,7 +23,7 @@ exports[`<TunesContainer /> container tests should render and match the snapshot
           Welcome to iTunes API
         </p>
         <span
-          class="ant-input-group-wrapper ant-input-search TunesContainer__StyledArtistSearch-sc-1n734yz-3 hyGhhg"
+          class="ant-input-group-wrapper ant-input-search TrackGridContainer__StyledArtistSearch-i3keot-3 cVWqRw"
         >
           <span
             class="ant-input-wrapper ant-input-group"
@@ -95,7 +95,7 @@ exports[`<TunesContainer /> container tests should render and match the snapshot
         </span>
       </header>
       <div
-        class="ant-card ant-card-bordered TunesContainer__CustomCard-sc-1n734yz-0 eVhZjh"
+        class="ant-card ant-card-bordered TrackGridContainer__CustomCard-i3keot-0 cXHsRF"
         margintop="2"
       >
         <div
