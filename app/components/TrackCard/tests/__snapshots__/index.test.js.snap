@@ -4,26 +4,28 @@ exports[`<TrackCard /> tests should render and match the snapshot 1`] = `
 <body>
   <div>
     <article
-      class="TrackCard__StyledTrackItem-sc-10bk196-0 eabqXR"
+      class="TrackCard__StyledTrackItem-sc-10bk196-0 fmQKzS"
       data-testid="track-card"
     >
       <div
-        class="ant-card ant-card-bordered TrackCard__StyledTrackCard-sc-10bk196-1 cFAoLh"
+        class="ant-card ant-card-bordered TrackCard__StyledTrackCard-sc-10bk196-1 kUSZcD"
       >
         <div
           class="ant-card-body"
         >
           <div
-            class="TrackCard__StyledImageContainer-sc-10bk196-2 fquutl"
+            class="TrackCard__StyledImageContainer-sc-10bk196-2 bonBbJ"
           >
             <div
               animate="false"
               class="ant-image"
               data-testid="track-image"
+              style="width: 100%; height: 100%;"
             >
               <img
-                class="ant-image-img TrackCard__StyledImage-sc-10bk196-3 iBclHW"
+                class="ant-image-img TrackCard__StyledImage-sc-10bk196-3 iDThZz"
                 src=""
+                style="height: 100%;"
               />
             </div>
             <button
@@ -51,13 +53,18 @@ exports[`<TrackCard /> tests should render and match the snapshot 1`] = `
                 </svg>
               </span>
             </button>
+            <audio
+              class="TrackCard__StyledAudio-sc-10bk196-11 gNFhFl"
+              data-testid="audio-track"
+              preload="none"
+            />
           </div>
           <a
             class="TrackCard__StyledLink-sc-10bk196-6 gfOyIk"
             href="/tracks/undefined"
           >
             <div
-              class="TrackCard__TrackInfoContainer-sc-10bk196-5 gIIFwr"
+              class="TrackCard__TrackInfoContainer-sc-10bk196-5 bVzCZI"
             >
               <p
                 class="T__StyledText-gjlic1-0 kYcyRq"

@@ -25,7 +25,7 @@ const selectCurrentTrackFromTracks = () => {
   const tracksSelector = selectTracks();
   const trackIdSelector = selectTrackId();
   return createSelector(tracksSelector, trackIdSelector, (trackList, trackIdentity) =>
-    trackList?.find((track) => track.trackId === trackIdentity)
+    trackList?.find((track) => Number(track.trackId) === Number(trackIdentity))
   );
 };
 

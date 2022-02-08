@@ -7,13 +7,7 @@ import { getTunes } from '@app/services/tunesApi';
 import { apiResponseGenerator } from '@app/utils/testUtils';
 import { takeLatest, put, select, call } from 'redux-saga/effects';
 import { trackProviderCreators, trackProviderTypes } from '../reducer';
-import {
-  CURRENT_TRACK_FROM_TRACKS_SELECTOR,
-  getArtistTracks,
-  getCurrentTrack,
-  trackContainerSaga,
-  trackGridContainerSaga
-} from '../saga';
+import trackProviderSaga, { CURRENT_TRACK_FROM_TRACKS_SELECTOR, getArtistTracks, getCurrentTrack } from '../saga';
 import { TRACK_PROVIDER_DUMMY_STATE } from './selectors.test';
 
 const { successGetTracks, failureGetTracks, successGetTrack, failureGetTrack } = trackProviderCreators;
@@ -28,8 +22,14 @@ describe('TrackProvider saga tests', () => {
   });
 
   it('should start task to watch for REQUEST_SET_TRACK action', () => {
-    const generator = trackContainerSaga();
+    const generator = trackProviderSaga();
     expect(generator.next().value).toEqual(takeLatest(trackProviderTypes.REQUEST_GET_TRACK, getCurrentTrack));
+  });
+
+  it('should start task to watch for REQUEST_GET_SONGS action', () => {
+    const generator = trackProviderSaga();
+    generator.next();
+    expect(generator.next().value).toEqual(takeLatest(trackProviderTypes.REQUEST_GET_TRACKS, getArtistTracks));
   });
 
   it('should yield select(CURRENT_TRACK_FROM_TRACKS_SELECTOR) effect', () => {
@@ -70,11 +70,6 @@ describe('TrackProvider saga tests', () => {
     const errorRes = 'Unable to find the track';
     const apiResponse = apiResponseGenerator(false, errorRes);
     expect(getTrackGenerator.next(apiResponse).value).toEqual(put(failureGetTrack(errorRes)));
-  });
-
-  it('should start task to watch for REQUEST_GET_SONGS action', () => {
-    const generator = trackGridContainerSaga();
-    expect(generator.next().value).toEqual(takeLatest(trackProviderTypes.REQUEST_GET_TRACKS, getArtistTracks));
   });
 
   it('should ensure that the action FAILURE_GET_TRACKS is dispatched when api call fails', () => {

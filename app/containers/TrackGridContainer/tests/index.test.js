@@ -42,6 +42,41 @@ describe('<TrackGridContainer /> container tests', () => {
     expect(submitSpy).toBeCalled();
   });
 
+  it('should trigger dispatchGetTracks when an aritstName is given and pressed enter in search bar', async () => {
+    const { getByTestId } = renderProvider(<TrackGridContainer dispatchGetTracks={submitSpy} />);
+    const searchBar = getByTestId(artistSearchBarId);
+    const artistName = 'Johan Roby';
+    fireEvent.keyDown(searchBar, {
+      key: 'Enter',
+      code: 'Enter',
+      keyCode: 13,
+      target: {
+        value: artistName
+      }
+    });
+    await timeout(500);
+    expect(submitSpy).toBeCalled();
+  });
+
+  it('should show loading Skeleton while searching for tracks', async () => {
+    const tracks = [
+      {
+        trackId: 123
+      }
+    ];
+    const { getByTestId, baseElement } = renderProvider(
+      <TrackGridContainer tracks={tracks} dispatchGetTracks={submitSpy} />
+    );
+
+    fireEvent.change(getByTestId(artistSearchBarId), {
+      target: {
+        value: 'Avatar'
+      }
+    });
+    await timeout(500);
+    await waitFor(() => expect(baseElement.getElementsByClassName('ant-skeleton').length).toBe(0));
+  });
+
   it('should show message when tracks are empty for invalid artist name', async () => {
     const artistName = 'kabdsfkhaxj';
     const { getByTestId } = renderProvider(<TrackGridContainer artist={artistName} dispatchGetTracks={submitSpy} />);

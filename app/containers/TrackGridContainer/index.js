@@ -21,7 +21,7 @@ import { injectSaga } from 'redux-injectors';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
 import { trackProviderCreators } from '../TrackProvider/reducer';
-import { trackGridContainerSaga } from '../TrackProvider/saga';
+import trackProviderSaga from '../TrackProvider/saga';
 import { selectArtist, selectTrackCount, selectTracks, selectTracksError } from '../TrackProvider/selectors';
 
 const { Search } = Input;
@@ -97,10 +97,10 @@ export function TrackGridContainer({
   }, []);
 
   useEffect(() => {
-    if (loading && !isEmpty(tracks)) {
+    if (loading && (!isEmpty(tracks) || !isEmpty(tracksError))) {
       setLoading(false);
     }
-  }, [tracks]);
+  }, [tracks, tracksError, loading]);
 
   const onArtistSearch = (artistName) => {
     if (!artistName) {
@@ -216,7 +216,7 @@ export default compose(
   withConnect,
   memo,
   injectIntl,
-  injectSaga({ key: 'trackGridContainer', saga: trackGridContainerSaga })
+  injectSaga({ key: 'trackProvider', saga: trackProviderSaga })
 )(TrackGridContainer);
 
 export const TrackGridContainerTest = compose(injectIntl)(TrackGridContainer);

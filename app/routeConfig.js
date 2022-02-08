@@ -8,7 +8,7 @@ export const routeConfig = {
     component: HomeContainer,
     ...routeConstants.repos
   },
-  tunes: {
+  trackGrid: {
     component: TrackGridContainer,
     ...routeConstants.trackGrid
   },

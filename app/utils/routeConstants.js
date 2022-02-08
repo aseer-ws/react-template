@@ -10,7 +10,7 @@ export default {
   trackGrid: {
     route: '/',
     props: {
-      maxwidth: 1500,
+      maxWidth: 1500,
       padding: 1
     },
     exact: true
@@ -18,7 +18,7 @@ export default {
   track: {
     route: '/tracks/:trackId',
     props: {
-      maxwidth: 800,
+      maxWidth: 800,
       padding: 1
     },
     exact: true

@@ -18,8 +18,8 @@ export function* getArtistTracks(action) {
 export const CURRENT_TRACK_FROM_TRACKS_SELECTOR = selectCurrentTrackFromTracks();
 
 export function* getCurrentTrack(action) {
-  const TrackFromTunesContainer = yield select(CURRENT_TRACK_FROM_TRACKS_SELECTOR);
-  if (!TrackFromTunesContainer) {
+  const trackFromTrackList = yield select(CURRENT_TRACK_FROM_TRACKS_SELECTOR);
+  if (!trackFromTrackList) {
     const res = yield call(getTunes, action.trackId);
     const { ok, data, problem } = res;
     if (ok && data && data?.results) {
@@ -28,16 +28,11 @@ export function* getCurrentTrack(action) {
       yield put(failureGetTrack(data ?? problem));
     }
   } else {
-    yield put(successGetTrack(TrackFromTunesContainer));
+    yield put(successGetTrack(trackFromTrackList));
   }
 }
 
-function* trackContainerSaga() {
+export default function* trackProviderSaga() {
   yield takeLatest(trackProviderTypes.REQUEST_GET_TRACK, getCurrentTrack);
-}
-
-function* trackGridContainerSaga() {
   yield takeLatest(trackProviderTypes.REQUEST_GET_TRACKS, getArtistTracks);
 }
-
-export { trackContainerSaga, trackGridContainerSaga };
