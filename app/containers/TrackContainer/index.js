@@ -6,7 +6,6 @@
 
 import If from '@app/components/If';
 import { T } from '@app/components/T';
-import { TrackGenre } from '@app/components/TrackCard';
 import { colors } from '@app/themes';
 import { Card, Col, Image, Row, Skeleton } from 'antd';
 import { isEmpty } from 'lodash';
@@ -32,6 +31,13 @@ const StyledImageContainer = styled.div`
   justify-content: center;
   height: 100%;
   width: 100%;
+
+  @media screen and (max-width: 580px) {
+    .ant-image {
+      min-height: 300px;
+      width: 100%;
+    }
+  }
 `;
 
 const StyledImage = styled(Image)`
@@ -40,6 +46,11 @@ const StyledImage = styled(Image)`
     width: 100%;
     /* object-fit: contain; */
   }
+`;
+
+const StyledAudio = styled.audio`
+  display: block;
+  margin-top: 1rem;
 `;
 
 const TrackName = styled(T)`
@@ -64,11 +75,7 @@ const CollectionName = styled(T)`
     color: grey;
   }
 `;
-const ReleaseDate = styled(T)`
-  & {
-    margin-bottom: 0.6rem;
-  }
-`;
+
 const TrackPrice = styled(T)`
   && {
     color: ${colors.error};
@@ -76,12 +83,38 @@ const TrackPrice = styled(T)`
   }
 `;
 
-const StyledAudio = styled.audio`
-  display: block;
-  margin-top: 1rem;
+const ReleaseDate = styled(T)`
+  & {
+    margin-bottom: 0.6rem;
+    font-size: 0.8rem;
+    font-weight: bold;
+    padding: 0.3rem;
+    background-color: #fcfcfc;
+    width: max-content;
+    border-radius: 999px;
+  }
+`;
+
+const TrackGenre = styled(T)`
+  && {
+    font-size: 0.8rem;
+    font-weight: bold;
+    padding: 0.3rem;
+    background-color: #d8fa43;
+    width: max-content;
+    border-radius: 999px;
+  }
 `;
 
 const { requestGetTrack } = trackProviderCreators;
+
+export function dateFormat(date) {
+  return new Date(date).toLocaleDateString('en-IN', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric'
+  });
+}
 
 export function TrackContainer({ dispatchGetTrack, track, maxWidth, padding, trackError }) {
   const [loading, setLoading] = useState(true);
@@ -153,10 +186,7 @@ export function TrackContainer({ dispatchGetTrack, track, maxWidth, padding, tra
                 condition={!isEmpty(track?.releaseDate)}
                 otherwise={<T data-testid="release_date_unavailable" id="release_date_unavailable" />}
               >
-                <ReleaseDate
-                  data-testid="release-date"
-                  text={new Date(track?.releaseDate).toLocaleDateString('en-IN')}
-                />
+                <ReleaseDate data-testid="release-date" text={dateFormat(track?.releaseDate)} />
               </If>
               <If
                 condition={!isEmpty(track?.primaryGenreName)}

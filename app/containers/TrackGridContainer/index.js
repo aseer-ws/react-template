@@ -97,7 +97,7 @@ export function TrackGridContainer({
   }, []);
 
   useEffect(() => {
-    if (loading && (!isEmpty(tracks) || !isEmpty(tracksError))) {
+    if (loading && !isEmpty(tracks)) {
       setLoading(false);
     }
   }, [tracks, tracksError, loading]);
@@ -129,11 +129,11 @@ export function TrackGridContainer({
             </If>
           </If>
         </CustomCard>
-        <If condition={loading || !isEmpty(tracks)}>
+        <If condition={!isEmpty(tracks)}>
           <CustomCard margintop={1}>
             <For
               ParentComponent={StyledTracksContainer}
-              of={tracks}
+              of={typeof tracks === 'object' && Object.values(tracks)}
               renderItem={(item) => <TrackCard key={item.trackId} skeletonLoading={loading} {...item} />}
             />
           </CustomCard>
@@ -182,7 +182,7 @@ export function TrackGridContainer({
 
 TrackGridContainer.propTypes = {
   artist: PropTypes.string,
-  tracks: PropTypes.array,
+  tracks: PropTypes.object,
   trackCount: PropTypes.number,
   tracksError: PropTypes.string,
   dispatchGetTracks: PropTypes.func,

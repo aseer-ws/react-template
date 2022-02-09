@@ -13,10 +13,10 @@ import {
 export const TRACK_PROVIDER_DUMMY_STATE = {
   list: {
     artistName: 'Johan Roby',
-    tracks: [
-      { trackId: 321, artistName: 'Johan Roby' },
-      { trackId: 123, artistName: 'Johan Roby' }
-    ],
+    tracks: {
+      321: { trackId: 321, artistName: 'Johan Roby' },
+      123: { trackId: 123, artistName: 'Johan Roby' }
+    },
     trackCount: 1,
     error: 'track grid error'
   },

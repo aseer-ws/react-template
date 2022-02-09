@@ -59,11 +59,11 @@ describe('<TrackGridContainer /> container tests', () => {
   });
 
   it('should show loading Skeleton while searching for tracks', async () => {
-    const tracks = [
-      {
+    const tracks = {
+      123: {
         trackId: 123
       }
-    ];
+    };
     const { getByTestId, baseElement } = renderProvider(
       <TrackGridContainer tracks={tracks} dispatchGetTracks={submitSpy} />
     );
@@ -88,17 +88,12 @@ describe('<TrackGridContainer /> container tests', () => {
 
   it('should run dispatchClearTracks when search bar changed to empty string', async () => {
     const artistName = 'Arijit Singh';
-    const trackssData = {
-      resultCount: 1,
-      results: [{ artistName }]
+    const tracks = {
+      123: { trackId: 123, artistName }
     };
+
     const { getByTestId } = renderProvider(
-      <TrackGridContainer
-        artist={artistName}
-        trackCount={trackssData.resultCount}
-        tracks={trackssData.results}
-        dispatchClearTracks={submitSpy}
-      />
+      <TrackGridContainer artist={artistName} trackCount={1} tracks={tracks} dispatchClearTracks={submitSpy} />
     );
 
     fireEvent.change(getByTestId(artistSearchBarId), { target: { value: '' } });
@@ -128,10 +123,9 @@ describe('<TrackGridContainer /> container tests', () => {
   it('should render the songs in TrackCard component', () => {
     const artistName = 'Arijit Singh';
     const tracksData = {
-      resultCount: 1,
-      results: [{ artistName }]
+      123: { artistName }
     };
-    const { getByTestId } = renderProvider(<TrackGridContainer artist={artistName} tracks={tracksData.results} />);
+    const { getByTestId } = renderProvider(<TrackGridContainer artist={artistName} tracks={tracksData} />);
     expect(getByTestId('track-card')).toBeInTheDocument();
   });
 

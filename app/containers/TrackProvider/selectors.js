@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import { createSelector } from 'reselect';
 import { initialState } from './reducer';
 
@@ -24,9 +25,7 @@ const selectTrackError = () => createSelector(selectTrackProviderDomain, (substa
 const selectCurrentTrackFromTracks = () => {
   const tracksSelector = selectTracks();
   const trackIdSelector = selectTrackId();
-  return createSelector(tracksSelector, trackIdSelector, (trackList, trackIdentity) =>
-    trackList?.find((track) => Number(track.trackId) === Number(trackIdentity))
-  );
+  return createSelector(tracksSelector, trackIdSelector, (trackList, trackId) => get(trackList, trackId));
 };
 
 export {

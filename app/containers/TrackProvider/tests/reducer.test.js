@@ -31,7 +31,7 @@ describe('TrackProvider reducer tests', () => {
       ...state,
       list: {
         ...state.list,
-        tracks: [{ artistName }],
+        tracks: { 123: { artistName, trackId: 123 } },
         trackCount: 1
       }
     };
@@ -40,7 +40,7 @@ describe('TrackProvider reducer tests', () => {
         type: trackProviderTypes.SUCCESS_GET_TRACKS,
         data: {
           resultCount: 1,
-          results: [{ artistName }]
+          results: [{ artistName, trackId: 123 }]
         }
       })
     ).toEqual(expectedResult);

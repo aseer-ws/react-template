@@ -6,7 +6,7 @@
  */
 
 import { translate } from '@app/components/IntlGlobalProvider';
-import { mapDispatchToProps } from '@app/containers/TrackContainer';
+import { dateFormat, mapDispatchToProps } from '@app/containers/TrackContainer';
 import { trackProviderTypes } from '@app/containers/TrackProvider/reducer';
 import { renderProvider, timeout } from '@utils/testUtils';
 import React from 'react';
@@ -51,7 +51,7 @@ describe('<TrackContainer /> container tests', () => {
     expect(getByTestId('collection-name')).toHaveTextContent(trackInfo.collectionName);
     expect(getByTestId('track-price')).toHaveTextContent(trackInfo.trackPrice);
     expect(getByTestId('track-genre')).toHaveTextContent(trackInfo.primaryGenreName);
-    expect(getByTestId('release-date')).toHaveTextContent(new Date(trackInfo.releaseDate).toLocaleDateString('en-IN'));
+    expect(getByTestId('release-date')).toHaveTextContent(dateFormat(trackInfo.releaseDate));
   });
 
   it('should render fallback message if no data provided', async () => {
