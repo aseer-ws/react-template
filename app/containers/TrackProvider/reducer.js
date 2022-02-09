@@ -31,10 +31,7 @@ export const trackProviderReducer = (state = initialState, action) =>
     switch (action.type) {
       case trackProviderTypes.REQUEST_GET_TRACKS:
         draft.list.artistName = action.artistName;
-        if (state.artistName !== action.artistName) {
-          draft.list.trackCount = 0;
-          draft.list.tracks = {};
-        }
+
         break;
       case trackProviderTypes.SUCCESS_GET_TRACKS:
         draft.list.tracks = action.data.results.reduce(

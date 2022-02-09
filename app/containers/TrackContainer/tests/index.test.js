@@ -49,7 +49,7 @@ describe('<TrackContainer /> container tests', () => {
     expect(getByTestId('track-name')).toHaveTextContent(trackInfo.trackName);
     expect(getByTestId('artist-name')).toHaveTextContent(trackInfo.artistName);
     expect(getByTestId('collection-name')).toHaveTextContent(trackInfo.collectionName);
-    expect(getByTestId('track-price')).toHaveTextContent(trackInfo.trackPrice);
+    // expect(getByTestId('track-price')).toHaveTextContent(trackInfo.trackPrice);
     expect(getByTestId('track-genre')).toHaveTextContent(trackInfo.primaryGenreName);
     expect(getByTestId('release-date')).toHaveTextContent(dateFormat(trackInfo.releaseDate));
   });

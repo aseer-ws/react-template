@@ -157,7 +157,7 @@ export function TrackGridContainer({
   return (
     <Container maxWidth={maxWidth} padding={padding}>
       <Helmet>
-        <title>TrackGridContainer</title>
+        <title>{artist ? `Tracks from ${artist}` : 'TrackGridContainer'}</title>
         <meta name="description" content="Description of TrackGridContainer" />
       </Helmet>
       <StyledLink data-testid="repos-redirect" to="/repos">

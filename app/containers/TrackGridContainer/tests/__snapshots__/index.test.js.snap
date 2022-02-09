@@ -17,7 +17,7 @@ exports[`<TrackGridContainer /> container tests should render and match the snap
         class="TrackGridContainer__StyledHeader-i3keot-4 dFylmS"
       >
         <p
-          class="T__StyledText-gjlic1-0 euxGsn"
+          class="T__StyledText-gjlic1-0 fXFRhA"
           data-testid="t"
         >
           Welcome to iTunes API
@@ -102,7 +102,7 @@ exports[`<TrackGridContainer /> container tests should render and match the snap
           class="ant-card-body"
         >
           <p
-            class="T__StyledText-gjlic1-0 kYcyRq"
+            class="T__StyledText-gjlic1-0 jbStwN"
             data-testid="t"
           >
             Provide artist name to see their tracks

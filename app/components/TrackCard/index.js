@@ -1,7 +1,7 @@
 import { PauseCircleFilled, PlayCircleFilled } from '@ant-design/icons';
 import { media } from '@app/themes';
 import * as colors from '@app/themes/colors';
-import { Button, Card, Image } from 'antd';
+import { Badge, Button, Card, Image } from 'antd';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 /* eslint-disable-next-line */
@@ -114,13 +114,18 @@ const TrackName = styled(T)`
     color: ${colors.success};
   }
 `;
-const TrackCollectionName = styled(T)``;
+const TrackCollectionName = styled(T)`
+  && {
+    font-size: smaller;
+  }
+`;
 const TrackPrice = styled(T)`
   && {
     color: ${colors.error};
+    margin: 0.4rem 0;
   }
 `;
-export const TrackGenre = styled(T)`
+export const TrackGenre = styled(Badge)`
   && {
     font-weight: bold;
     font-size: smaller;
@@ -179,6 +184,7 @@ function TrackCard({ trackId, trackName, collectionName, artworkUrl100, trackPri
             fallback="https://media.istockphoto.com/vectors/thumbnail-image-vector-graphic-vector-id1147544807?k=20&m=1147544807&s=612x612&w=0&h=pBhz1dkwsCMq37Udtp9sfxbjaMl27JUapoyYpQm0anc="
           />
           <PlayPauseButton
+            title="Preview"
             data-testid="play-pause-btn"
             type="primary"
             onClick={onPlayPause}
@@ -199,19 +205,34 @@ function TrackCard({ trackId, trackName, collectionName, artworkUrl100, trackPri
           <TrackInfoContainer>
             <If
               condition={!isEmpty(trackName)}
-              otherwise={<T data-testid="track_name_unavailable" id="track_name_unavailable" />}
+              otherwise={<TrackName data-testid="track_name_unavailable" id="track_name_unavailable" />}
             >
-              <TrackName data-testid="track-name" marginBottom={10} type="subheading" text={trackName} />
+              <TrackName
+                title={trackName}
+                noOfLines={2}
+                data-testid="track-name"
+                marginBottom={10}
+                type="subheading"
+                text={trackName}
+              />
             </If>
             <If
               condition={!isEmpty(collectionName)}
-              otherwise={<T data-testid="collection_name_unavailable" id="collection_name_unavailable" />}
+              otherwise={
+                <TrackCollectionName data-testid="collection_name_unavailable" id="collection_name_unavailable" />
+              }
             >
-              <TrackCollectionName data-testid="collection-name" type="subText" text={collectionName} />
+              <TrackCollectionName
+                title={collectionName}
+                noOfLines={3}
+                data-testid="collection-name"
+                type="subText"
+                text={collectionName}
+              />
             </If>
             <If
               condition={typeof trackPrice === 'number'}
-              otherwise={<T data-testid="track_price_unavailable" id="track_price_unavailable" />}
+              otherwise={<TrackPrice data-testid="track_price_unavailable" id="track_price_unavailable" />}
             >
               <TrackPrice data-testid="track-price" text={`${String(trackPrice)} $`} />
             </If>
@@ -219,7 +240,7 @@ function TrackCard({ trackId, trackName, collectionName, artworkUrl100, trackPri
               condition={!isEmpty(primaryGenreName)}
               otherwise={<T data-testid="track_genre_unavailable" id="track_genre_unavailable" />}
             >
-              <TrackGenre data-testid="track-genre" text={primaryGenreName} />
+              <TrackGenre status="success" data-testid="track-genre" text={primaryGenreName} />
             </If>
           </TrackInfoContainer>
         </StyledLink>
