@@ -136,35 +136,37 @@ export const StyledAudio = styled.audio`
   display: none;
 `;
 
-/** @type {MutableRefObject<HTMLAudioElement>} */
-let currentTrackRef;
+export const TOGGLE_PLAY_BTN_TEST_ID = 'play-pause-btn';
 
-function TrackCard({ trackId, trackName, collectionName, artworkUrl100, trackPrice, primaryGenreName, previewUrl }) {
+function TrackCard({
+  trackId,
+  trackName,
+  collectionName,
+  artworkUrl100,
+  trackPrice,
+  primaryGenreName,
+  previewUrl,
+  onTrackToggle
+}) {
   /** @type {MutableRefObject<HTMLAudioElement>} */
   const audioRef = useRef(null);
   const [playing, setPlaying] = useState(false);
 
   const togglePlay = () => setPlaying((p) => !p);
 
-  function onEnded() {
-    togglePlay();
-    currentTrackRef = null;
-  }
-
   function onPause() {
+    console.log('onPause');
     if (playing) {
       togglePlay();
     }
+    onTrackToggle(audioRef);
   }
 
   function onPlayPause() {
     if (!playing) {
       audioRef?.current?.play();
-      if (currentTrackRef !== audioRef) {
-        currentTrackRef?.current?.pause();
-      }
       togglePlay();
-      currentTrackRef = audioRef;
+      onTrackToggle(audioRef);
     } else {
       audioRef?.current?.pause();
     }
@@ -183,23 +185,24 @@ function TrackCard({ trackId, trackName, collectionName, artworkUrl100, trackPri
             src={artworkUrl100 ?? ''}
             fallback="https://media.istockphoto.com/vectors/thumbnail-image-vector-graphic-vector-id1147544807?k=20&m=1147544807&s=612x612&w=0&h=pBhz1dkwsCMq37Udtp9sfxbjaMl27JUapoyYpQm0anc="
           />
-          <PlayPauseButton
-            title="Preview"
-            data-testid="play-pause-btn"
-            type="primary"
-            onClick={onPlayPause}
-            shape="circle"
-            icon={playing ? <PauseCircleFilled /> : <PlayCircleFilled />}
-          />
-          <StyledAudio
-            data-testid="audio-track"
-            id={trackId}
-            preload="none"
-            src={previewUrl}
-            ref={audioRef}
-            onPause={onPause}
-            onEnded={onEnded}
-          ></StyledAudio>
+          <If condition={!isEmpty(previewUrl)}>
+            <PlayPauseButton
+              title="Preview"
+              data-testid={TOGGLE_PLAY_BTN_TEST_ID}
+              type="primary"
+              onClick={onPlayPause}
+              shape="circle"
+              icon={playing ? <PauseCircleFilled /> : <PlayCircleFilled />}
+            />
+            <StyledAudio
+              data-testid="audio-track"
+              id={trackId}
+              preload="none"
+              src={previewUrl}
+              ref={audioRef}
+              onPause={onPause}
+            ></StyledAudio>
+          </If>
         </StyledImageContainer>
         <StyledLink to={`/tracks/${trackId}`}>
           <TrackInfoContainer>
@@ -249,7 +252,11 @@ function TrackCard({ trackId, trackName, collectionName, artworkUrl100, trackPri
   );
 }
 
+TrackCard.defaultProps = {
+  onTrackToggle: () => {}
+};
 TrackCard.propTypes = {
+  onTrackToggle: PropTypes.func,
   trackId: PropTypes.number,
   collectionName: PropTypes.string,
   trackName: PropTypes.string,

@@ -5,15 +5,26 @@
  *
  */
 
-import React from 'react';
-import { renderProvider, timeout } from '@utils/testUtils';
-import { TrackGridContainerTest as TrackGridContainer } from '../index';
-import { fireEvent, waitFor } from '@testing-library/react';
 import { translate } from '@app/components/IntlGlobalProvider';
+import { TOGGLE_PLAY_BTN_TEST_ID } from '@app/components/TrackCard';
 import { mapDispatchToProps } from '@app/containers/TrackGridContainer';
-import { Router } from 'react-router-dom';
-import { createBrowserHistory } from 'history';
 import { trackProviderTypes } from '@app/containers/TrackProvider/reducer';
+import { fireEvent, waitFor } from '@testing-library/react';
+import { renderProvider, timeout } from '@utils/testUtils';
+import { createBrowserHistory } from 'history';
+import React from 'react';
+import { Router } from 'react-router-dom';
+import { CORS_ERROR_MESSAGE, TrackGridContainerTest as TrackGridContainer } from '../index';
+
+function deb() {
+  console.log('logg');
+}
+
+jest.mock('styled-components', () => {
+  const actualStyled = jest.requireActual('styled-components');
+  console.log({ actualStyled });
+  return actualStyled;
+});
 
 describe('<TrackGridContainer /> container tests', () => {
   let submitSpy;
@@ -64,9 +75,7 @@ describe('<TrackGridContainer /> container tests', () => {
         trackId: 123
       }
     };
-    const { getByTestId, baseElement } = renderProvider(
-      <TrackGridContainer tracks={tracks} dispatchGetTracks={submitSpy} />
-    );
+    const { getByTestId, baseElement } = renderProvider(<TrackGridContainer tracks={tracks} />);
 
     fireEvent.change(getByTestId(artistSearchBarId), {
       target: {
@@ -79,7 +88,7 @@ describe('<TrackGridContainer /> container tests', () => {
 
   it('should show message when tracks are empty for invalid artist name', async () => {
     const artistName = 'kabdsfkhaxj';
-    const { getByTestId } = renderProvider(<TrackGridContainer artist={artistName} dispatchGetTracks={submitSpy} />);
+    const { getByTestId } = renderProvider(<TrackGridContainer artist={artistName} />);
 
     expect(getByTestId('tunes-artist')).toHaveTextContent(translate('itunes_artist_name', { artistName }));
     await waitFor(() => expect(getByTestId('empty-track-text')).toBeInTheDocument());
@@ -153,9 +162,80 @@ describe('<TrackGridContainer /> container tests', () => {
   });
 
   it('should show error messages when tunesError is passed', () => {
-    const tunesError = translate('something_went_wrong');
-    const { getByTestId } = renderProvider(<TrackGridContainer tracksError={tunesError} />);
+    const tracksError = translate('something_went_wrong');
+    const { getByTestId } = renderProvider(<TrackGridContainer tracksError={tracksError} />);
 
-    expect(getByTestId('tunes-error')).toHaveTextContent(tunesError);
+    expect(getByTestId('tunes-error')).toHaveTextContent(tracksError);
+  });
+
+  it('should show error notification for CORS error when tracksError is NETWORK_ERROR', async () => {
+    const tracksError = 'NETWORK_ERROR';
+    const { baseElement } = renderProvider(<TrackGridContainer tracksError={tracksError} />);
+    await waitFor(() =>
+      expect(baseElement.getElementsByClassName('ant-notification-notice-message')[0]).toHaveTextContent(
+        CORS_ERROR_MESSAGE
+      )
+    );
+  });
+
+  it('should set currentTrackRef to the playing audioRef', async () => {
+    const playSpy = jest.spyOn(window.HTMLMediaElement.prototype, 'play').mockImplementation(() => {});
+    jest.spyOn(window.HTMLMediaElement.prototype, 'pause').mockImplementation(() => {});
+    const previewUrl =
+      'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/c3/30/11/c3301120-3e69-9a93-3cf7-bdb49133d40b/mzaf_1948113783309339626.plus.aac.p.m4a';
+    const tracks = {
+      123: { trackId: 123, previewUrl }
+    };
+
+    const { getByTestId } = renderProvider(<TrackGridContainer tracks={tracks} />);
+    const togglePlayBtn = getByTestId(TOGGLE_PLAY_BTN_TEST_ID);
+    // const audioTrack = getByTestId('audio-track');
+    fireEvent.click(togglePlayBtn);
+    await waitFor(() => expect(playSpy).toBeCalled());
+  });
+
+  it('should set currentTrackRef to null if audio ended', async () => {
+    const playSpy = jest.spyOn(window.HTMLMediaElement.prototype, 'play').mockImplementation(async () => {
+      await timeout(200);
+      window.dispatchEvent(new Event('pause'));
+    });
+    // jest.spyOn(window.HTMLMediaElement.prototype, 'pause').mockImplementation(() => {
+    // });
+    const previewUrl =
+      'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/c3/30/11/c3301120-3e69-9a93-3cf7-bdb49133d40b/mzaf_1948113783309339626.plus.aac.p.m4a';
+    const tracks = {
+      123: { trackId: 123, previewUrl }
+    };
+
+    const { getByTestId } = renderProvider(<TrackGridContainer tracks={tracks} />);
+    const togglePlayBtn = getByTestId(TOGGLE_PLAY_BTN_TEST_ID);
+    const audioTrack = getByTestId('audio-track');
+    fireEvent.click(togglePlayBtn);
+    await waitFor(() => expect(audioTrack.paused).toBe(false));
+    // await waitFor(() => expect(playSpy).toBeCalled());
+    fireEvent(audioTrack, new Event('ended'));
+    await waitFor(() => expect(audioTrack.paused).toBe(true));
+    // playSpy.mockReset();
+  });
+
+  it('should change currentTrackRef while playing second audio', async () => {
+    // jest.spyOn(window.HTMLMediaElement.prototype, 'pause').mockImplementation(() => {});
+    const playSpy = jest.spyOn(window.HTMLMediaElement.prototype, 'play').mockImplementation(() => {});
+
+    const previewUrl =
+      'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/c3/30/11/c3301120-3e69-9a93-3cf7-bdb49133d40b/mzaf_1948113783309339626.plus.aac.p.m4a';
+    const tracks = {
+      123: { trackId: 123, previewUrl },
+      312: { trackId: 321, previewUrl }
+    };
+
+    const { getAllByTestId } = renderProvider(<TrackGridContainer tracks={tracks} />);
+
+    const togglePlayBtns = getAllByTestId(TOGGLE_PLAY_BTN_TEST_ID);
+    // const audioTracks = getAllByTestId('audio-track');
+    fireEvent.click(togglePlayBtns[0]);
+    await waitFor(() => expect(playSpy).toBeCalledTimes(1));
+    fireEvent.click(togglePlayBtns[1]);
+    await waitFor(() => expect(playSpy).toBeCalledTimes(2));
   });
 });

@@ -28,37 +28,6 @@ exports[`<TrackCard /> tests should render and match the snapshot 1`] = `
                 style="height: 100%;"
               />
             </div>
-            <button
-              class="ant-btn ant-btn-primary ant-btn-circle ant-btn-icon-only TrackCard__PlayPauseButton-sc-10bk196-4 hULbdm"
-              data-testid="play-pause-btn"
-              title="Preview"
-              type="button"
-            >
-              <span
-                aria-label="play-circle"
-                class="anticon anticon-play-circle"
-                role="img"
-              >
-                <svg
-                  aria-hidden="true"
-                  data-icon="play-circle"
-                  fill="currentColor"
-                  focusable="false"
-                  height="1em"
-                  viewBox="64 64 896 896"
-                  width="1em"
-                >
-                  <path
-                    d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm144.1 454.9L437.7 677.8a8.02 8.02 0 01-12.7-6.5V353.7a8 8 0 0112.7-6.5L656.1 506a7.9 7.9 0 010 12.9z"
-                  />
-                </svg>
-              </span>
-            </button>
-            <audio
-              class="TrackCard__StyledAudio-sc-10bk196-11 gNFhFl"
-              data-testid="audio-track"
-              preload="none"
-            />
           </div>
           <a
             class="TrackCard__StyledLink-sc-10bk196-6 gfOyIk"

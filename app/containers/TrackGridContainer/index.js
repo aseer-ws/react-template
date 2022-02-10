@@ -8,10 +8,10 @@ import For from '@app/components/For';
 import If from '@app/components/If';
 import { T } from '@app/components/T';
 import TrackCard from '@app/components/TrackCard';
-import { Card, Input, Skeleton } from 'antd';
+import { Card, Input, notification, Skeleton } from 'antd';
 import { debounce, isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useRef, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
@@ -78,6 +78,8 @@ export const StyledTracksContainer = styled.div`
 
 const { requestGetTracks, clearTracks } = trackProviderCreators;
 
+export const CORS_ERROR_MESSAGE = 'iTunes API CORS issue';
+
 export function TrackGridContainer({
   artist,
   tracks,
@@ -89,6 +91,20 @@ export function TrackGridContainer({
   dispatchClearTracks
 }) {
   const [loading, setLoading] = useState(false);
+  const currentTrackRef = useRef(null);
+
+  function onTrackToggle(trackRef) {
+    if (currentTrackRef?.current !== trackRef?.current && !currentTrackRef?.current?.paused) {
+      currentTrackRef?.current?.pause();
+      currentTrackRef.current = trackRef?.current;
+    } else {
+      console.log('on pause toggle');
+      if (currentTrackRef?.current?.ended) {
+        console.log('ended track current ref null');
+        currentTrackRef.current = null;
+      }
+    }
+  }
 
   useEffect(() => {
     if (!isEmpty(artist) && isEmpty(tracks)) {
@@ -110,6 +126,18 @@ export function TrackGridContainer({
     dispatchGetTracks(artistName);
   };
 
+  useEffect(() => {
+    if (tracksError === 'NETWORK_ERROR') {
+      notification.error({
+        message: CORS_ERROR_MESSAGE,
+        description: 'Try back after some time',
+        placement: 'bottomRight',
+        duration: 5000,
+        type: 'error'
+      });
+    }
+  }, [tracksError]);
+
   const handleDebouncedSearch = debounce(onArtistSearch, 500);
 
   const renderSongsTrack = () => {
@@ -129,12 +157,14 @@ export function TrackGridContainer({
             </If>
           </If>
         </CustomCard>
-        <If condition={!isEmpty(tracks)}>
+        <If condition={!isEmpty(tracks) && typeof tracks === 'object'}>
           <CustomCard margintop={1}>
             <For
               ParentComponent={StyledTracksContainer}
-              of={typeof tracks === 'object' && Object.values(tracks)}
-              renderItem={(item) => <TrackCard key={item.trackId} skeletonLoading={loading} {...item} />}
+              of={Object.values(tracks || {})}
+              renderItem={(item) => (
+                <TrackCard key={item.trackId} skeletonLoading={loading} onTrackToggle={onTrackToggle} {...item} />
+              )}
             />
           </CustomCard>
         </If>
@@ -193,7 +223,8 @@ TrackGridContainer.propTypes = {
 
 TrackGridContainer.defaultProps = {
   maxWidth: 1000,
-  padding: 2
+  padding: 2,
+  dispatchGetTracks: () => {}
 };
 
 const mapStateToProps = createStructuredSelector({
