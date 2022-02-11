@@ -187,6 +187,24 @@ describe('<TrackGridContainer /> container tests', () => {
     await waitFor(() => expect(playSpy).toBeCalled());
   });
 
+  it('should set currentTrackRef to null if audio paused', async () => {
+    const playSpy = createSpyOnAudio('play');
+    const pauseSpy = createSpyOnAudio('pause');
+    const previewUrl =
+      'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/c3/30/11/c3301120-3e69-9a93-3cf7-bdb49133d40b/mzaf_1948113783309339626.plus.aac.p.m4a';
+    const tracks = {
+      123: { trackId: 123, previewUrl }
+    };
+
+    const { getByTestId } = renderProvider(<TrackGridContainer tracks={tracks} />);
+
+    fireEvent.click(getByTestId(TOGGLE_PLAY_BTN_TEST_ID));
+    await waitFor(() => expect(playSpy).toBeCalledTimes(1));
+    Object.defineProperty(window.HTMLAudioElement.prototype, 'paused', { value: true, writable: true });
+    fireEvent.click(getByTestId(TOGGLE_PLAY_BTN_TEST_ID));
+    await waitFor(() => expect(pauseSpy).toBeCalledTimes(1));
+  });
+
   it('should set currentTrackRef to null if audio ended', async () => {
     const playSpy = createSpyOnAudio('play');
     const pauseSpy = createSpyOnAudio('pause');
@@ -199,10 +217,10 @@ describe('<TrackGridContainer /> container tests', () => {
 
     const { getByTestId } = renderProvider(<TrackGridContainer tracks={tracks} />);
 
-    fireEvent.click(getByTestId('play-pause-btn'));
+    fireEvent.click(getByTestId(TOGGLE_PLAY_BTN_TEST_ID));
     await waitFor(() => expect(playSpy).toBeCalledTimes(1));
     Object.defineProperty(window.HTMLAudioElement.prototype, 'ended', { value: true, writable: true });
-    fireEvent.click(getByTestId('play-pause-btn'));
+    fireEvent.click(getByTestId(TOGGLE_PLAY_BTN_TEST_ID));
     await waitFor(() => expect(pauseSpy).toBeCalledTimes(1));
   });
 

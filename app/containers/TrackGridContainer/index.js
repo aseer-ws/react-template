@@ -98,9 +98,7 @@ export function TrackGridContainer({
       currentTrackRef?.current?.pause();
       currentTrackRef.current = trackRef?.current;
     } else {
-      if (currentTrackRef?.current && (currentTrackRef.current.ended || currentTrackRef.current.paused)) {
-        currentTrackRef.current = null;
-      }
+      currentTrackRef.current = null;
     }
   }
 

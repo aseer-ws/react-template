@@ -63,12 +63,21 @@ describe('TrackProvider saga tests', () => {
     expect(getTrackGenerator.next(apiResponse).value).toEqual(put(successGetTrack(trackFromGetTunesAPI.results[0])));
   });
 
-  it('should dispatch FAILURE_GET_TRACKS when call effect failed to get track', () => {
+  it('should dispatch FAILURE_GET_TRACK when call effect failed to get track', () => {
     const getTrackGenerator = getCurrentTrack({ trackId });
     getTrackGenerator.next();
     getTrackGenerator.next(undefined);
     const errorRes = 'Unable to find the track';
     const apiResponse = apiResponseGenerator(false, errorRes);
+    expect(getTrackGenerator.next(apiResponse).value).toEqual(put(failureGetTrack(errorRes)));
+  });
+
+  it("should dispatch FAILURE_GET_TRACK with problem when when call effect failure couldn't return error data ", () => {
+    const getTrackGenerator = getCurrentTrack({ trackId });
+    getTrackGenerator.next();
+    getTrackGenerator.next(undefined);
+    const errorRes = 'NETWORK_ERROR';
+    const apiResponse = apiResponseGenerator(false, undefined, errorRes);
     expect(getTrackGenerator.next(apiResponse).value).toEqual(put(failureGetTrack(errorRes)));
   });
 
@@ -82,6 +91,16 @@ describe('TrackProvider saga tests', () => {
     expect(getTracksGenerator.next(apiResponseGenerator(false, errorResponse)).value).toEqual(
       put(failureGetTracks(errorResponse))
     );
+  });
+
+  it('should ensure that the action FAILURE_GET_TRACKS is dispatched with problem if no error data', () => {
+    const getTracksGenerator = getArtistTracks({ artistName });
+    const res = getTracksGenerator.next().value;
+    expect(res).toEqual(call(getTunes, artistName));
+    const errorMessage = 'There is an while fetching songs for the artist';
+
+    const apiResponse = apiResponseGenerator(false, undefined, errorMessage);
+    expect(getTracksGenerator.next(apiResponse).value).toEqual(put(failureGetTracks(errorMessage)));
   });
 
   it('should ensure that the action SUCCESS_GET_TRACKS is dispatched when api is success', () => {

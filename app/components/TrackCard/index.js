@@ -155,12 +155,12 @@ function TrackCard({
   const togglePlay = () => setPlaying((p) => !p);
 
   function onPause() {
-    if (playing) {
-      togglePlay();
-      if (audioRef.current.ended) {
-        onTrackToggle(audioRef);
-      }
+    // if (playing) {
+    togglePlay();
+    if (audioRef.current.ended) {
+      onTrackToggle(audioRef);
     }
+    // }
   }
 
   function onPlayPause() {

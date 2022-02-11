@@ -1,3 +1,4 @@
+import { initialState } from '../reducer';
 import {
   selectArtist,
   selectTracks,
@@ -38,6 +39,10 @@ describe('TrackProvider selector tests', () => {
 
   it('should select trackProvider using selectTrackProviderDomain', () => {
     expect(selectTrackProviderDomain(mockedState)).toEqual(mockedState.trackProvider);
+  });
+
+  it('should select initialState using selectTrackProviderDomain if trackProvider is not in state', () => {
+    expect(selectTrackProviderDomain({})).toEqual(initialState);
   });
 
   it('should select artistName using selectArtist selector', () => {
