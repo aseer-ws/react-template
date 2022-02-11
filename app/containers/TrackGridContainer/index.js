@@ -94,13 +94,11 @@ export function TrackGridContainer({
   const currentTrackRef = useRef(null);
 
   function onTrackToggle(trackRef) {
-    if (currentTrackRef?.current !== trackRef?.current && !currentTrackRef?.current?.paused) {
+    if (currentTrackRef?.current !== trackRef.current && !currentTrackRef?.current?.paused) {
       currentTrackRef?.current?.pause();
       currentTrackRef.current = trackRef?.current;
     } else {
-      console.log('on pause toggle');
-      if (currentTrackRef?.current?.ended) {
-        console.log('ended track current ref null');
+      if (currentTrackRef?.current && (currentTrackRef.current.ended || currentTrackRef.current.paused)) {
         currentTrackRef.current = null;
       }
     }

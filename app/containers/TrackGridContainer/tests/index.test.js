@@ -10,21 +10,11 @@ import { TOGGLE_PLAY_BTN_TEST_ID } from '@app/components/TrackCard';
 import { mapDispatchToProps } from '@app/containers/TrackGridContainer';
 import { trackProviderTypes } from '@app/containers/TrackProvider/reducer';
 import { fireEvent, waitFor } from '@testing-library/react';
-import { renderProvider, timeout } from '@utils/testUtils';
+import { createSpyOnAudio, renderProvider, timeout } from '@utils/testUtils';
 import { createBrowserHistory } from 'history';
 import React from 'react';
 import { Router } from 'react-router-dom';
 import { CORS_ERROR_MESSAGE, TrackGridContainerTest as TrackGridContainer } from '../index';
-
-function deb() {
-  console.log('logg');
-}
-
-jest.mock('styled-components', () => {
-  const actualStyled = jest.requireActual('styled-components');
-  console.log({ actualStyled });
-  return actualStyled;
-});
 
 describe('<TrackGridContainer /> container tests', () => {
   let submitSpy;
@@ -34,6 +24,11 @@ describe('<TrackGridContainer /> container tests', () => {
     submitSpy = jest.fn();
     artistSearchBarId = 'artist-search-bar';
   });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should render and match the snapshot', () => {
     const { baseElement } = renderProvider(<TrackGridContainer />);
     expect(baseElement).toMatchSnapshot();
@@ -179,8 +174,7 @@ describe('<TrackGridContainer /> container tests', () => {
   });
 
   it('should set currentTrackRef to the playing audioRef', async () => {
-    const playSpy = jest.spyOn(window.HTMLMediaElement.prototype, 'play').mockImplementation(() => {});
-    jest.spyOn(window.HTMLMediaElement.prototype, 'pause').mockImplementation(() => {});
+    const playSpy = createSpyOnAudio('play');
     const previewUrl =
       'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/c3/30/11/c3301120-3e69-9a93-3cf7-bdb49133d40b/mzaf_1948113783309339626.plus.aac.p.m4a';
     const tracks = {
@@ -189,18 +183,14 @@ describe('<TrackGridContainer /> container tests', () => {
 
     const { getByTestId } = renderProvider(<TrackGridContainer tracks={tracks} />);
     const togglePlayBtn = getByTestId(TOGGLE_PLAY_BTN_TEST_ID);
-    // const audioTrack = getByTestId('audio-track');
     fireEvent.click(togglePlayBtn);
     await waitFor(() => expect(playSpy).toBeCalled());
   });
 
   it('should set currentTrackRef to null if audio ended', async () => {
-    const playSpy = jest.spyOn(window.HTMLMediaElement.prototype, 'play').mockImplementation(async () => {
-      await timeout(200);
-      window.dispatchEvent(new Event('pause'));
-    });
-    // jest.spyOn(window.HTMLMediaElement.prototype, 'pause').mockImplementation(() => {
-    // });
+    const playSpy = createSpyOnAudio('play');
+    const pauseSpy = createSpyOnAudio('pause');
+    Object.defineProperty(window.HTMLAudioElement.prototype, 'playbackRate', { value: 16 });
     const previewUrl =
       'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/c3/30/11/c3301120-3e69-9a93-3cf7-bdb49133d40b/mzaf_1948113783309339626.plus.aac.p.m4a';
     const tracks = {
@@ -208,20 +198,16 @@ describe('<TrackGridContainer /> container tests', () => {
     };
 
     const { getByTestId } = renderProvider(<TrackGridContainer tracks={tracks} />);
-    const togglePlayBtn = getByTestId(TOGGLE_PLAY_BTN_TEST_ID);
-    const audioTrack = getByTestId('audio-track');
-    fireEvent.click(togglePlayBtn);
-    await waitFor(() => expect(audioTrack.paused).toBe(false));
-    // await waitFor(() => expect(playSpy).toBeCalled());
-    fireEvent(audioTrack, new Event('ended'));
-    await waitFor(() => expect(audioTrack.paused).toBe(true));
-    // playSpy.mockReset();
+
+    fireEvent.click(getByTestId('play-pause-btn'));
+    await waitFor(() => expect(playSpy).toBeCalledTimes(1));
+    Object.defineProperty(window.HTMLAudioElement.prototype, 'ended', { value: true, writable: true });
+    fireEvent.click(getByTestId('play-pause-btn'));
+    await waitFor(() => expect(pauseSpy).toBeCalledTimes(1));
   });
 
   it('should change currentTrackRef while playing second audio', async () => {
-    // jest.spyOn(window.HTMLMediaElement.prototype, 'pause').mockImplementation(() => {});
-    const playSpy = jest.spyOn(window.HTMLMediaElement.prototype, 'play').mockImplementation(() => {});
-
+    const playSpy = createSpyOnAudio('play').mockImplementation(() => {});
     const previewUrl =
       'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/c3/30/11/c3301120-3e69-9a93-3cf7-bdb49133d40b/mzaf_1948113783309339626.plus.aac.p.m4a';
     const tracks = {

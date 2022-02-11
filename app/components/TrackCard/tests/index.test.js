@@ -1,12 +1,8 @@
 import { translate } from '@app/components/IntlGlobalProvider';
-import { renderProvider } from '@app/utils/testUtils';
+import { renderProvider, createSpyOnAudio } from '@app/utils/testUtils';
 import { fireEvent, waitFor } from '@testing-library/react';
 import React from 'react';
 import TrackCard, { TOGGLE_PLAY_BTN_TEST_ID } from '..';
-
-function createSpyOnMedia(event) {
-  return jest.spyOn(window.HTMLAudioElement.prototype, event).mockImplementation(() => {});
-}
 
 describe('<TrackCard /> tests', () => {
   let trackUrl;
@@ -20,13 +16,12 @@ describe('<TrackCard /> tests', () => {
       'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/fb/55/23/fb552336-6b1f-99d7-31b0-55fa6f1796e1/mzaf_11062059991207198732.plus.aac.p.m4a';
     playPauseButtonId = TOGGLE_PLAY_BTN_TEST_ID;
     // audioTrack = 'audio-track';
-    playSpy = createSpyOnMedia('play');
-    pauseSpy = createSpyOnMedia('pause');
+    playSpy = createSpyOnAudio('play');
+    pauseSpy = createSpyOnAudio('pause');
   });
 
   afterEach(() => {
-    playSpy?.mockReset();
-    pauseSpy?.mockReset();
+    jest.clearAllMocks();
   });
 
   it('should render and match the snapshot', () => {
@@ -102,14 +97,11 @@ describe('<TrackCard /> tests', () => {
   //     </>
   //   );
   //   const trackElements = getAllByTestId(playPauseButtonId);
-  //   playSpy = jest.spyOn(window.HTMLAudioElement.prototype, 'play');
-  //   pauseSpy = jest.spyOn(window.HTMLAudioElement.prototype, 'pause');
   //   fireEvent.click(trackElements[0]);
   //   await waitFor(() => expect(playSpy).toHaveBeenCalledTimes(1));
   //   fireEvent.click(trackElements[1]);
 
-  //   await waitFor(() => expect(toggleSpy).toHaveBeenCalledTimes(1));
-  //   await waitFor(() => expect(pauseSpy).toHaveBeenCalledTimes(1));
+  //   await waitFor(() => expect(toggleSpy).toHaveBeenCalledTimes(2));
   //   await waitFor(() => expect(playSpy).toHaveBeenCalledTimes(2));
   // });
 
@@ -117,17 +109,20 @@ describe('<TrackCard /> tests', () => {
     const { getByTestId } = renderProvider(<TrackCard previewUrl={trackUrl} />);
     fireEvent.click(getByTestId(playPauseButtonId));
     await waitFor(() => expect(playSpy).toHaveBeenCalledTimes(1));
+    const audioTrack = getByTestId('audio-track');
     expect(getByTestId('track-image')).toHaveAttribute('animate', 'true');
-    fireEvent.pause(getByTestId('audio-track'));
+    fireEvent.pause(audioTrack);
     expect(getByTestId('track-image')).toHaveAttribute('animate', 'false');
   });
 
-  // it('should set StyleImage prop "animate" back "false" when audio is ended', async () => {
-  //   const { getByTestId } = renderProvider(<TrackCard previewUrl={trackUrl} />);
-  //   fireEvent.click(getByTestId(playPauseButtonId));
-  //   await waitFor(() => expect(playSpy).toHaveBeenCalledTimes(1));
-  //   expect(getByTestId('track-image')).toHaveAttribute('animate', 'true');
-  //   fireEvent.ended(getByTestId('audio-track'));
-  //   expect(getByTestId('track-image')).toHaveAttribute('animate', 'false');
-  // });
+  it('should set StyleImage prop "animate" back "false" when audio is ended', async () => {
+    Object.defineProperty(window.HTMLAudioElement.prototype, 'playbackRate', { value: 16 });
+    const { getByTestId } = renderProvider(<TrackCard previewUrl={trackUrl} />);
+    fireEvent.click(getByTestId(playPauseButtonId));
+    await waitFor(() => expect(playSpy).toHaveBeenCalledTimes(1));
+    expect(getByTestId('track-image')).toHaveAttribute('animate', 'true');
+    Object.defineProperty(window.HTMLAudioElement.prototype, 'ended', { value: true, writable: true });
+    fireEvent.pause(getByTestId('audio-track'));
+    expect(getByTestId('track-image')).toHaveAttribute('animate', 'false');
+  });
 });

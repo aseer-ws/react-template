@@ -8,7 +8,7 @@ exports[`<TrackCard /> tests should render and match the snapshot 1`] = `
       data-testid="track-card"
     >
       <div
-        class="ant-card ant-card-bordered TrackCard__StyledTrackCard-sc-10bk196-1 kUSZcD"
+        class="ant-card ant-card-bordered TrackCard__StyledTrackCard-sc-10bk196-1 wiOID"
       >
         <div
           class="ant-card-body"
@@ -34,7 +34,7 @@ exports[`<TrackCard /> tests should render and match the snapshot 1`] = `
             href="/tracks/undefined"
           >
             <div
-              class="TrackCard__TrackInfoContainer-sc-10bk196-5 bVzCZI"
+              class="TrackCard__TrackInfoContainer-sc-10bk196-5 gOyiNc"
             >
               <p
                 class="T__StyledText-gjlic1-0 jbStwN TrackCard__TrackName-sc-10bk196-7 fbXCyA"

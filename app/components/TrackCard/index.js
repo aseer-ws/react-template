@@ -29,7 +29,6 @@ const StyledTrackCard = styled(Card)`
       display: flex;
 
       &:hover {
-        cursor: pointer;
         box-shadow: 0 0 10px 1px lightgray;
       }
       ${media.lessThan('mobile')`
@@ -99,6 +98,7 @@ const PlayPauseButton = styled(Button)`
 const TrackInfoContainer = styled.div`
   color: inherit;
   flex: 1;
+  cursor: pointer;
 `;
 
 const StyledLink = styled(Link)`
@@ -132,8 +132,8 @@ export const TrackGenre = styled(Badge)`
   }
 `;
 
-export const StyledAudio = styled.audio`
-  display: none;
+const StyledAudio = styled.audio`
+  visibility: hidden;
 `;
 
 export const TOGGLE_PLAY_BTN_TEST_ID = 'play-pause-btn';
@@ -155,21 +155,22 @@ function TrackCard({
   const togglePlay = () => setPlaying((p) => !p);
 
   function onPause() {
-    console.log('onPause');
     if (playing) {
       togglePlay();
+      if (audioRef.current.ended) {
+        onTrackToggle(audioRef);
+      }
     }
-    onTrackToggle(audioRef);
   }
 
   function onPlayPause() {
     if (!playing) {
       audioRef?.current?.play();
       togglePlay();
-      onTrackToggle(audioRef);
     } else {
       audioRef?.current?.pause();
     }
+    onTrackToggle(audioRef);
   }
 
   return (

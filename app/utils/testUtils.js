@@ -45,3 +45,7 @@ export const apiResponseGenerator = (ok, data) => ({
   ok,
   data
 });
+
+export const createSpyOnAudio = function (methodName, target, customImplementation = () => {}) {
+  return jest.spyOn(target ?? window.HTMLAudioElement.prototype, methodName).mockImplementation(customImplementation);
+};
