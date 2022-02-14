@@ -16,7 +16,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '14'
-          cahe: 'yarn'
+          cache: 'yarn'
 
       - name: Install Dependecies and Build
         run: yarn && yarn build
@@ -27,7 +27,7 @@ jobs:
           aws-regin: ap-south-1
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-scret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      
+
       - name: Sync with AWS Bucket
         run: aws s3 sync ./build s3://itunes-dj.com
 
