@@ -12,6 +12,7 @@ describe('Tests for baseUrl method in history', () => {
   });
   it('should the path /react-template in production', () => {
     process.env.NODE_ENV = 'production';
+    process.env.PUBLIC_PATH = '/react-template';
     expect(baseUrl()).toEqual('/react-template');
   });
 
