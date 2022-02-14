@@ -12,15 +12,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Install
+      - name: Install Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '14'
           cahe: 'yarn'
-        run: yarn
 
-      - name: Build
-        run: yarn build
+      - name: Install Dependecies and Build
+        run: yarn && yarn build
 
       - name: Setup AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
