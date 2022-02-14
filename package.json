@@ -25,7 +25,7 @@
     "build:dev": "export ENVIRONMENT_NAME=development && cross-env NODE_ENV=production webpack --config internals/webpack/webpack.config.dev.js --color --progress",
     "build:clean": "rimraf ./build",
     "predeploy": "yarn build && yarn build-storybook -o build/stories",
-    "deploy": "cross-env PUBLIC_PATH=/react-template gh-pages -d build",
+    "deploy": "gh-pages -d build",
     "start": "export ENVIRONMENT_NAME=local && cross-env NODE_ENV=development node server",
     "start:tunnel": "cross-env NODE_ENV=development ENABLE_TUNNEL=true node server",
     "start:production": "npm run test && npm run build && npm run start:prod",
