@@ -1,0 +1,33 @@
+name: AWS S3 Static Site Deploy
+on:
+  [merge, push]:
+    branches: [release]
+jobs:
+  aws_deply:
+    name: Deploy to AWS
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          cahe: 'yarn'
+        run: yarn
+
+      - name: Build
+        run: yarn build
+
+      - name: Sync with S3
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-regin: ap-south-1
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-scret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: aws s3 sync ./build s3://itunes-dj.com
+
+      - name: Clear Cloudfront Cache
+        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
