@@ -30,7 +30,7 @@ exports[`<TrackCard /> tests should render and match the snapshot 1`] = `
             </div>
           </div>
           <a
-            class="TrackCard__StyledLink-sc-10bk196-6 gfOyIk"
+            class="TrackCard__StyledLink-sc-10bk196-6 cxgbvG"
             href="/tracks/undefined"
           >
             <div

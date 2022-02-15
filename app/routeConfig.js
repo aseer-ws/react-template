@@ -1,8 +1,8 @@
 import NotFound from '@containers/NotFoundPage/Loadable';
 import HomeContainer from '@containers/HomeContainer/Loadable';
-import TrackGridContainer from './containers/TrackGridContainer/Loadable';
+import TrackGridContainer from '@containers/TrackGridContainer/Loadable';
 import routeConstants from '@utils/routeConstants';
-import TrackContainer from './containers/TrackContainer/Loadable';
+import TrackContainer from '@containers/TrackContainer/Loadable';
 export const routeConfig = {
   repos: {
     component: HomeContainer,
