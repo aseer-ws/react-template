@@ -7,18 +7,18 @@ export default {
     },
     exact: true
   },
-  trackGrid: {
-    route: '/',
-    props: {
-      maxWidth: 1500,
-      padding: 1
-    },
-    exact: true
-  },
   track: {
     route: '/tracks/:trackId',
     props: {
       maxWidth: 800,
+      padding: 1
+    },
+    exact: true
+  },
+  trackGrid: {
+    route: '/',
+    props: {
+      maxWidth: 1500,
       padding: 1
     },
     exact: true

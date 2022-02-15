@@ -4,8 +4,22 @@ import routeConstants from './routeConstants';
 
 const routes = Object.keys(routeConstants);
 
+export function findCommonRoutePrefix(routeArr) {
+  let maxCommon = routeArr[0];
+  for (let i = 1; i < routeArr.length - 1; i++) {
+    const loopCount = routeArr[i].length > maxCommon.length ? maxCommon.length : routeArr[i + 1].length;
+    stringLoop: for (let j = 0; j < loopCount; j++) {
+      if (maxCommon[j] !== routeArr[i][j]) {
+        maxCommon = routeArr[i + 1].substring(0, j);
+        break stringLoop;
+      }
+    }
+  }
+  return maxCommon;
+}
+
 export function getBaseUrl(pathname) {
-  let baseURL = undefined;
+  let baseURLCollection = [];
 
   if (process.env.ENVIRONMENT_NAME === 'uat') {
     routes.forEach((routeKey) => {
@@ -14,43 +28,37 @@ export function getBaseUrl(pathname) {
         // console.log('inside not : ->', { baseURL });
         if (pathname.substring(pathname.length - route.length, pathname.length) === route) {
           // console.log('matching here');
-          baseURL = pathname.substring(0, pathname.length - route.length);
+          baseURLCollection.push(pathname.substring(0, pathname.length - route.length));
         }
-        if (pathname.substring(pathname.length - route.length, pathname.length - 1) === `${route}/`) {
-          baseURL = pathname.substring(0, pathname.length - route.length - 1);
+        if (pathname.substring(pathname.length - route.length - 1, pathname.length) === `${route}/`) {
+          baseURLCollection.push(pathname.substring(0, pathname.length - route.length - 1));
         }
       } else {
         if (route.includes(':')) {
           // console.log('inside : ->', { baseURL });
           const regex = /^(?!:)\/[\w]+/;
           const matches = regex.exec(route);
-          if (!matches) {
-            return;
-          }
+
           let matchLastIndex = pathname.lastIndexOf(matches[0]);
-          while (matchLastIndex !== -1) {
-            // const matchLastIndex = pathname.lastIndexOf(matches[0]);
-            const pathToMatch = pathname.substring(matchLastIndex);
-            const isMatch = matchPath(pathToMatch, {
-              path: route,
-              exact: true
-            });
-            if (isMatch) {
-              baseURL = pathname.substring(0, matchLastIndex);
-              break;
-            }
-            matchLastIndex = pathname.substring(0, matchLastIndex).indexOf(matches[0]);
+          // const matchLastIndex = pathname.lastIndexOf(matches[0]);
+          const pathToMatch = pathname.substring(matchLastIndex);
+          const isMatch = matchPath(pathToMatch, {
+            path: route,
+            exact: true
+          });
+          if (isMatch) {
+            baseURLCollection.push(pathname.substring(0, matchLastIndex));
           }
         }
       }
     });
-    if (typeof baseURL === 'undefined') {
+    if (!baseURLCollection.length) {
       // console.log('made it into undefined if section');
-      baseURL = pathname;
+      return pathname;
     }
+    return findCommonRoutePrefix(baseURLCollection);
   }
-
-  return baseURL ?? '';
+  return '';
 }
 
 // [DONE] http://localhost:3000/directory/ <-> '/'
