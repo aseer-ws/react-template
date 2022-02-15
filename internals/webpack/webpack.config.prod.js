@@ -9,6 +9,8 @@ const { isUAT, getBasePublicPath } = require('../utils');
 
 const publicPath = getBasePublicPath();
 
+console.log(publicPath);
+
 module.exports = require('./webpack.config.base')({
   mode: 'production',
   // In production, we skip all hot-reloading stuff

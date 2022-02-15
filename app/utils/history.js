@@ -3,9 +3,8 @@ import { matchPath } from 'react-router';
 import routeConstants from './routeConstants';
 
 const routes = Object.keys(routeConstants);
-const pathname = window.location.pathname;
 
-export function getBaseUrl() {
+export function getBaseUrl(pathname) {
   let baseURL = undefined;
 
   if (process.env.ENVIRONMENT_NAME === 'uat') {
@@ -54,6 +53,8 @@ export function getBaseUrl() {
   return baseURL ?? '';
 }
 
+console.log(getBaseUrl('/feat/uat/tracks/123'));
+
 // [DONE] http://localhost:3000/directory/ <-> '/'
 // [DONE] http://localhost:3000/directory/tracks <-> '/tracks'
 // [TODO] http://localhost:3000/directory <-> ''
@@ -62,5 +63,5 @@ export function getBaseUrl() {
 // [DONE] directory === feat/itunes
 // [DONE] directory === feat/tracks
 
-const history = createBrowserHistory({ basename: getBaseUrl() });
+const history = createBrowserHistory({ basename: getBaseUrl(window.location.pathname) });
 export default history;

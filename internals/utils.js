@@ -11,3 +11,5 @@ function getBasePublicPath() {
 }
 
 module.exports = { getBasePublicPath, isUAT };
+
+module.exports = { getBasePublicPath, isUAT };
