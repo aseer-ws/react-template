@@ -36,7 +36,12 @@ describe('history tests', () => {
   });
 
   it('should get the common prefix if passed in arrays of string in findCommonRoutePrefix', () => {
-    const routeArr = ['/feat/auth/artist/jarvis/tracks', '/feat/auth/artist', '/feat/auth/artist/jarvis'];
-    expect(findCommonRoutePrefix(routeArr)).toBe(routeArr[1]);
+    const routeArr = [
+      '/feat/auth/artist/jarvis/tracks',
+      '/feat/auth/artist',
+      '/feat/auth/artist/jarvis',
+      '/feat/auth/art1st'
+    ];
+    expect(findCommonRoutePrefix(routeArr)).toBe('/feat/auth/art');
   });
 });

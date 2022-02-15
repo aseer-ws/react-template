@@ -6,11 +6,13 @@ const routes = Object.keys(routeConstants);
 
 export function findCommonRoutePrefix(routeArr) {
   let maxCommon = routeArr[0];
-  for (let i = 1; i < routeArr.length - 1; i++) {
-    const loopCount = routeArr[i].length > maxCommon.length ? maxCommon.length : routeArr[i + 1].length;
-    stringLoop: for (let j = 0; j < loopCount; j++) {
-      if (maxCommon[j] !== routeArr[i][j]) {
-        maxCommon = routeArr[i + 1].substring(0, j);
+  for (let i = 1; i < routeArr.length; i++) {
+    stringLoop: for (let j = 0; j < maxCommon.length; j++) {
+      if (!routeArr[i][j]) {
+        maxCommon = routeArr[i];
+        break stringLoop;
+      } else if (maxCommon[j] !== routeArr[i][j]) {
+        maxCommon = routeArr[i].substring(0, j);
         break stringLoop;
       }
     }
