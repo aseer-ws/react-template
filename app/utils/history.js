@@ -53,8 +53,6 @@ export function getBaseUrl(pathname) {
   return baseURL ?? '';
 }
 
-console.log(getBaseUrl('/feat/uat/tracks/123'));
-
 // [DONE] http://localhost:3000/directory/ <-> '/'
 // [DONE] http://localhost:3000/directory/tracks <-> '/tracks'
 // [TODO] http://localhost:3000/directory <-> ''

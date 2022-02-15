@@ -35,7 +35,7 @@ jobs:
         run: yarn
 
       - name: Build
-        run: export BRANCH_NAME=${{ steps.vars.outputs.branch }} && yarn build
+        run: export BRANCH_NAME=${{ steps.vars.outputs.branch }} && yarn build:uat
 
       - name: AWS S3 Deploy
         uses: jakejarvis/s3-sync-action@v0.5.0
