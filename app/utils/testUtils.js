@@ -41,7 +41,12 @@ export const renderProvider = (children) => {
   );
 };
 export const timeout = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-export const apiResponseGenerator = (ok, data) => ({
+export const apiResponseGenerator = (ok, data, problem) => ({
   ok,
-  data
+  data,
+  problem
 });
+
+export const createSpyOnAudio = function (methodName, target, customImplementation = () => {}) {
+  return jest.spyOn(target ?? window.HTMLAudioElement.prototype, methodName).mockImplementation(customImplementation);
+};

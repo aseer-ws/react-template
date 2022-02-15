@@ -10,7 +10,7 @@ describe('Tests for getCurrentRouteDetails method', () => {
 
   it('should return the details of the route', () => {
     let location = { pathname: '/' };
-    expect(getCurrentRouteDetails(location)).toEqual(routeConstants['tunes']);
+    expect(getCurrentRouteDetails(location)).toEqual(routeConstants['trackGrid']);
   });
 
   it('should return null of the route if pathname is not in routeConstants', () => {
