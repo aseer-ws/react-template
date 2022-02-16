@@ -10,8 +10,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { ConnectedRouter } from 'connected-react-router';
 import { PersistGate } from 'redux-persist/integration/react';
+import { Router } from 'react-router-dom';
 import history from 'utils/history';
 import 'sanitize.css/sanitize.css';
 
@@ -44,11 +44,11 @@ const render = (messages) => {
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <LanguageProvider messages={messages}>
-            <ConnectedRouter history={history}>
+            <Router history={history}>
               <ScrollToTop>
                 <App />
               </ScrollToTop>
-            </ConnectedRouter>
+            </Router>
           </LanguageProvider>
         </PersistGate>
       </Provider>
