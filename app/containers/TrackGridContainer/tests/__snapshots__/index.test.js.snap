@@ -6,13 +6,33 @@ exports[`<TrackGridContainer /> container tests should render and match the snap
     <div
       class="Container-sc-1vnn72p-0 PyDtG"
     >
-      <a
-        class="TrackGridContainer__StyledLink-i3keot-1 elJtgN"
-        data-testid="repos-redirect"
-        href="/repos"
+      <div
+        class="ant-space ant-space-vertical ant-space-align-center"
       >
-        Goto GitHub Repos
-      </a>
+        <div
+          class="ant-space-item"
+          style="margin-bottom: 8px;"
+        >
+          <a
+            class="TrackGridContainer__StyledLink-i3keot-1 elJtgN"
+            data-testid="repos-redirect"
+            href="/repos"
+          >
+            Goto GitHub Repos
+          </a>
+        </div>
+        <div
+          class="ant-space-item"
+        >
+          <a
+            class="TrackGridContainer__StyledLink-i3keot-1 elJtgN"
+            data-testid="add-track-redirect"
+            href="/add-track"
+          >
+            Add Track
+          </a>
+        </div>
+      </div>
       <header
         class="TrackGridContainer__StyledHeader-i3keot-3 YpDaB"
       >

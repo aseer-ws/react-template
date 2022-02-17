@@ -27,5 +27,6 @@
   "track_genre_unavailable": "Track Genere is unavailable",
   "artist_name_unavailable": "Artist name is unavailable",
   "release_date_unavailable": "Track release date is unknown",
-  "track_preview_unavailable": "Track preview is unavailable"
+  "track_preview_unavailable": "Track preview is unavailable",
+  "add_track_header_text": "Add track"
 }

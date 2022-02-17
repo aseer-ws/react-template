@@ -1,6 +1,7 @@
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
-export default styled.div`
+const Container = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -8,3 +9,15 @@ export default styled.div`
   max-width: ${(props) => props.maxWidth}px;
   padding: ${(props) => props.padding}rem;
 `;
+
+Container.propTypes = {
+  maxWidth: PropTypes.number,
+  padding: PropTypes.number
+};
+
+Container.defaultProps = {
+  maxWidth: 1000,
+  padding: 1
+};
+
+export default Container;
