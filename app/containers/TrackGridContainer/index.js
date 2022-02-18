@@ -4,6 +4,7 @@
  *
  */
 
+import Container from '@app/components/Container';
 import For from '@app/components/For';
 import If from '@app/components/If';
 import { T } from '@app/components/T';
@@ -20,9 +21,14 @@ import { compose } from 'redux';
 import { injectSaga } from 'redux-injectors';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
-import { trackProviderCreators } from '../TrackProvider/reducer';
-import trackProviderSaga from '../TrackProvider/saga';
-import { selectArtist, selectTrackCount, selectTracks, selectTracksError } from '../TrackProvider/selectors';
+import { trackProviderCreators } from '@app/containers/TrackProvider/reducer';
+import trackProviderSaga from '@app/containers/TrackProvider/saga';
+import {
+  selectArtist,
+  selectTrackCount,
+  selectTracks,
+  selectTracksError
+} from '@app/containers/TrackProvider/selectors';
 
 const { Search } = Input;
 
@@ -31,15 +37,6 @@ const CustomCard = styled(Card)`
     user-select: none;
     ${(props) => props.margintop && `margin-top: ${props.margintop}rem`}
   }
-`;
-
-export const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  margin: 2rem auto;
-  max-width: ${(props) => props.maxWidth}px;
-  padding: ${(props) => props.padding}rem;
 `;
 
 const StyledLink = styled(Link)`

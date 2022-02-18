@@ -4,17 +4,17 @@ exports[`<TrackGridContainer /> container tests should render and match the snap
 <body>
   <div>
     <div
-      class="TrackGridContainer__Container-i3keot-1 lbhoun"
+      class="Container-sc-1vnn72p-0 PyDtG"
     >
       <a
-        class="TrackGridContainer__StyledLink-i3keot-2 jhTgke"
+        class="TrackGridContainer__StyledLink-i3keot-1 elJtgN"
         data-testid="repos-redirect"
         href="/repos"
       >
         Goto GitHub Repos
       </a>
       <header
-        class="TrackGridContainer__StyledHeader-i3keot-4 dFylmS"
+        class="TrackGridContainer__StyledHeader-i3keot-3 YpDaB"
       >
         <p
           class="T__StyledText-gjlic1-0 fXFRhA"
@@ -23,7 +23,7 @@ exports[`<TrackGridContainer /> container tests should render and match the snap
           Welcome to iTunes API
         </p>
         <span
-          class="ant-input-group-wrapper ant-input-search TrackGridContainer__StyledArtistSearch-i3keot-3 cVWqRw"
+          class="ant-input-group-wrapper ant-input-search TrackGridContainer__StyledArtistSearch-i3keot-2 bgHrHp"
         >
           <span
             class="ant-input-wrapper ant-input-group"

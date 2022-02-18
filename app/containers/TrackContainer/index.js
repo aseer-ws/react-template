@@ -5,6 +5,7 @@
  */
 
 import CollectionModal from '@app/components/CollectionModal';
+import Container from '@app/components/Container';
 import If from '@app/components/If';
 import { getLimitLineCSS, T } from '@app/components/T';
 import { colors, media } from '@app/themes';
@@ -20,10 +21,9 @@ import { compose } from 'redux';
 import { injectSaga } from 'redux-injectors';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
-import { Container } from '../TrackGridContainer';
-import { trackProviderCreators } from '../TrackProvider/reducer';
-import trackProviderSaga from '../TrackProvider/saga';
-import { selectTrack, selectTrackError } from '../TrackProvider/selectors';
+import { trackProviderCreators } from '@app/containers/TrackProvider/reducer';
+import trackProviderSaga from '@app/containers/TrackProvider/saga';
+import { selectTrack, selectTrackError } from '@app/containers/TrackProvider/selectors';
 
 const TrackContent = styled.div`
   position: relative;

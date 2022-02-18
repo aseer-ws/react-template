@@ -3,7 +3,6 @@
  */
 
 import { createStore, applyMiddleware, compose } from 'redux';
-import { routerMiddleware } from 'connected-react-router';
 import createSagaMiddleware from 'redux-saga';
 import { persistStore, persistReducer } from 'redux-persist';
 import immutableTransform from 'redux-persist-transform-immutable';
@@ -22,7 +21,7 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, createReducer());
 
-export default function configureStore(initialState = {}, history) {
+export default function configureStore(initialState = {}) {
   let composeEnhancers = compose;
   const reduxSagaMonitorOptions = {};
 
@@ -48,7 +47,7 @@ export default function configureStore(initialState = {}, history) {
   // Create the store with two middlewares
   // 1. sagaMiddleware: Makes redux-sagas work
   // 2. routerMiddleware: Syncs the location/URL path to the state
-  const middlewares = [sagaMiddleware, routerMiddleware(history)];
+  const middlewares = [sagaMiddleware];
   const enhancers = [applyMiddleware(...middlewares)];
   const runSaga = sagaMiddleware.run;
   const injectEnhancer = createInjectorsEnhancer({

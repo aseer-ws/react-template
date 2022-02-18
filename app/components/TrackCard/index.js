@@ -103,8 +103,14 @@ const TrackInfoContainer = styled.div`
 
 const StyledLink = styled(Link)`
   && {
+    display: block;
+    width: 100%;
     color: black;
     text-decoration: none;
+
+    ${media.lessThan('mobile')`
+      text-align: center;
+    `}
   }
 `;
 

@@ -4,7 +4,7 @@ exports[`<TrackContainer /> container tests should render and match the snapshot
 <body>
   <div>
     <div
-      class="TrackGridContainer__Container-i3keot-1 kxovhs"
+      class="Container-sc-1vnn72p-0 iOkZIh"
     >
       <div
         class="ant-skeleton ant-skeleton-active"
