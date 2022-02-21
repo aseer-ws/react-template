@@ -34,7 +34,9 @@
         }
         console.log('made it out of loop');
       }
-      getSPAHTML();
+      if (!!pathname) {
+        getSPAHTML();
+      }
     </script>
   </head>
   <body>
