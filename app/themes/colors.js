@@ -5,17 +5,19 @@
  * That allows to change them more easily later on.
  */
 
-const primary = '#fcedda';
-const text = '#212529';
-const secondary = '#f8c49c';
-const success = '#28a745';
-const error = '#dc3545';
-const gotoStories = '#1890ff';
+const primary = '#26547C';
+const text = '#69353F';
+const textSecondary = '#f2f2f2';
+const secondary = '#EFF8E2';
+const success = '#70A9A1';
+const error = '#ED474A';
+const gotoStories = '#2E6171';
 
 const colors = {
   transparent: 'rgba(0,0,0,0)',
   // Example colors:
   text,
+  textSecondary,
   primary,
   secondary,
   success,

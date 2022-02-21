@@ -70,7 +70,10 @@ module.exports = (options) => ({
               lessOptions: {
                 javascriptEnabled: true,
                 modifyVars: {
-                  'primary-color': colors.secondary
+                  'primary-color': colors.primary,
+                  'error-color': colors.error,
+                  'success-color': colors.success,
+                  'border-radius-base': '5px'
                 }
               },
               implementation: require('less')

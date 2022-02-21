@@ -32,6 +32,7 @@ const Title = styled(T)`
     margin-bottom: 0;
     ${fonts.dynamicFontSize(fonts.size.xRegular, 1, 0.5)};
     display: flex;
+    color: ${colors.textSecondary};
     align-self: center;
   }
 `;
