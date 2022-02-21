@@ -180,7 +180,7 @@ function TrackCard({
   }
 
   const DetailsWrapper = trackId
-    ? { Component: StyledLink, props: { href: `/tracks/${trackId}` } }
+    ? { Component: StyledLink, props: { to: `/tracks/${trackId}` } }
     : { Component: React.Fragment, props: {} };
 
   return (
