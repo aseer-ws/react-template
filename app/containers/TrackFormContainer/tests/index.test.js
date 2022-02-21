@@ -30,6 +30,7 @@ describe('<TrackFormContainer /> container tests', () => {
   let resetSpy;
   let setFormSpy;
   let routeProps;
+  let dummyFile;
 
   beforeAll(() => {
     window.HTMLCanvasElement.prototype.getContext = function () {};
@@ -191,10 +192,10 @@ describe('<TrackFormContainer /> container tests', () => {
 
     const uploadInput = getByTestId('uploader');
 
-    const dummyHTML = new File(['<h1>Welcome</h1>', '<p>World</p>'], 'index.html', { type: 'text/html' });
+    dummyFile = new File(['<h1>Welcome</h1>', '<p>World</p>'], 'index.html', { type: 'text/html' });
     fireEvent.change(uploadInput, {
       target: {
-        files: [dummyHTML]
+        files: [dummyFile]
       }
     });
 
@@ -215,11 +216,11 @@ describe('<TrackFormContainer /> container tests', () => {
     );
 
     const uploadInput = getByTestId('uploader');
-    const dummyImage = new File(['somestuff'], 'camera.jpeg', { type: 'image/jpeg' });
-    Object.defineProperty(dummyImage, 'size', { value: 2.1 * 1024 * 1024 });
+    dummyFile = new File(['somestuff'], 'camera.jpeg', { type: 'image/jpeg' });
+    Object.defineProperty(dummyFile, 'size', { value: 2.1 * 1024 * 1024 });
     fireEvent.change(uploadInput, {
       target: {
-        files: [dummyImage]
+        files: [dummyFile]
       }
     });
 
@@ -240,41 +241,15 @@ describe('<TrackFormContainer /> container tests', () => {
     );
 
     const uploadInput = getByTestId('uploader');
-    const dummyImage = new File(['somestuff2'], 'camera.jpeg', { type: 'image/jpeg' });
-    Object.defineProperty(dummyImage, 'size', { value: 10 });
+    dummyFile = new File(['somestuff2'], 'camera.jpeg', { type: 'image/jpeg' });
+    Object.defineProperty(dummyFile, 'size', { value: 10 });
     fireEvent.change(uploadInput, {
       target: {
-        files: [dummyImage]
+        files: [dummyFile]
       }
     });
-
-    await waitFor(() => expectMessage(baseElement, 'error', `${dummyImage.name} file upload failed.`));
+    await waitFor(() => expectMessage(baseElement, 'error', `${dummyFile.name} file upload failed.`));
   });
-
-  // it('should show message for successful image upload', async () => {
-  //   history.location.pathname = '/add-track/upload';
-  //   const { baseElement, getByTestId } = renderProvider(
-  //     <TrackFormContainer
-  //       formValues={initialValues}
-  //       fillForm={fillSpy}
-  //       resetForm={resetSpy}
-  //       setFormValues={setFormSpy}
-  //       maxWidth={800}
-  //     />,
-  //     routeProps
-  //   );
-
-  //   const uploadInput = getByTestId('uploader');
-  //   const dummyImage = new File(['somestuff2'], 'camera.jpeg', { type: 'image/jpeg' });
-  //   fireEvent.change(uploadInput, {
-  //     target: {
-  //       files: [dummyImage]
-  //     }
-  //   });
-  //   console.log({ dummyImage });
-
-  //   await waitFor(() => expectMessage(baseElement, 'success', `${dummyImage.name} file uploaded successfully`));
-  // });
 
   it('should submit values to dummyApi and gives success notification and opens modal', async () => {
     history.location.pathname = '/add-track/upload';
@@ -289,13 +264,13 @@ describe('<TrackFormContainer /> container tests', () => {
       routeProps
     );
     const uploadInput = getByTestId('uploader');
-    const dummyImage = new File(['somestuff2'], 'camera.jpeg', { type: 'image/jpeg' });
+    dummyFile = new File(['abcde', 'sutffagain'], 'camera1.jpeg', { type: 'image/jpeg' });
     fireEvent.change(uploadInput, {
       target: {
-        files: [dummyImage]
+        files: [dummyFile]
       }
     });
-    await waitFor(() => expectMessage(baseElement, 'error', `${dummyImage.name} file upload failed.`));
+    await waitFor(() => expectMessage(baseElement, 'error', `${dummyFile.name} file upload failed.`));
 
     const submitBtn = getByTestId('submit-btn');
     process.env.TEST_MOCK_STATUS_CODE = 200;
@@ -320,18 +295,19 @@ describe('<TrackFormContainer /> container tests', () => {
       routeProps
     );
     const uploadInput = getByTestId('uploader');
-    const dummyImage = new File(['somestuff2'], 'camera.jpeg', { type: 'image/jpeg' });
+    dummyFile = new File(['somestuff2'], 'camera.jpeg', { type: 'image/jpeg' });
     fireEvent.change(uploadInput, {
       target: {
-        files: [dummyImage]
+        files: [dummyFile]
       }
     });
-    await waitFor(() => expectMessage(baseElement, 'error', `${dummyImage.name} file upload failed.`));
+    await waitFor(() => expectMessage(baseElement, 'error', `${dummyFile.name} file upload failed.`));
 
     const submitBtn = getByTestId('submit-btn');
     process.env.TEST_MOCK_STATUS_CODE = 400;
     fireEvent.click(submitBtn);
     await waitFor(() => expect(getNotifElm(baseElement)).toBeInTheDocument());
+    notification.destroy();
   });
 
   it('should maptchDispatchToProps should dispatch action of specific type', () => {
