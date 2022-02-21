@@ -14,7 +14,7 @@
         while (newPathname) {
           console.log({ newPathname });
           // remove empty strings in the edges after split
-          var pathnames = newPathname.split('/').slice(1, pathname.length - 1);
+          var pathnames = newPathname.split('/').filter((val) => val !== '');
           var updatedPathname = '';
           for (let i = 0; i < pathnames.length - 1; i++) {
             updatedPathname += `/${pathnames[i]}`;
