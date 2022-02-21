@@ -24,7 +24,7 @@ export default {
     exact: true
   },
   trackForm: {
-    route: '/add-track',
+    route: '/add-track/:stepTitle?',
     props: {
       maxWidth: 600
     },

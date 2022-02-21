@@ -29,39 +29,34 @@ exports[`<TrackCard /> tests should render and match the snapshot 1`] = `
               />
             </div>
           </div>
-          <a
-            class="TrackCard__StyledLink-sc-10bk196-6 cxgbvG"
-            href="/tracks/undefined"
+          <div
+            class="TrackCard__TrackInfoContainer-sc-10bk196-5 gOyiNc"
           >
-            <div
-              class="TrackCard__TrackInfoContainer-sc-10bk196-5 gOyiNc"
+            <p
+              class="T__StyledText-gjlic1-0 jbStwN TrackCard__TrackName-sc-10bk196-7 kYdkoW"
+              data-testid="track_name_unavailable"
             >
-              <p
-                class="T__StyledText-gjlic1-0 jbStwN TrackCard__TrackName-sc-10bk196-7 fbXCyA"
-                data-testid="track_name_unavailable"
-              >
-                Track name is unavailable
-              </p>
-              <p
-                class="T__StyledText-gjlic1-0 jbStwN TrackCard__TrackCollectionName-sc-10bk196-8 DicOb"
-                data-testid="collection_name_unavailable"
-              >
-                Collection name is unavailable
-              </p>
-              <p
-                class="T__StyledText-gjlic1-0 jbStwN TrackCard__TrackPrice-sc-10bk196-9 fJqBXj"
-                data-testid="track_price_unavailable"
-              >
-                Track price is unavailable
-              </p>
-              <p
-                class="T__StyledText-gjlic1-0 jbStwN"
-                data-testid="track_genre_unavailable"
-              >
-                Track Genere is unavailable
-              </p>
-            </div>
-          </a>
+              Track name is unavailable
+            </p>
+            <p
+              class="T__StyledText-gjlic1-0 jbStwN TrackCard__TrackCollectionName-sc-10bk196-8 DicOb"
+              data-testid="collection_name_unavailable"
+            >
+              Collection name is unavailable
+            </p>
+            <p
+              class="T__StyledText-gjlic1-0 jbStwN TrackCard__TrackPrice-sc-10bk196-9 ruSDw"
+              data-testid="track_price_unavailable"
+            >
+              Track price is unavailable
+            </p>
+            <p
+              class="T__StyledText-gjlic1-0 jbStwN"
+              data-testid="track_genre_unavailable"
+            >
+              Track Genere is unavailable
+            </p>
+          </div>
         </div>
       </div>
     </article>

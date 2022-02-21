@@ -4,7 +4,7 @@ exports[`<TrackFormContainer /> container tests should render and match the snap
 <body>
   <div>
     <div
-      class="Container-sc-1vnn72p-0 bfkGzB"
+      class="Container-sc-1vnn72p-0 fyEgoE"
     >
       <div
         class="ant-card ant-card-bordered"
@@ -23,11 +23,13 @@ exports[`<TrackFormContainer /> container tests should render and match the snap
             </p>
           </header>
           <div
-            class="ant-steps ant-steps-horizontal ant-steps-large ant-steps-label-horizontal"
+            class="ant-steps ant-steps-horizontal ant-steps-label-horizontal"
+            data-testid="step-parent"
             style="margin-bottom: 2rem;"
           >
             <div
-              class="ant-steps-item ant-steps-item-process TrackFormContainer__CenteredStep-fni38k-3 dUZgWw ant-steps-item-active"
+              class="ant-steps-item ant-steps-item-process TrackFormContainer__CenteredStep-fni38k-3 fFkCEW ant-steps-item-active"
+              data-testid="0_step"
             >
               <div
                 class="ant-steps-item-container"
@@ -50,13 +52,14 @@ exports[`<TrackFormContainer /> container tests should render and match the snap
                   <div
                     class="ant-steps-item-title"
                   >
-                    Track
+                    TRACK
                   </div>
                 </div>
               </div>
             </div>
             <div
-              class="ant-steps-item ant-steps-item-wait TrackFormContainer__CenteredStep-fni38k-3 dUZgWw"
+              class="ant-steps-item ant-steps-item-wait TrackFormContainer__CenteredStep-fni38k-3 fFkCEW"
+              data-testid="1_step"
             >
               <div
                 class="ant-steps-item-container"
@@ -79,13 +82,14 @@ exports[`<TrackFormContainer /> container tests should render and match the snap
                   <div
                     class="ant-steps-item-title"
                   >
-                    Collection
+                    COLLECTION
                   </div>
                 </div>
               </div>
             </div>
             <div
-              class="ant-steps-item ant-steps-item-wait TrackFormContainer__CenteredStep-fni38k-3 dUZgWw"
+              class="ant-steps-item ant-steps-item-wait TrackFormContainer__CenteredStep-fni38k-3 fFkCEW"
+              data-testid="2_step"
             >
               <div
                 class="ant-steps-item-container"
@@ -108,13 +112,14 @@ exports[`<TrackFormContainer /> container tests should render and match the snap
                   <div
                     class="ant-steps-item-title"
                   >
-                    Artist
+                    ARTIST
                   </div>
                 </div>
               </div>
             </div>
             <div
-              class="ant-steps-item ant-steps-item-wait TrackFormContainer__CenteredStep-fni38k-3 dUZgWw"
+              class="ant-steps-item ant-steps-item-wait TrackFormContainer__CenteredStep-fni38k-3 fFkCEW"
+              data-testid="3_step"
             >
               <div
                 class="ant-steps-item-container"
@@ -137,7 +142,7 @@ exports[`<TrackFormContainer /> container tests should render and match the snap
                   <div
                     class="ant-steps-item-title"
                   >
-                    Upload
+                    UPLOAD
                   </div>
                 </div>
               </div>
@@ -145,9 +150,12 @@ exports[`<TrackFormContainer /> container tests should render and match the snap
           </div>
           <form
             class="ant-form ant-form-horizontal"
+            data-modal="false"
+            id="track-form"
           >
             <div
               class="ant-row ant-form-item"
+              data-testid="trackName_test"
             >
               <div
                 class="ant-col ant-col-7 ant-form-item-label"
@@ -171,6 +179,7 @@ exports[`<TrackFormContainer /> container tests should render and match the snap
                   >
                     <input
                       class="ant-input"
+                      data-testid="trackName"
                       id="trackName"
                       placeholder="Fill in track name"
                       type="text"
@@ -182,6 +191,7 @@ exports[`<TrackFormContainer /> container tests should render and match the snap
             </div>
             <div
               class="ant-row ant-form-item"
+              data-testid="trackPrice_test"
             >
               <div
                 class="ant-col ant-col-7 ant-form-item-label"
@@ -272,6 +282,7 @@ exports[`<TrackFormContainer /> container tests should render and match the snap
                           aria-valuenow="1"
                           autocomplete="off"
                           class="ant-input-number-input"
+                          data-testid="trackPrice"
                           id="trackPrice"
                           placeholder="Fill in track price"
                           role="spinbutton"
@@ -286,6 +297,7 @@ exports[`<TrackFormContainer /> container tests should render and match the snap
             </div>
             <div
               class="ant-row ant-form-item"
+              data-testid="primaryGenreName_test"
             >
               <div
                 class="ant-col ant-col-7 ant-form-item-label"
@@ -375,6 +387,7 @@ exports[`<TrackFormContainer /> container tests should render and match the snap
             </div>
             <div
               class="ant-row ant-form-item"
+              data-testid="releaseDate_test"
             >
               <div
                 class="ant-col ant-col-7 ant-form-item-label"
@@ -404,12 +417,13 @@ exports[`<TrackFormContainer /> container tests should render and match the snap
                       >
                         <input
                           autocomplete="off"
+                          data-testid="releaseDate"
                           id="releaseDate"
                           placeholder="Select date"
                           readonly=""
                           size="12"
-                          title="2021-10-09"
-                          value="2021-10-09"
+                          title="2022-01-20"
+                          value="2022-01-20"
                         />
                         <span
                           class="ant-picker-suffix"
@@ -466,6 +480,7 @@ exports[`<TrackFormContainer /> container tests should render and match the snap
             </div>
             <div
               class="ant-row ant-form-item"
+              data-testid="trackViewUrl_test"
             >
               <div
                 class="ant-col ant-col-7 ant-form-item-label"
@@ -489,6 +504,7 @@ exports[`<TrackFormContainer /> container tests should render and match the snap
                   >
                     <input
                       class="ant-input"
+                      data-testid="trackViewUrl"
                       id="trackViewUrl"
                       placeholder="https://track.com"
                       type="text"
@@ -499,6 +515,10 @@ exports[`<TrackFormContainer /> container tests should render and match the snap
               </div>
             </div>
             <div
+              class="ant-space ant-space-horizontal ant-space-align-center TrackFormContainer__SpreadSpace-fni38k-2 hykIwf"
+              style="text-align: center; width: 100%; margin: 1rem auto;"
+            />
+            <div
               class="ant-divider ant-divider-horizontal"
               role="separator"
             />
@@ -506,7 +526,7 @@ exports[`<TrackFormContainer /> container tests should render and match the snap
               class="ant-row ant-form-item"
             >
               <div
-                class="ant-col ant-col-17 ant-form-item-control"
+                class="ant-col ant-col-24 ant-form-item-control"
               >
                 <div
                   class="ant-form-item-control-input"
@@ -515,106 +535,80 @@ exports[`<TrackFormContainer /> container tests should render and match the snap
                     class="ant-form-item-control-input-content"
                   >
                     <div
-                      class="ant-space ant-space-horizontal ant-space-align-center"
+                      class="ant-space ant-space-vertical TrackFormContainer__SpreadSpace-fni38k-2 hykIwf"
                       style="text-align: center; width: 100%;"
                     >
                       <div
                         class="ant-space-item"
-                        style="margin-right: 8px;"
+                        style="margin-bottom: 10px;"
                       >
-                        <button
-                          class="ant-btn ant-btn-circle ant-btn-lg ant-btn-icon-only TrackFormContainer__CenterButton-fni38k-2 bBfjPr"
-                          disabled=""
-                          type="button"
+                        <div
+                          class="ant-space ant-space-horizontal ant-space-align-center"
                         >
-                          <span
-                            aria-label="arrow-left"
-                            class="anticon anticon-arrow-left"
-                            role="img"
+                          <div
+                            class="ant-space-item"
+                            style="margin-right: 8px;"
                           >
-                            <svg
-                              aria-hidden="true"
-                              data-icon="arrow-left"
-                              fill="currentColor"
-                              focusable="false"
-                              height="1em"
-                              viewBox="64 64 896 896"
-                              width="1em"
+                            <button
+                              class="ant-btn"
+                              data-testid="prev-btn"
+                              disabled=""
+                              type="button"
                             >
-                              <path
-                                d="M872 474H286.9l350.2-304c5.6-4.9 2.2-14-5.2-14h-88.5c-3.9 0-7.6 1.4-10.5 3.9L155 487.8a31.96 31.96 0 000 48.3L535.1 866c1.5 1.3 3.3 2 5.2 2h91.5c7.4 0 10.8-9.2 5.2-14L286.9 550H872c4.4 0 8-3.6 8-8v-60c0-4.4-3.6-8-8-8z"
-                              />
-                            </svg>
-                          </span>
-                        </button>
-                      </div>
-                      <div
-                        class="ant-space-item"
-                        style="margin-right: 8px;"
-                      >
-                        <button
-                          class="ant-btn ant-btn-primary"
-                          disabled=""
-                          type="submit"
-                        >
-                          <span>
-                            Submit
-                          </span>
-                        </button>
-                      </div>
-                      <div
-                        class="ant-space-item"
-                        style="margin-right: 8px;"
-                      >
-                        <button
-                          class="ant-btn"
-                          type="button"
-                        >
-                          <span>
-                            Reset
-                          </span>
-                        </button>
-                      </div>
-                      <div
-                        class="ant-space-item"
-                        style="margin-right: 8px;"
-                      >
-                        <button
-                          class="ant-btn ant-btn-dashed"
-                          type="button"
-                        >
-                          <span>
-                            Fill form
-                          </span>
-                        </button>
-                      </div>
-                      <div
-                        class="ant-space-item"
-                      >
-                        <button
-                          class="ant-btn ant-btn-circle ant-btn-lg ant-btn-icon-only TrackFormContainer__CenterButton-fni38k-2 bBfjPr"
-                          type="button"
-                        >
-                          <span
-                            aria-label="arrow-right"
-                            class="anticon anticon-arrow-right"
-                            role="img"
+                              <span>
+                                Prev
+                              </span>
+                            </button>
+                          </div>
+                          <div
+                            class="ant-space-item"
                           >
-                            <svg
-                              aria-hidden="true"
-                              data-icon="arrow-right"
-                              fill="currentColor"
-                              focusable="false"
-                              height="1em"
-                              viewBox="64 64 896 896"
-                              width="1em"
+                            <button
+                              class="ant-btn ant-btn-primary"
+                              data-testid="submit-btn"
+                              type="submit"
                             >
-                              <path
-                                d="M869 487.8L491.2 159.9c-2.9-2.5-6.6-3.9-10.5-3.9h-88.5c-7.4 0-10.8 9.2-5.2 14l350.2 304H152c-4.4 0-8 3.6-8 8v60c0 4.4 3.6 8 8 8h585.1L386.9 854c-5.6 4.9-2.2 14 5.2 14h91.5c1.9 0 3.8-.7 5.2-2L869 536.2a32.07 32.07 0 000-48.4z"
-                              />
-                            </svg>
-                          </span>
-                        </button>
+                              <span>
+                                Next
+                              </span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="ant-space-item"
+                      >
+                        <div
+                          class="ant-space ant-space-horizontal ant-space-align-center"
+                        >
+                          <div
+                            class="ant-space-item"
+                            style="margin-right: 8px;"
+                          >
+                            <button
+                              class="ant-btn"
+                              data-testid="reset-btn"
+                              type="button"
+                            >
+                              <span>
+                                Reset
+                              </span>
+                            </button>
+                          </div>
+                          <div
+                            class="ant-space-item"
+                          >
+                            <button
+                              class="ant-btn ant-btn-dashed"
+                              data-testid="fill-btn"
+                              type="button"
+                            >
+                              <span>
+                                Fill form
+                              </span>
+                            </button>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
