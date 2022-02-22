@@ -10,6 +10,8 @@ import For from '@app/components/For';
 import { T } from '@app/components/T';
 import TrackModal from '@app/components/TrackFormModal';
 import history from '@app/utils/history';
+import { validateRules } from 'rc-field-form/lib/utils/validateUtil';
+import { defaultValidateMessages } from 'rc-field-form/lib/utils/messages';
 import {
   Button,
   Card,
@@ -39,6 +41,7 @@ import styled from 'styled-components';
 import uploadTrackApi from './mockApi';
 import { fillValues, GENRE_ENUM, initialValues, trackFormContainerCreators } from './reducer';
 import { selectFormValues } from './selectors';
+import If from '@app/components/If';
 
 const StyledHeader = styled.header`
   height: 5rem;
@@ -75,6 +78,7 @@ const CenteredStep = styled(Steps.Step)`
 const validateMessages = {
   required: '${label} is required!',
   enum: '${label} must be one of',
+  whitespace: '${label} cannot be empty',
   types: {
     number: '${label} is not a valid number!',
     url: '${label} is not a valid url!'
@@ -90,7 +94,7 @@ export const trackFormSteps = {
       itemProps: {
         name: 'trackName',
         label: 'Track Name',
-        rules: [{ required: true }]
+        rules: [{ required: true, whitespace: true }]
       },
       componentProps: {
         placeholder: 'Fill in track name'
@@ -126,7 +130,7 @@ export const trackFormSteps = {
       itemProps: {
         name: 'releaseDate',
         label: 'Release Date',
-        rules: [{ required: true, type: 'date' }]
+        rules: [{ required: true }]
       },
       component: DatePicker,
       componentProps: {
@@ -149,7 +153,7 @@ export const trackFormSteps = {
       itemProps: {
         name: 'collectionName',
         label: 'Collection Name',
-        rules: [{ required: true }]
+        rules: [{ required: true, whitespace: true }]
       },
       componentProps: {
         placeholder: 'Fill in collection name'
@@ -184,7 +188,7 @@ export const trackFormSteps = {
       itemProps: {
         name: 'artistName',
         label: 'Artist Name',
-        rules: [{ required: true }]
+        rules: [{ required: true, whitespace: true }]
       },
       componentProps: {
         placeholder: 'Fill in artist name'
@@ -254,17 +258,66 @@ const TOTAL_STEPS = STEP_ROUTES.length;
 
 export const DATE_FORMAT = 'YYYY-MM-DD';
 
+async function validatePrevSteps(stepTitle, formValues, cb) {
+  const currentStep = STEP_TITLES[stepTitle];
+
+  const namePaths = [];
+  const pathValues = [];
+  const pathRules = [];
+
+  new Array(currentStep).fill(0).forEach((_, loopStep) => {
+    const steps = Object.values(trackFormSteps[loopStep]);
+    for (let step of steps) {
+      const { rules, name } = step.itemProps;
+      namePaths.push([name]);
+      pathValues.push(formValues[name]);
+      pathRules.push(rules);
+    }
+  });
+  if (namePaths.length) {
+    try {
+      const promises = namePaths.map(async (namePath, index) => {
+        // console.log({ namePath, value: pathValues[index], rules: pathRules[index] });
+        await validateRules(namePath, pathValues[index], pathRules[index], {
+          validateMessages: { ...defaultValidateMessages, ...validateMessages }
+        });
+      });
+      await Promise.all(promises);
+      cb();
+    } catch (errInfo) {
+      history.replace('/add-track/track');
+    }
+  }
+}
+
 export function TrackFormContainer({ maxWidth, formValues, setFormValues, resetForm, fillForm }) {
   const { stepTitle } = useParams();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [showTrack, setShowTrack] = useState(false);
+  const [loadingForm, setLoadingForm] = useState(true);
 
   useEffect(() => {
     if (!STEP_ROUTES.includes(stepTitle)) {
       history.replace(`/add-track/${STEP_ROUTES[0]}`);
     }
   }, [stepTitle]);
+
+  useEffect(() => {
+    function displayForm() {
+      setLoadingForm(false);
+    }
+    if (STEP_ROUTES.includes(stepTitle)) {
+      if (STEP_TITLES[stepTitle] === 0) {
+        displayForm();
+      } else {
+        validatePrevSteps(stepTitle, formValues, displayForm);
+      }
+    }
+    return () => {
+      setLoadingForm(true);
+    };
+  }, []);
 
   const toggleSpin = () => setLoading((load) => !load);
 
@@ -306,16 +359,93 @@ export function TrackFormContainer({ maxWidth, formValues, setFormValues, resetF
   }
 
   const onFileChange = useCallback(function (info) {
-    if (info.file.status !== 'uploading') {
-      message.info(info.file.name);
-    }
     if (info.file.status === 'error') {
       getBase64(info.file.originFileObj, (imgUrl) => {
         form.setFieldsValue({ artworkUrl: imgUrl });
+        console.log({ messageLog: true });
         message.error(`${info.file.name} file upload failed.`);
       });
     }
   }, []);
+
+  const formContainer = (
+    <>
+      <Steps
+        current={STEP_TITLES[stepTitle || 'track']}
+        status="process"
+        data-testid="step-parent"
+        style={{ marginBottom: '2rem' }}
+      >
+        {STEP_ROUTES.map((stepTitle, index) => (
+          <CenteredStep data-testid={`${index}_step`} key={stepTitle} title={String(stepTitle).toUpperCase()} />
+        ))}
+      </Steps>
+      <Form
+        id="track-form"
+        form={form}
+        layout="horizontal"
+        labelCol={{ span: 7 }}
+        wrapperCol={{ span: 17 }}
+        initialValues={{ ...formValues, releaseDate: moment(formValues?.releaseDate, DATE_FORMAT) }}
+        validateMessages={validateMessages}
+        onFinish={handleSubmit}
+        data-modal={showTrack}
+      >
+        {/* Step Form Inputs */}
+        {trackFormSteps[STEP_TITLES[stepTitle || 'track']]?.map(
+          ({ itemProps, component: Component = Input, componentProps }) => (
+            <Form.Item
+              data-testid={`${itemProps.name}_test`}
+              key={`loopStep_${itemProps.name}`}
+              {...itemProps}
+              {...(itemProps.name === 'artworkUrl' ? { getValueFromEvent: onFileChange } : {})}
+            >
+              <Component data-testid={itemProps.name} {...componentProps} />
+            </Form.Item>
+          )
+        )}
+        <SpreadSpace
+          style={{ textAlign: 'center', width: '100%', margin: '1rem auto', display: loadingForm && 'none' }}
+        >
+          <If condition={loading}>
+            <Spin />
+            <T text={STEP_ROUTES[TOTAL_STEPS - 1] === stepTitle ? 'Submitting' : 'Validating'} />
+          </If>
+        </SpreadSpace>
+        <Divider />
+        {/* Form Footer/Navigator */}
+        <Form.Item wrapperCol={{ span: 24 }}>
+          <SpreadSpace direction="vertical" size={10} style={{ textAlign: 'center', width: '100%' }}>
+            <Space>
+              <Button
+                data-testid="prev-btn"
+                disabled={STEP_TITLES[stepTitle || 'track'] === 0}
+                htmlType="button"
+                onClick={handlePrev}
+              >
+                Prev
+              </Button>
+              <Button data-testid="submit-btn" type="primary" htmlType="submit">
+                {stepTitle === STEP_ROUTES[TOTAL_STEPS - 1] ? 'Submit' : 'Next'}
+              </Button>
+            </Space>
+            {/* {process.env.NODE_ENV === 'development' && ( */}
+            <Space>
+              <>
+                <Button data-testid="reset-btn" htmlType="button" onClick={handleReset}>
+                  Reset
+                </Button>
+                <Button data-testid="fill-btn" type="dashed" htmlType="button" onClick={handleFillForm}>
+                  Fill form
+                </Button>
+              </>
+            </Space>
+            {/* )} */}
+          </SpreadSpace>
+        </Form.Item>
+      </Form>
+    </>
+  );
 
   return (
     <Container maxWidth={maxWidth}>
@@ -327,84 +457,10 @@ export function TrackFormContainer({ maxWidth, formValues, setFormValues, resetF
         <StyledHeader>
           <StyledHeaderText type="heading" id="add_track_header_text" />
         </StyledHeader>
-        {/* Steps */}
-        <Steps
-          current={STEP_TITLES[stepTitle || 'track']}
-          status="process"
-          data-testid="step-parent"
-          style={{ marginBottom: '2rem' }}
-        >
-          {STEP_ROUTES.map((stepTitle, index) => (
-            <CenteredStep data-testid={`${index}_step`} key={stepTitle} title={String(stepTitle).toUpperCase()} />
-          ))}
-        </Steps>
 
-        {/* Form */}
-        <Form
-          id="track-form"
-          form={form}
-          layout="horizontal"
-          labelCol={{ span: 7 }}
-          wrapperCol={{ span: 17 }}
-          initialValues={{ ...formValues, releaseDate: moment(formValues?.releaseDate, DATE_FORMAT) }}
-          validateMessages={validateMessages}
-          onFinish={handleSubmit}
-          data-modal={showTrack}
-        >
-          {/* Step Form Inputs */}
-          {trackFormSteps[STEP_TITLES[stepTitle || 'track']]?.map(
-            ({ itemProps, component: Component = Input, componentProps }) => (
-              <Form.Item
-                data-testid={`${itemProps.name}_test`}
-                key={`loopStep_${itemProps.name}`}
-                {...itemProps}
-                {...(itemProps.name === 'artworkUrl' ? { getValueFromEvent: onFileChange } : {})}
-              >
-                <Component data-testid={itemProps.name} {...componentProps} />
-              </Form.Item>
-            )
-          )}
-          <SpreadSpace style={{ textAlign: 'center', width: '100%', margin: '1rem auto' }}>
-            {loading && (
-              <>
-                <Spin />
-                <T text={STEP_ROUTES[TOTAL_STEPS - 1] === stepTitle ? 'Submitting' : 'Validating'} />
-              </>
-            )}
-          </SpreadSpace>
-
-          <Divider />
-          {/* Form Footer/Navigator */}
-          <Form.Item wrapperCol={{ span: 24 }}>
-            <SpreadSpace direction="vertical" size={10} style={{ textAlign: 'center', width: '100%' }}>
-              <Space>
-                <Button
-                  data-testid="prev-btn"
-                  disabled={STEP_TITLES[stepTitle || 'track'] === 0}
-                  htmlType="button"
-                  onClick={handlePrev}
-                >
-                  Prev
-                </Button>
-                <Button data-testid="submit-btn" type="primary" htmlType="submit">
-                  {stepTitle === STEP_ROUTES[TOTAL_STEPS - 1] ? 'Submit' : 'Next'}
-                </Button>
-              </Space>
-              {/* {process.env.NODE_ENV === 'development' && ( */}
-              <Space>
-                <>
-                  <Button data-testid="reset-btn" htmlType="button" onClick={handleReset}>
-                    Reset
-                  </Button>
-                  <Button data-testid="fill-btn" type="dashed" htmlType="button" onClick={handleFillForm}>
-                    Fill form
-                  </Button>
-                </>
-              </Space>
-              {/* )} */}
-            </SpreadSpace>
-          </Form.Item>
-        </Form>
+        {/* <Spin size="large" spinning={loadingForm} tip="Validating previous step">
+        </Spin> */}
+        {formContainer}
         <TrackModal
           handleCancel={() => setShowTrack(false)}
           trackDetails={formValues}

@@ -23,599 +23,611 @@ exports[`<TrackFormContainer /> container tests should render and match the snap
             </p>
           </header>
           <div
-            class="ant-steps ant-steps-horizontal ant-steps-label-horizontal"
-            data-testid="step-parent"
-            style="margin-bottom: 2rem;"
+            class="ant-spin-nested-loading"
           >
             <div
-              class="ant-steps-item ant-steps-item-process TrackFormContainer__CenteredStep-fni38k-3 fFkCEW ant-steps-item-active"
-              data-testid="0_step"
+              class="ant-spin-container"
             >
               <div
-                class="ant-steps-item-container"
+                class="ant-steps ant-steps-horizontal ant-steps-label-horizontal"
+                data-testid="step-parent"
+                style="margin-bottom: 2rem;"
               >
                 <div
-                  class="ant-steps-item-tail"
-                />
-                <div
-                  class="ant-steps-item-icon"
-                >
-                  <span
-                    class="ant-steps-icon"
-                  >
-                    1
-                  </span>
-                </div>
-                <div
-                  class="ant-steps-item-content"
+                  class="ant-steps-item ant-steps-item-process TrackFormContainer__CenteredStep-fni38k-3 fFkCEW ant-steps-item-active"
+                  data-testid="0_step"
                 >
                   <div
-                    class="ant-steps-item-title"
+                    class="ant-steps-item-container"
                   >
-                    TRACK
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="ant-steps-item ant-steps-item-wait TrackFormContainer__CenteredStep-fni38k-3 fFkCEW"
-              data-testid="1_step"
-            >
-              <div
-                class="ant-steps-item-container"
-              >
-                <div
-                  class="ant-steps-item-tail"
-                />
-                <div
-                  class="ant-steps-item-icon"
-                >
-                  <span
-                    class="ant-steps-icon"
-                  >
-                    2
-                  </span>
-                </div>
-                <div
-                  class="ant-steps-item-content"
-                >
-                  <div
-                    class="ant-steps-item-title"
-                  >
-                    COLLECTION
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="ant-steps-item ant-steps-item-wait TrackFormContainer__CenteredStep-fni38k-3 fFkCEW"
-              data-testid="2_step"
-            >
-              <div
-                class="ant-steps-item-container"
-              >
-                <div
-                  class="ant-steps-item-tail"
-                />
-                <div
-                  class="ant-steps-item-icon"
-                >
-                  <span
-                    class="ant-steps-icon"
-                  >
-                    3
-                  </span>
-                </div>
-                <div
-                  class="ant-steps-item-content"
-                >
-                  <div
-                    class="ant-steps-item-title"
-                  >
-                    ARTIST
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="ant-steps-item ant-steps-item-wait TrackFormContainer__CenteredStep-fni38k-3 fFkCEW"
-              data-testid="3_step"
-            >
-              <div
-                class="ant-steps-item-container"
-              >
-                <div
-                  class="ant-steps-item-tail"
-                />
-                <div
-                  class="ant-steps-item-icon"
-                >
-                  <span
-                    class="ant-steps-icon"
-                  >
-                    4
-                  </span>
-                </div>
-                <div
-                  class="ant-steps-item-content"
-                >
-                  <div
-                    class="ant-steps-item-title"
-                  >
-                    UPLOAD
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <form
-            class="ant-form ant-form-horizontal"
-            data-modal="false"
-            id="track-form"
-          >
-            <div
-              class="ant-row ant-form-item"
-              data-testid="trackName_test"
-            >
-              <div
-                class="ant-col ant-col-7 ant-form-item-label"
-              >
-                <label
-                  class="ant-form-item-required"
-                  for="trackName"
-                  title="Track Name"
-                >
-                  Track Name
-                </label>
-              </div>
-              <div
-                class="ant-col ant-col-17 ant-form-item-control"
-              >
-                <div
-                  class="ant-form-item-control-input"
-                >
-                  <div
-                    class="ant-form-item-control-input-content"
-                  >
-                    <input
-                      class="ant-input"
-                      data-testid="trackName"
-                      id="trackName"
-                      placeholder="Fill in track name"
-                      type="text"
-                      value=""
+                    <div
+                      class="ant-steps-item-tail"
                     />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="ant-row ant-form-item"
-              data-testid="trackPrice_test"
-            >
-              <div
-                class="ant-col ant-col-7 ant-form-item-label"
-              >
-                <label
-                  class="ant-form-item-required"
-                  for="trackPrice"
-                  title="Track Price"
-                >
-                  Track Price
-                </label>
-              </div>
-              <div
-                class="ant-col ant-col-17 ant-form-item-control"
-              >
-                <div
-                  class="ant-form-item-control-input"
-                >
-                  <div
-                    class="ant-form-item-control-input-content"
-                  >
                     <div
-                      class="ant-input-number"
+                      class="ant-steps-item-icon"
                     >
-                      <div
-                        class="ant-input-number-handler-wrap"
-                      >
-                        <span
-                          aria-disabled="false"
-                          aria-label="Increase Value"
-                          class="ant-input-number-handler ant-input-number-handler-up"
-                          role="button"
-                          unselectable="on"
-                        >
-                          <span
-                            aria-label="up"
-                            class="anticon anticon-up ant-input-number-handler-up-inner"
-                            role="img"
-                          >
-                            <svg
-                              aria-hidden="true"
-                              data-icon="up"
-                              fill="currentColor"
-                              focusable="false"
-                              height="1em"
-                              viewBox="64 64 896 896"
-                              width="1em"
-                            >
-                              <path
-                                d="M890.5 755.3L537.9 269.2c-12.8-17.6-39-17.6-51.7 0L133.5 755.3A8 8 0 00140 768h75c5.1 0 9.9-2.5 12.9-6.6L512 369.8l284.1 391.6c3 4.1 7.8 6.6 12.9 6.6h75c6.5 0 10.3-7.4 6.5-12.7z"
-                              />
-                            </svg>
-                          </span>
-                        </span>
-                        <span
-                          aria-disabled="false"
-                          aria-label="Decrease Value"
-                          class="ant-input-number-handler ant-input-number-handler-down"
-                          role="button"
-                          unselectable="on"
-                        >
-                          <span
-                            aria-label="down"
-                            class="anticon anticon-down ant-input-number-handler-down-inner"
-                            role="img"
-                          >
-                            <svg
-                              aria-hidden="true"
-                              data-icon="down"
-                              fill="currentColor"
-                              focusable="false"
-                              height="1em"
-                              viewBox="64 64 896 896"
-                              width="1em"
-                            >
-                              <path
-                                d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
-                              />
-                            </svg>
-                          </span>
-                        </span>
-                      </div>
-                      <div
-                        class="ant-input-number-input-wrap"
-                      >
-                        <input
-                          aria-valuemin="0"
-                          aria-valuenow="1"
-                          autocomplete="off"
-                          class="ant-input-number-input"
-                          data-testid="trackPrice"
-                          id="trackPrice"
-                          placeholder="Fill in track price"
-                          role="spinbutton"
-                          step="1"
-                          value="1"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="ant-row ant-form-item"
-              data-testid="primaryGenreName_test"
-            >
-              <div
-                class="ant-col ant-col-7 ant-form-item-label"
-              >
-                <label
-                  class="ant-form-item-required"
-                  for="primaryGenreName"
-                  title="Track Genre"
-                >
-                  Track Genre
-                </label>
-              </div>
-              <div
-                class="ant-col ant-col-17 ant-form-item-control"
-              >
-                <div
-                  class="ant-form-item-control-input"
-                >
-                  <div
-                    class="ant-form-item-control-input-content"
-                  >
-                    <div
-                      class="ant-select ant-select-single ant-select-show-arrow"
-                      data-testid="for"
-                      orientation="row"
-                    >
-                      <div
-                        class="ant-select-selector"
-                      >
-                        <span
-                          class="ant-select-selection-search"
-                        >
-                          <input
-                            aria-activedescendant="primaryGenreName_list_0"
-                            aria-autocomplete="list"
-                            aria-controls="primaryGenreName_list"
-                            aria-haspopup="listbox"
-                            aria-owns="primaryGenreName_list"
-                            autocomplete="off"
-                            class="ant-select-selection-search-input"
-                            id="primaryGenreName"
-                            readonly=""
-                            role="combobox"
-                            style="opacity: 0;"
-                            type="search"
-                            unselectable="on"
-                            value=""
-                          />
-                        </span>
-                        <span
-                          class="ant-select-selection-item"
-                          title="Jaz"
-                        >
-                          Jaz
-                        </span>
-                      </div>
                       <span
-                        aria-hidden="true"
-                        class="ant-select-arrow"
-                        style="user-select: none;"
-                        unselectable="on"
+                        class="ant-steps-icon"
                       >
-                        <span
-                          aria-label="down"
-                          class="anticon anticon-down ant-select-suffix"
-                          role="img"
-                        >
-                          <svg
-                            aria-hidden="true"
-                            data-icon="down"
-                            fill="currentColor"
-                            focusable="false"
-                            height="1em"
-                            viewBox="64 64 896 896"
-                            width="1em"
-                          >
-                            <path
-                              d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
-                            />
-                          </svg>
-                        </span>
+                        1
                       </span>
                     </div>
+                    <div
+                      class="ant-steps-item-content"
+                    >
+                      <div
+                        class="ant-steps-item-title"
+                      >
+                        TRACK
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ant-steps-item ant-steps-item-wait TrackFormContainer__CenteredStep-fni38k-3 fFkCEW"
+                  data-testid="1_step"
+                >
+                  <div
+                    class="ant-steps-item-container"
+                  >
+                    <div
+                      class="ant-steps-item-tail"
+                    />
+                    <div
+                      class="ant-steps-item-icon"
+                    >
+                      <span
+                        class="ant-steps-icon"
+                      >
+                        2
+                      </span>
+                    </div>
+                    <div
+                      class="ant-steps-item-content"
+                    >
+                      <div
+                        class="ant-steps-item-title"
+                      >
+                        COLLECTION
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ant-steps-item ant-steps-item-wait TrackFormContainer__CenteredStep-fni38k-3 fFkCEW"
+                  data-testid="2_step"
+                >
+                  <div
+                    class="ant-steps-item-container"
+                  >
+                    <div
+                      class="ant-steps-item-tail"
+                    />
+                    <div
+                      class="ant-steps-item-icon"
+                    >
+                      <span
+                        class="ant-steps-icon"
+                      >
+                        3
+                      </span>
+                    </div>
+                    <div
+                      class="ant-steps-item-content"
+                    >
+                      <div
+                        class="ant-steps-item-title"
+                      >
+                        ARTIST
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ant-steps-item ant-steps-item-wait TrackFormContainer__CenteredStep-fni38k-3 fFkCEW"
+                  data-testid="3_step"
+                >
+                  <div
+                    class="ant-steps-item-container"
+                  >
+                    <div
+                      class="ant-steps-item-tail"
+                    />
+                    <div
+                      class="ant-steps-item-icon"
+                    >
+                      <span
+                        class="ant-steps-icon"
+                      >
+                        4
+                      </span>
+                    </div>
+                    <div
+                      class="ant-steps-item-content"
+                    >
+                      <div
+                        class="ant-steps-item-title"
+                      >
+                        UPLOAD
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div
-              class="ant-row ant-form-item"
-              data-testid="releaseDate_test"
-            >
-              <div
-                class="ant-col ant-col-7 ant-form-item-label"
-              >
-                <label
-                  class="ant-form-item-required"
-                  for="releaseDate"
-                  title="Release Date"
-                >
-                  Release Date
-                </label>
-              </div>
-              <div
-                class="ant-col ant-col-17 ant-form-item-control"
+              <form
+                class="ant-form ant-form-horizontal"
+                data-modal="false"
+                id="track-form"
               >
                 <div
-                  class="ant-form-item-control-input"
+                  class="ant-row ant-form-item"
+                  data-testid="trackName_test"
                 >
                   <div
-                    class="ant-form-item-control-input-content"
+                    class="ant-col ant-col-7 ant-form-item-label"
+                  >
+                    <label
+                      class="ant-form-item-required"
+                      for="trackName"
+                      title="Track Name"
+                    >
+                      Track Name
+                    </label>
+                  </div>
+                  <div
+                    class="ant-col ant-col-17 ant-form-item-control"
                   >
                     <div
-                      class="ant-picker"
+                      class="ant-form-item-control-input"
                     >
                       <div
-                        class="ant-picker-input"
+                        class="ant-form-item-control-input-content"
                       >
                         <input
-                          autocomplete="off"
-                          data-testid="releaseDate"
-                          id="releaseDate"
-                          placeholder="Select date"
-                          readonly=""
-                          size="12"
-                          title="2022-01-20"
-                          value="2022-01-20"
+                          class="ant-input"
+                          data-testid="trackName"
+                          id="trackName"
+                          placeholder="Fill in track name"
+                          type="text"
+                          value=""
                         />
-                        <span
-                          class="ant-picker-suffix"
-                        >
-                          <span
-                            aria-label="calendar"
-                            class="anticon anticon-calendar"
-                            role="img"
-                          >
-                            <svg
-                              aria-hidden="true"
-                              data-icon="calendar"
-                              fill="currentColor"
-                              focusable="false"
-                              height="1em"
-                              viewBox="64 64 896 896"
-                              width="1em"
-                            >
-                              <path
-                                d="M880 184H712v-64c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v64H384v-64c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v64H144c-17.7 0-32 14.3-32 32v664c0 17.7 14.3 32 32 32h736c17.7 0 32-14.3 32-32V216c0-17.7-14.3-32-32-32zm-40 656H184V460h656v380zM184 392V256h128v48c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8v-48h256v48c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8v-48h128v136H184z"
-                              />
-                            </svg>
-                          </span>
-                        </span>
-                        <span
-                          class="ant-picker-clear"
-                          role="button"
-                        >
-                          <span
-                            aria-label="close-circle"
-                            class="anticon anticon-close-circle"
-                            role="img"
-                          >
-                            <svg
-                              aria-hidden="true"
-                              data-icon="close-circle"
-                              fill="currentColor"
-                              focusable="false"
-                              height="1em"
-                              viewBox="64 64 896 896"
-                              width="1em"
-                            >
-                              <path
-                                d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm165.4 618.2l-66-.3L512 563.4l-99.3 118.4-66.1.3c-4.4 0-8-3.5-8-8 0-1.9.7-3.7 1.9-5.2l130.1-155L340.5 359a8.32 8.32 0 01-1.9-5.2c0-4.4 3.6-8 8-8l66.1.3L512 464.6l99.3-118.4 66-.3c4.4 0 8 3.5 8 8 0 1.9-.7 3.7-1.9 5.2L553.5 514l130 155c1.2 1.5 1.9 3.3 1.9 5.2 0 4.4-3.6 8-8 8z"
-                              />
-                            </svg>
-                          </span>
-                        </span>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div
-              class="ant-row ant-form-item"
-              data-testid="trackViewUrl_test"
-            >
-              <div
-                class="ant-col ant-col-7 ant-form-item-label"
-              >
-                <label
-                  class="ant-form-item-required"
-                  for="trackViewUrl"
-                  title="Track URL"
-                >
-                  Track URL
-                </label>
-              </div>
-              <div
-                class="ant-col ant-col-17 ant-form-item-control"
-              >
                 <div
-                  class="ant-form-item-control-input"
+                  class="ant-row ant-form-item"
+                  data-testid="trackPrice_test"
                 >
                   <div
-                    class="ant-form-item-control-input-content"
+                    class="ant-col ant-col-7 ant-form-item-label"
                   >
-                    <input
-                      class="ant-input"
-                      data-testid="trackViewUrl"
-                      id="trackViewUrl"
-                      placeholder="https://track.com"
-                      type="text"
-                      value=""
-                    />
+                    <label
+                      class="ant-form-item-required"
+                      for="trackPrice"
+                      title="Track Price"
+                    >
+                      Track Price
+                    </label>
                   </div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="ant-space ant-space-horizontal ant-space-align-center TrackFormContainer__SpreadSpace-fni38k-2 hykIwf"
-              style="text-align: center; width: 100%; margin: 1rem auto;"
-            />
-            <div
-              class="ant-divider ant-divider-horizontal"
-              role="separator"
-            />
-            <div
-              class="ant-row ant-form-item"
-            >
-              <div
-                class="ant-col ant-col-24 ant-form-item-control"
-              >
-                <div
-                  class="ant-form-item-control-input"
-                >
                   <div
-                    class="ant-form-item-control-input-content"
+                    class="ant-col ant-col-17 ant-form-item-control"
                   >
                     <div
-                      class="ant-space ant-space-vertical TrackFormContainer__SpreadSpace-fni38k-2 hykIwf"
-                      style="text-align: center; width: 100%;"
+                      class="ant-form-item-control-input"
                     >
                       <div
-                        class="ant-space-item"
-                        style="margin-bottom: 10px;"
+                        class="ant-form-item-control-input-content"
                       >
                         <div
-                          class="ant-space ant-space-horizontal ant-space-align-center"
+                          class="ant-input-number"
                         >
                           <div
-                            class="ant-space-item"
-                            style="margin-right: 8px;"
+                            class="ant-input-number-handler-wrap"
                           >
-                            <button
-                              class="ant-btn"
-                              data-testid="prev-btn"
-                              disabled=""
-                              type="button"
+                            <span
+                              aria-disabled="false"
+                              aria-label="Increase Value"
+                              class="ant-input-number-handler ant-input-number-handler-up"
+                              role="button"
+                              unselectable="on"
                             >
-                              <span>
-                                Prev
+                              <span
+                                aria-label="up"
+                                class="anticon anticon-up ant-input-number-handler-up-inner"
+                                role="img"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  data-icon="up"
+                                  fill="currentColor"
+                                  focusable="false"
+                                  height="1em"
+                                  viewBox="64 64 896 896"
+                                  width="1em"
+                                >
+                                  <path
+                                    d="M890.5 755.3L537.9 269.2c-12.8-17.6-39-17.6-51.7 0L133.5 755.3A8 8 0 00140 768h75c5.1 0 9.9-2.5 12.9-6.6L512 369.8l284.1 391.6c3 4.1 7.8 6.6 12.9 6.6h75c6.5 0 10.3-7.4 6.5-12.7z"
+                                  />
+                                </svg>
                               </span>
-                            </button>
+                            </span>
+                            <span
+                              aria-disabled="false"
+                              aria-label="Decrease Value"
+                              class="ant-input-number-handler ant-input-number-handler-down"
+                              role="button"
+                              unselectable="on"
+                            >
+                              <span
+                                aria-label="down"
+                                class="anticon anticon-down ant-input-number-handler-down-inner"
+                                role="img"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  data-icon="down"
+                                  fill="currentColor"
+                                  focusable="false"
+                                  height="1em"
+                                  viewBox="64 64 896 896"
+                                  width="1em"
+                                >
+                                  <path
+                                    d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
+                                  />
+                                </svg>
+                              </span>
+                            </span>
                           </div>
                           <div
-                            class="ant-space-item"
+                            class="ant-input-number-input-wrap"
                           >
-                            <button
-                              class="ant-btn ant-btn-primary"
-                              data-testid="submit-btn"
-                              type="submit"
-                            >
-                              <span>
-                                Next
-                              </span>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        class="ant-space-item"
-                      >
-                        <div
-                          class="ant-space ant-space-horizontal ant-space-align-center"
-                        >
-                          <div
-                            class="ant-space-item"
-                            style="margin-right: 8px;"
-                          >
-                            <button
-                              class="ant-btn"
-                              data-testid="reset-btn"
-                              type="button"
-                            >
-                              <span>
-                                Reset
-                              </span>
-                            </button>
-                          </div>
-                          <div
-                            class="ant-space-item"
-                          >
-                            <button
-                              class="ant-btn ant-btn-dashed"
-                              data-testid="fill-btn"
-                              type="button"
-                            >
-                              <span>
-                                Fill form
-                              </span>
-                            </button>
+                            <input
+                              aria-valuemin="0"
+                              aria-valuenow="1"
+                              autocomplete="off"
+                              class="ant-input-number-input"
+                              data-testid="trackPrice"
+                              id="trackPrice"
+                              placeholder="Fill in track price"
+                              role="spinbutton"
+                              step="1"
+                              value="1"
+                            />
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
+                <div
+                  class="ant-row ant-form-item"
+                  data-testid="primaryGenreName_test"
+                >
+                  <div
+                    class="ant-col ant-col-7 ant-form-item-label"
+                  >
+                    <label
+                      class="ant-form-item-required"
+                      for="primaryGenreName"
+                      title="Track Genre"
+                    >
+                      Track Genre
+                    </label>
+                  </div>
+                  <div
+                    class="ant-col ant-col-17 ant-form-item-control"
+                  >
+                    <div
+                      class="ant-form-item-control-input"
+                    >
+                      <div
+                        class="ant-form-item-control-input-content"
+                      >
+                        <div
+                          class="ant-select ant-select-single ant-select-show-arrow"
+                          data-testid="for"
+                          orientation="row"
+                        >
+                          <div
+                            class="ant-select-selector"
+                          >
+                            <span
+                              class="ant-select-selection-search"
+                            >
+                              <input
+                                aria-activedescendant="primaryGenreName_list_0"
+                                aria-autocomplete="list"
+                                aria-controls="primaryGenreName_list"
+                                aria-haspopup="listbox"
+                                aria-owns="primaryGenreName_list"
+                                autocomplete="off"
+                                class="ant-select-selection-search-input"
+                                id="primaryGenreName"
+                                readonly=""
+                                role="combobox"
+                                style="opacity: 0;"
+                                type="search"
+                                unselectable="on"
+                                value=""
+                              />
+                            </span>
+                            <span
+                              class="ant-select-selection-item"
+                              title="Jaz"
+                            >
+                              Jaz
+                            </span>
+                          </div>
+                          <span
+                            aria-hidden="true"
+                            class="ant-select-arrow"
+                            style="user-select: none;"
+                            unselectable="on"
+                          >
+                            <span
+                              aria-label="down"
+                              class="anticon anticon-down ant-select-suffix"
+                              role="img"
+                            >
+                              <svg
+                                aria-hidden="true"
+                                data-icon="down"
+                                fill="currentColor"
+                                focusable="false"
+                                height="1em"
+                                viewBox="64 64 896 896"
+                                width="1em"
+                              >
+                                <path
+                                  d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
+                                />
+                              </svg>
+                            </span>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ant-row ant-form-item"
+                  data-testid="releaseDate_test"
+                >
+                  <div
+                    class="ant-col ant-col-7 ant-form-item-label"
+                  >
+                    <label
+                      class="ant-form-item-required"
+                      for="releaseDate"
+                      title="Release Date"
+                    >
+                      Release Date
+                    </label>
+                  </div>
+                  <div
+                    class="ant-col ant-col-17 ant-form-item-control"
+                  >
+                    <div
+                      class="ant-form-item-control-input"
+                    >
+                      <div
+                        class="ant-form-item-control-input-content"
+                      >
+                        <div
+                          class="ant-picker"
+                        >
+                          <div
+                            class="ant-picker-input"
+                          >
+                            <input
+                              autocomplete="off"
+                              data-testid="releaseDate"
+                              id="releaseDate"
+                              placeholder="Select date"
+                              readonly=""
+                              size="12"
+                              title="2022-01-20"
+                              value="2022-01-20"
+                            />
+                            <span
+                              class="ant-picker-suffix"
+                            >
+                              <span
+                                aria-label="calendar"
+                                class="anticon anticon-calendar"
+                                role="img"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  data-icon="calendar"
+                                  fill="currentColor"
+                                  focusable="false"
+                                  height="1em"
+                                  viewBox="64 64 896 896"
+                                  width="1em"
+                                >
+                                  <path
+                                    d="M880 184H712v-64c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v64H384v-64c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v64H144c-17.7 0-32 14.3-32 32v664c0 17.7 14.3 32 32 32h736c17.7 0 32-14.3 32-32V216c0-17.7-14.3-32-32-32zm-40 656H184V460h656v380zM184 392V256h128v48c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8v-48h256v48c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8v-48h128v136H184z"
+                                  />
+                                </svg>
+                              </span>
+                            </span>
+                            <span
+                              class="ant-picker-clear"
+                              role="button"
+                            >
+                              <span
+                                aria-label="close-circle"
+                                class="anticon anticon-close-circle"
+                                role="img"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  data-icon="close-circle"
+                                  fill="currentColor"
+                                  focusable="false"
+                                  height="1em"
+                                  viewBox="64 64 896 896"
+                                  width="1em"
+                                >
+                                  <path
+                                    d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm165.4 618.2l-66-.3L512 563.4l-99.3 118.4-66.1.3c-4.4 0-8-3.5-8-8 0-1.9.7-3.7 1.9-5.2l130.1-155L340.5 359a8.32 8.32 0 01-1.9-5.2c0-4.4 3.6-8 8-8l66.1.3L512 464.6l99.3-118.4 66-.3c4.4 0 8 3.5 8 8 0 1.9-.7 3.7-1.9 5.2L553.5 514l130 155c1.2 1.5 1.9 3.3 1.9 5.2 0 4.4-3.6 8-8 8z"
+                                  />
+                                </svg>
+                              </span>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ant-row ant-form-item"
+                  data-testid="trackViewUrl_test"
+                >
+                  <div
+                    class="ant-col ant-col-7 ant-form-item-label"
+                  >
+                    <label
+                      class="ant-form-item-required"
+                      for="trackViewUrl"
+                      title="Track URL"
+                    >
+                      Track URL
+                    </label>
+                  </div>
+                  <div
+                    class="ant-col ant-col-17 ant-form-item-control"
+                  >
+                    <div
+                      class="ant-form-item-control-input"
+                    >
+                      <div
+                        class="ant-form-item-control-input-content"
+                      >
+                        <input
+                          class="ant-input"
+                          data-testid="trackViewUrl"
+                          id="trackViewUrl"
+                          placeholder="https://track.com"
+                          type="text"
+                          value=""
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ant-space ant-space-horizontal ant-space-align-center TrackFormContainer__SpreadSpace-fni38k-2 hykIwf"
+                  style="text-align: center; width: 100%; margin: 1rem auto;"
+                >
+                  <div
+                    class="ant-space-item"
+                  />
+                </div>
+                <div
+                  class="ant-divider ant-divider-horizontal"
+                  role="separator"
+                />
+                <div
+                  class="ant-row ant-form-item"
+                >
+                  <div
+                    class="ant-col ant-col-24 ant-form-item-control"
+                  >
+                    <div
+                      class="ant-form-item-control-input"
+                    >
+                      <div
+                        class="ant-form-item-control-input-content"
+                      >
+                        <div
+                          class="ant-space ant-space-vertical TrackFormContainer__SpreadSpace-fni38k-2 hykIwf"
+                          style="text-align: center; width: 100%;"
+                        >
+                          <div
+                            class="ant-space-item"
+                            style="margin-bottom: 10px;"
+                          >
+                            <div
+                              class="ant-space ant-space-horizontal ant-space-align-center"
+                            >
+                              <div
+                                class="ant-space-item"
+                                style="margin-right: 8px;"
+                              >
+                                <button
+                                  class="ant-btn"
+                                  data-testid="prev-btn"
+                                  disabled=""
+                                  type="button"
+                                >
+                                  <span>
+                                    Prev
+                                  </span>
+                                </button>
+                              </div>
+                              <div
+                                class="ant-space-item"
+                              >
+                                <button
+                                  class="ant-btn ant-btn-primary"
+                                  data-testid="submit-btn"
+                                  type="submit"
+                                >
+                                  <span>
+                                    Next
+                                  </span>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            class="ant-space-item"
+                          >
+                            <div
+                              class="ant-space ant-space-horizontal ant-space-align-center"
+                            >
+                              <div
+                                class="ant-space-item"
+                                style="margin-right: 8px;"
+                              >
+                                <button
+                                  class="ant-btn"
+                                  data-testid="reset-btn"
+                                  type="button"
+                                >
+                                  <span>
+                                    Reset
+                                  </span>
+                                </button>
+                              </div>
+                              <div
+                                class="ant-space-item"
+                              >
+                                <button
+                                  class="ant-btn ant-btn-dashed"
+                                  data-testid="fill-btn"
+                                  type="button"
+                                >
+                                  <span>
+                                    Fill form
+                                  </span>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>
