@@ -4,44 +4,35 @@
  *
  */
 
-import { UploadOutlined } from '@ant-design/icons';
 import Container from '@app/components/Container';
-import For from '@app/components/For';
+import If from '@app/components/If';
 import { T } from '@app/components/T';
 import TrackModal from '@app/components/TrackFormModal';
+import { submitTune } from '@app/services/tunesApi';
 import history from '@app/utils/history';
-import { validateRules } from 'rc-field-form/lib/utils/validateUtil';
-import { defaultValidateMessages } from 'rc-field-form/lib/utils/messages';
-import {
-  Button,
-  Card,
-  DatePicker,
-  Divider,
-  Form,
-  Input,
-  InputNumber,
-  message,
-  notification,
-  Select,
-  Space,
-  Spin,
-  Steps,
-  Upload
-} from 'antd';
+import { Button, Card, Divider, Form, Input, message, notification, Space, Spin, Steps } from 'antd';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import React, { memo, useCallback, useEffect, useState } from 'react';
+import React, { memo, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { useParams } from 'react-router-dom';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
-import uploadTrackApi from './mockApi';
-import { fillValues, GENRE_ENUM, initialValues, trackFormContainerCreators } from './reducer';
+import { fillValues, initialValues, trackFormContainerCreators } from './reducer';
 import { selectFormValues } from './selectors';
-import If from '@app/components/If';
+import trackFormSteps, {
+  DATE_FORMAT,
+  FORM_LOADING_TIP,
+  STEP_ROUTES,
+  STEP_TITLES,
+  TOTAL_STEPS,
+  trackFormProps,
+  TRACK_SUBMIT_FAILED,
+  TRACK_SUBMIT_SUCCESS
+} from './trackFormDetails';
+import useFormStepRedirect from './useFormStepRedirect';
 
 const StyledHeader = styled.header`
   height: 5rem;
@@ -75,303 +66,74 @@ const CenteredStep = styled(Steps.Step)`
   }
 `;
 
-const validateMessages = {
-  required: '${label} is required!',
-  enum: '${label} must be one of',
-  whitespace: '${label} cannot be empty',
-  types: {
-    number: '${label} is not a valid number!',
-    url: '${label} is not a valid url!'
-  },
-  number: {
-    range: '${label} must be between ${min} and ${max}'
-  }
-};
-
-export const trackFormSteps = {
-  0: [
-    {
-      itemProps: {
-        name: 'trackName',
-        label: 'Track Name',
-        rules: [{ required: true, whitespace: true }]
-      },
-      componentProps: {
-        placeholder: 'Fill in track name'
-      }
-    },
-    {
-      itemProps: {
-        name: 'trackPrice',
-        label: 'Track Price',
-        rules: [{ required: true, type: 'number' }]
-      },
-      componentProps: {
-        placeholder: 'Fill in track price',
-        min: 0
-        // addonAfter: <Tooltip title="Price in USD">$</Tooltip>
-      },
-      component: InputNumber
-    },
-    {
-      itemProps: {
-        name: 'primaryGenreName',
-        label: 'Track Genre',
-        rules: [{ required: true, type: 'enum', enum: GENRE_ENUM }]
-      },
-      componentProps: {
-        ParentComponent: (props) => <Select {...props} />,
-        of: GENRE_ENUM,
-        renderItem: (item) => <Select.Option value={item}>{item}</Select.Option>
-      },
-      component: For
-    },
-    {
-      itemProps: {
-        name: 'releaseDate',
-        label: 'Release Date',
-        rules: [{ required: true }]
-      },
-      component: DatePicker,
-      componentProps: {
-        dateFormat: DATE_FORMAT
-      }
-    },
-    {
-      itemProps: {
-        name: 'trackViewUrl',
-        label: 'Track URL',
-        rules: [{ required: true, type: 'url' }]
-      },
-      componentProps: {
-        placeholder: 'https://track.com'
-      }
-    }
-  ],
-  1: [
-    {
-      itemProps: {
-        name: 'collectionName',
-        label: 'Collection Name',
-        rules: [{ required: true, whitespace: true }]
-      },
-      componentProps: {
-        placeholder: 'Fill in collection name'
-      }
-    },
-    {
-      itemProps: {
-        name: 'collectionPrice',
-        label: 'Collection Price',
-        rules: [{ required: true, type: 'number' }]
-      },
-      componentProps: {
-        placeholder: 'Fill in collection price',
-        min: 0
-        // addonAfter: <Tooltip title="Price in USD">$</Tooltip>
-      },
-      component: InputNumber
-    },
-    {
-      itemProps: {
-        name: 'collectionViewUrl',
-        label: 'Collection URL',
-        rules: [{ required: true, type: 'url' }]
-      },
-      componentProps: {
-        placeholder: 'https://collection.com'
-      }
-    }
-  ],
-  2: [
-    {
-      itemProps: {
-        name: 'artistName',
-        label: 'Artist Name',
-        rules: [{ required: true, whitespace: true }]
-      },
-      componentProps: {
-        placeholder: 'Fill in artist name'
-      }
-    },
-    {
-      itemProps: {
-        name: 'artistViewUrl',
-        label: 'Artist URL',
-        rules: [{ required: true, type: 'url' }]
-      },
-      componentProps: {
-        placeholder: 'https://artist.com'
-      }
-    }
-  ],
-  3: [
-    {
-      itemProps: {
-        name: 'artworkUrl',
-        label: 'Track Image',
-        // valuePropName: 'fileList',
-        rules: [{ required: true }],
-        extra: 'Only supports JPEG/PNG file'
-      },
-      component: Upload,
-      componentProps: {
-        'data-testid': 'uploader',
-        listType: 'picture',
-        maxCount: 1,
-        beforeUpload,
-        children: (
-          <Button data-testid="upload-dummy-btn" icon={<UploadOutlined />}>
-            Click to Upload
-          </Button>
-        )
-      }
-    }
-  ]
-};
-
 function getBase64(img, callback) {
   const reader = new FileReader();
   reader.addEventListener('load', () => callback(reader.result));
   reader.readAsDataURL(img);
 }
 
-export const INVALID_TYPE_MESSAGE = 'You can only upload JPG/PNG file!';
-export const ISLT2M_MESSAGE = 'Image must be smaller than 2MB!';
-
-function beforeUpload(file) {
-  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-  if (!isJpgOrPng) {
-    message.error(INVALID_TYPE_MESSAGE);
-  }
-  const isLt2M = file.size / 1024 / 1024 < 2;
-  if (!isLt2M) {
-    message.error(ISLT2M_MESSAGE);
-  }
-
-  return isJpgOrPng && isLt2M;
-}
-
-const STEP_TITLES = { track: 0, collection: 1, artist: 2, upload: 3 };
-const STEP_ROUTES = Object.keys(STEP_TITLES);
-const TOTAL_STEPS = STEP_ROUTES.length;
-
-export const DATE_FORMAT = 'YYYY-MM-DD';
-
-async function validatePrevSteps(stepTitle, formValues, cb) {
-  const currentStep = STEP_TITLES[stepTitle];
-
-  const namePaths = [];
-  const pathValues = [];
-  const pathRules = [];
-
-  new Array(currentStep).fill(0).forEach((_, loopStep) => {
-    const steps = Object.values(trackFormSteps[loopStep]);
-    for (let step of steps) {
-      const { rules, name } = step.itemProps;
-      namePaths.push([name]);
-      pathValues.push(formValues[name]);
-      pathRules.push(rules);
-    }
-  });
-  if (namePaths.length) {
-    try {
-      const promises = namePaths.map(async (namePath, index) => {
-        // console.log({ namePath, value: pathValues[index], rules: pathRules[index] });
-        await validateRules(namePath, pathValues[index], pathRules[index], {
-          validateMessages: { ...defaultValidateMessages, ...validateMessages }
-        });
-      });
-      await Promise.all(promises);
-      cb();
-    } catch (errInfo) {
-      history.replace('/add-track/track');
-    }
-  }
-}
-
 export function TrackFormContainer({ maxWidth, formValues, setFormValues, resetForm, fillForm }) {
-  const { stepTitle } = useParams();
+  const stepTitle = new URLSearchParams(history.location.search).get('stepTitle');
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [showTrack, setShowTrack] = useState(false);
-  const [loadingForm, setLoadingForm] = useState(true);
+  const [loadingForm, setLoadingForm] = useState(stepTitle !== 'track');
 
-  useEffect(() => {
-    if (!STEP_ROUTES.includes(stepTitle)) {
-      history.replace(`/add-track/${STEP_ROUTES[0]}`);
-    }
-  }, [stepTitle]);
-
-  useEffect(() => {
-    function displayForm() {
-      setLoadingForm(false);
-    }
-    if (STEP_ROUTES.includes(stepTitle)) {
-      if (STEP_TITLES[stepTitle] === 0) {
-        displayForm();
-      } else {
-        validatePrevSteps(stepTitle, formValues, displayForm);
-      }
-    }
-    return () => {
-      setLoadingForm(true);
-    };
-  }, []);
-
+  const displayForm = () => setLoadingForm(false);
   const toggleSpin = () => setLoading((load) => !load);
 
-  function moveToStep(step) {
-    history.push(`/add-track/${STEP_ROUTES[step]}`);
-  }
+  useFormStepRedirect(stepTitle, formValues, displayForm);
 
-  async function handleSubmit(values) {
+  const moveToStep = (step) => {
+    history.push(`/add-track?stepTitle=${STEP_ROUTES[step]}`);
+  };
+
+  const handleSubmit = async (values) => {
     toggleSpin();
     setFormValues(values);
     if (stepTitle === STEP_ROUTES[TOTAL_STEPS - 1]) {
-      const res = await uploadTrackApi({ ...formValues, ...values });
+      const res = await submitTune({ ...formValues, ...values });
       if (res.ok) {
-        notification.success({ message: 'Track upload success' });
+        notification.success({ message: TRACK_SUBMIT_SUCCESS });
         setShowTrack(true);
       } else {
-        notification.error({ message: 'Track upload failed', description: res.data });
+        notification.error({ message: TRACK_SUBMIT_FAILED, description: res.data });
       }
     } else {
       moveToStep(STEP_TITLES[stepTitle] + 1);
     }
     toggleSpin();
-  }
+  };
 
-  function handleReset() {
+  const handleReset = () => {
     resetForm();
     form.setFieldsValue({ ...initialValues, releaseDate: moment(initialValues.releaseDate, DATE_FORMAT) });
     moveToStep(0);
-  }
+  };
 
-  function handleFillForm() {
+  const handleFillForm = () => {
     fillForm();
     form.setFieldsValue({ ...fillValues, releaseDate: moment(fillValues.releaseDate, DATE_FORMAT) });
     moveToStep(TOTAL_STEPS - 1);
-  }
+  };
 
-  function handlePrev() {
+  const handlePrev = () => {
     moveToStep(STEP_TITLES[stepTitle] - 1);
-  }
+  };
 
-  const onFileChange = useCallback(function (info) {
-    if (info.file.status === 'error') {
+  const onFileChange = function (info) {
+    if (info.file.status === 'done') {
       getBase64(info.file.originFileObj, (imgUrl) => {
         form.setFieldsValue({ artworkUrl: imgUrl });
-        console.log({ messageLog: true });
-        message.error(`${info.file.name} file upload failed.`);
+        message.success(`${info.file.name} file uploaded.`);
       });
     }
-  }, []);
+  };
 
   const formContainer = (
     <>
       <Steps
-        current={STEP_TITLES[stepTitle || 'track']}
+        current={STEP_TITLES[stepTitle]}
         status="process"
         data-testid="step-parent"
         style={{ marginBottom: '2rem' }}
@@ -381,32 +143,23 @@ export function TrackFormContainer({ maxWidth, formValues, setFormValues, resetF
         ))}
       </Steps>
       <Form
-        id="track-form"
+        {...trackFormProps}
         form={form}
-        layout="horizontal"
-        labelCol={{ span: 7 }}
-        wrapperCol={{ span: 17 }}
         initialValues={{ ...formValues, releaseDate: moment(formValues?.releaseDate, DATE_FORMAT) }}
-        validateMessages={validateMessages}
         onFinish={handleSubmit}
-        data-modal={showTrack}
       >
         {/* Step Form Inputs */}
-        {trackFormSteps[STEP_TITLES[stepTitle || 'track']]?.map(
-          ({ itemProps, component: Component = Input, componentProps }) => (
-            <Form.Item
-              data-testid={`${itemProps.name}_test`}
-              key={`loopStep_${itemProps.name}`}
-              {...itemProps}
-              {...(itemProps.name === 'artworkUrl' ? { getValueFromEvent: onFileChange } : {})}
-            >
-              <Component data-testid={itemProps.name} {...componentProps} />
-            </Form.Item>
-          )
-        )}
-        <SpreadSpace
-          style={{ textAlign: 'center', width: '100%', margin: '1rem auto', display: loadingForm && 'none' }}
-        >
+        {trackFormSteps[stepTitle]?.map(({ itemProps, component: Component = Input, componentProps }) => (
+          <Form.Item
+            data-testid={`${itemProps.name}_test`}
+            key={`loopStep_${itemProps.name}`}
+            {...itemProps}
+            {...(itemProps.name === 'artworkUrl' ? { getValueFromEvent: onFileChange } : {})}
+          >
+            <Component data-testid={itemProps.name} {...componentProps} />
+          </Form.Item>
+        ))}
+        <SpreadSpace style={{ textAlign: 'center', width: '100%', margin: '1rem auto' }}>
           <If condition={loading}>
             <Spin />
             <T text={STEP_ROUTES[TOTAL_STEPS - 1] === stepTitle ? 'Submitting' : 'Validating'} />
@@ -419,7 +172,7 @@ export function TrackFormContainer({ maxWidth, formValues, setFormValues, resetF
             <Space>
               <Button
                 data-testid="prev-btn"
-                disabled={STEP_TITLES[stepTitle || 'track'] === 0}
+                disabled={STEP_TITLES[stepTitle] === 0}
                 htmlType="button"
                 onClick={handlePrev}
               >
@@ -458,9 +211,9 @@ export function TrackFormContainer({ maxWidth, formValues, setFormValues, resetF
           <StyledHeaderText type="heading" id="add_track_header_text" />
         </StyledHeader>
 
-        {/* <Spin size="large" spinning={loadingForm} tip="Validating previous step">
-        </Spin> */}
-        {formContainer}
+        <Spin size="large" spinning={loadingForm} tip={FORM_LOADING_TIP}>
+          {formContainer}
+        </Spin>
         <TrackModal
           handleCancel={() => setShowTrack(false)}
           trackDetails={formValues}

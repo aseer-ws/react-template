@@ -156,7 +156,6 @@ exports[`<TrackFormContainer /> container tests should render and match the snap
               </div>
               <form
                 class="ant-form ant-form-horizontal"
-                data-modal="false"
                 id="track-form"
               >
                 <div

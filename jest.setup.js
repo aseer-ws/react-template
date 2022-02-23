@@ -19,7 +19,9 @@ jest.mock('react-router-dom', () => {
         pathname: '/',
         search: '',
         hash: ''
-      }
+      },
+      push: jest.fn(),
+      replace: jest.fn()
     })
   };
 });
