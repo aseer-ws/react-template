@@ -7,6 +7,7 @@ import { combineReducers } from 'redux';
 import languageProviderReducer from 'containers/LanguageProvider/reducer';
 import homeContainerReducer from 'containers/HomeContainer/reducer';
 import trackProviderReducer from './containers/TrackProvider/reducer';
+import trackFormContainerReducer from './containers/TrackFormContainer/reducer';
 
 /**
  * Merges the main reducer with the router state and dynamically injected reducers
@@ -16,7 +17,8 @@ export default function createReducer(injectedReducer = {}) {
     ...injectedReducer,
     language: languageProviderReducer,
     homeContainer: homeContainerReducer,
-    trackProvider: trackProviderReducer
+    trackProvider: trackProviderReducer,
+    trackFormContainer: trackFormContainerReducer
   });
 
   return rootReducer;

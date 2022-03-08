@@ -22,5 +22,12 @@ export default {
       padding: 1
     },
     exact: true
+  },
+  trackForm: {
+    route: '/add-track/:stepTitle?',
+    props: {
+      maxWidth: 600
+    },
+    exact: true
   }
 };

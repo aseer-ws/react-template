@@ -179,6 +179,10 @@ function TrackCard({
     onTrackToggle(audioRef);
   }
 
+  const DetailsWrapper = trackId
+    ? { Component: StyledLink, props: { to: `/tracks/${trackId}` } }
+    : { Component: React.Fragment, props: {} };
+
   return (
     <StyledTrackItem id={trackId} data-testid="track-card">
       <StyledTrackCard>
@@ -211,7 +215,7 @@ function TrackCard({
             ></StyledAudio>
           </If>
         </StyledImageContainer>
-        <StyledLink to={`/tracks/${trackId}`}>
+        <DetailsWrapper.Component {...DetailsWrapper.props}>
           <TrackInfoContainer>
             <If
               condition={!isEmpty(trackName)}
@@ -253,7 +257,7 @@ function TrackCard({
               <TrackGenre status="success" data-testid="track-genre" text={primaryGenreName} />
             </If>
           </TrackInfoContainer>
-        </StyledLink>
+        </DetailsWrapper.Component>
       </StyledTrackCard>
     </StyledTrackItem>
   );
@@ -269,7 +273,6 @@ TrackCard.propTypes = {
   trackName: PropTypes.string,
   artworkUrl100: PropTypes.string,
   trackPrice: PropTypes.number,
-  releaseDate: PropTypes.string,
   primaryGenreName: PropTypes.string,
   previewUrl: PropTypes.string
 };

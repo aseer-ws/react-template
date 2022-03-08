@@ -9,7 +9,7 @@ import For from '@app/components/For';
 import If from '@app/components/If';
 import { T } from '@app/components/T';
 import TrackCard from '@app/components/TrackCard';
-import { Card, Input, notification, Skeleton } from 'antd';
+import { Card, Input, notification, Skeleton, Space } from 'antd';
 import { debounce, isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 import React, { memo, useRef, useEffect, useState } from 'react';
@@ -183,9 +183,14 @@ export function TrackGridContainer({
         <title>{artist ? `Tracks from ${artist}` : 'TrackGridContainer'}</title>
         <meta name="description" content="Description of TrackGridContainer" />
       </Helmet>
-      <StyledLink data-testid="repos-redirect" to="/repos">
-        Goto GitHub Repos
-      </StyledLink>
+      <Space align="center" direction="vertical">
+        <StyledLink data-testid="repos-redirect" to="/repos">
+          Goto GitHub Repos
+        </StyledLink>
+        <StyledLink data-testid="add-track-redirect" to="/add-track">
+          Add Track
+        </StyledLink>
+      </Space>
       <StyledHeader>
         <T type="heading" marginBottom={10} id="itunes_header" />
         <StyledArtistSearch

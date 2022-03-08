@@ -14,7 +14,7 @@ exports[`<HomeContainer /> tests should render and match the snapshot 1`] = `
           href="/stories"
         >
           <p
-            class="T__StyledText-gjlic1-0 jbStwN HomeContainer__StyledT-l0s8pp-3 fYCmLU"
+            class="T__StyledText-gjlic1-0 jbStwN HomeContainer__StyledT-l0s8pp-3 AKQYC"
             data-testid="t"
           >
             Go to Storybook
